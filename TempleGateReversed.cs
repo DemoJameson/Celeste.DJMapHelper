@@ -73,8 +73,6 @@ namespace Celeste.Mod.DJMapHelper {
                 if (TheoIsNearby()) {
                     StartOpen();
                 }
-
-                Hitbox.Width = 16f;
             }
 
             drawHeight = Math.Max(4f, Height);
