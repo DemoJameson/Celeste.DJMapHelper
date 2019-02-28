@@ -13,9 +13,13 @@
 3. Restart Ahorn for the entities and triggers list to update (You can use the debug dropdown if you have it enabled)
 - Colorful Feather
 - Colorful FeatherBarrier
-- Colorful Refill: black +dash -stamina or -dash +stamina, blue only +stamina, red only +dash
+- Colorful Refill: 
+    - black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.
+    - blue: only +stamina
+    - red: only +dash
 - Climb Blocker Trigger
 - Temple Gate Reversed
+    - Changed the width of TheoGate: 16 -> 8
 
 4. Compatibility features 
 - holding crystal Theo were allowed into the bubble, as long as any one room name contains the word "allowTheoCrystalIntoBubble" to take effect on the entire map.
