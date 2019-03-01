@@ -1,7 +1,8 @@
 # Usage
-1. ## Put the .zip in the Mods folder. If you're just playing with other maps that require this Helper, do only this.
+1. **Put the .zip in the Mods folder. If you're just playing with other maps that require this Helper, do only this.**
 
-2. ## If you want to include it in your map, add a dependency to the DJMapHelper like so:
+2. **If you want to include it in your map, add a dependency to the DJMapHelper like so:**
+
     ~~~yaml
     - Name: YourModName
       Version: 1.0.0 (Your mod's version)
@@ -12,18 +13,20 @@
           Version: 1.0.0
     ~~~
 
-3. ## Restart Ahorn for the entities and triggers list to update
-    - **Colorful Feather**
-    - **Colorful FeatherBarrier** - Only go through if you're flying in the same color
-    - **Colorful Refill**: 
+3. **Restart Ahorn for the entities and triggers list to update**
+
+    - Colorful Feather
+    - Colorful Feather Barrier - Only go through if you're flying in the same color
+    - Colorful Refill: 
         - black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.
         - blue: only +stamina
         - red: only +dash
-    - **Climb Blocker Trigger** - Completely banning interaction with walls means you can't wall jump and climb
-    - **Temple Gate Reversed** - Used for going from right to left
-        - Changed the width of TheoGate: 16 -> 8
+    - Climb Blocker Trigger - Completely banning interaction with walls means you can't wall jump and climb
+    - Temple Gate Reversed - Used for going from right to left
+        - Changed the width of Theo Gate: 16 -> 8
 
-4. ## Compatibility features
+4. **Compatibility features**
+
     - Crystal Theo were allowed into the bubble, as long as any one room name contains the word "allowTheoCrystalIntoBubble" to take effect on the entire map.
 
 # Thanks
