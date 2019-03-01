@@ -115,10 +115,12 @@ namespace Celeste.Mod.DJMapHelper {
 
         public static void OnLoad() {
             On.Celeste.FlyFeather.OnPlayer += FlyFeatherOnPlayer;
+            On.Celeste.FlyFeather.Respawn += FlyFeatherOnRespawn;
         }
 
         public static void OnUnload() {
             On.Celeste.FlyFeather.OnPlayer -= FlyFeatherOnPlayer;
+            On.Celeste.FlyFeather.Respawn -= FlyFeatherOnRespawn;
         }
 
         private static void FlyFeatherOnPlayer(On.Celeste.FlyFeather.orig_OnPlayer orig, FlyFeather self,
@@ -134,8 +136,6 @@ namespace Celeste.Mod.DJMapHelper {
                 P_Boost.Color2 = colorfulFlyFeather.FlyPowerHairColor2;
                 P_Flying.Color = colorfulFlyFeather.FlyPowerHairColor;
                 P_Flying.Color2 = colorfulFlyFeather.FlyPowerHairColor2;
-                P_Respawn.Color = colorfulFlyFeather.RespawnColor;
-                P_Respawn.Color2 = colorfulFlyFeather.RespawnColor2;
             }
             else {
                 starFlyColor = OrigStarFlyColor;
@@ -146,13 +146,25 @@ namespace Celeste.Mod.DJMapHelper {
                 P_Boost.Color2 = OrigFlyPowerHairColor2;
                 P_Flying.Color = OrigFlyPowerHairColor;
                 P_Flying.Color2 = OrigFlyPowerHairColor2;
-                P_Respawn.Color = OrigRespawnColor;
-                P_Respawn.Color2 = OrigRespawnColor2;
             }
 
             StarFlyColorFieldInfo?.SetValue(player, starFlyColor);
 
             orig(self, player);
+        }
+
+        private static void FlyFeatherOnRespawn(On.Celeste.FlyFeather.orig_Respawn orig, FlyFeather self) {
+            if (self.GetType() == typeof(ColorfulFlyFeather)) {
+                ColorfulFlyFeather colorfulFlyFeather = (ColorfulFlyFeather) self;
+
+                P_Respawn.Color = colorfulFlyFeather.RespawnColor;
+                P_Respawn.Color2 = colorfulFlyFeather.RespawnColor2;
+            }
+            else {
+                P_Respawn.Color = OrigRespawnColor;
+                P_Respawn.Color2 = OrigRespawnColor2;
+            }
+            orig(self);
         }
     }
 }
