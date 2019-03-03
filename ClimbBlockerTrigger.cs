@@ -20,10 +20,12 @@ namespace Celeste.Mod.DJMapHelper {
 
         public static void OnUnLoad() {
             On.Celeste.Player.ClimbBoundsCheck -= PlayerOnClimbBoundsCheck;
+            On.Celeste.Player.ClimbJump -= PlayerOnClimbJump;
         }
 
         private static void PlayerOnClimbJump(On.Celeste.Player.orig_ClimbJump orig, Player self) {
-            List<ClimbBlockerTrigger> triggers = self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
+            List<ClimbBlockerTrigger> triggers =
+                self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
             bool wallJump = triggers.All(trigger => trigger.wallJump);
             if (wallJump) {
                 orig(self);
@@ -32,7 +34,8 @@ namespace Celeste.Mod.DJMapHelper {
 
         private static bool PlayerOnClimbBoundsCheck(On.Celeste.Player.orig_ClimbBoundsCheck orig, Player self,
             int dir) {
-            List<ClimbBlockerTrigger> triggers = self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
+            List<ClimbBlockerTrigger> triggers =
+                self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
             bool wallJump = triggers.All(trigger => trigger.wallJump);
             bool climb = triggers.All(trigger => trigger.climb);
 
