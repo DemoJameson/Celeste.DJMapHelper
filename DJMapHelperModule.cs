@@ -78,6 +78,9 @@ namespace Celeste.Mod.DJMapHelper {
                 case "featherBarrier":
                     level.Add(new FeatherBarrier(entityData, offset));
                     return true;
+                case "killBoxTrigger":
+                    level.Add(new KillBoxTrigger(entityData, offset));
+                    return true;
                 case "templeGateReversed":
                     level.Add(new TempleGateReversed(entityData, offset));
                     return true;
