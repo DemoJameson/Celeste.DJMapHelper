@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ClimbBlockerTrigger.cs" />
     <Compile Include="ColorfulRefill.cs" />
+    <Compile Include="TheoCrystalBarrier.cs" />
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FeatherBarrier.cs" />

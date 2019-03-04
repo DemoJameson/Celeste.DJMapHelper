@@ -1,8 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -37,9 +33,8 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
             TheoCrystalIntoBubble.OnLoad();
+            TheoCrystalBarrier.OnLoad();
         }
-
-
 
         public override void LoadContent(bool firstLoad) {
             if (firstLoad) {
@@ -56,6 +51,7 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
             TheoCrystalIntoBubble.OnUnload();
+            TheoCrystalBarrier.OnUnload();
         }
 
 
@@ -84,6 +80,9 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "templeGateReversed":
                     level.Add(new TempleGateReversed(entityData, offset));
+                    return true;
+                case "theoCrystalBarrier":
+                    level.Add(new TheoCrystalBarrier(entityData, offset));
                     return true;
             }
 

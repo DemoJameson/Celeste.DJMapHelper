@@ -21,9 +21,10 @@
         - black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.
         - blue: only +stamina
         - red: only +dash
-    - Climb Blocker Trigger - Completely banning interaction with walls means you can't wall jump and climb
+    - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
     - Temple Gate Reversed - Used for going from right to left
         - Changed the width of Theo Gate: 16 -> 8
+    - TheoCrystalBarrier - Like Seeker Barrier except for theo.    
 
 4. **Compatibility features**
 
