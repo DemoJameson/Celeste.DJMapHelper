@@ -39,4 +39,4 @@
 - [Exudias](https://gamebanana.com/members/1651705) - His mods taught me a lot about writing new entities ~~and stolen this README from him~~.
 - Hyper ツ - Source of the idea for feather barrier.
 - [meiyou](https://gamebanana.com/members/1650353) - Source of the idea for climb blocker trigger.
-- [HigashiD](https://gamebanana.com/members/1661237) - Source of the idea for temple gate reversed and creator of Colorful Refill.
+- [HigashiD](https://gamebanana.com/members/1661237) - Coop-Coder.
