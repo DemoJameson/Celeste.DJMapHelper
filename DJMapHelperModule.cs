@@ -1,4 +1,8 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -32,10 +36,15 @@ namespace Celeste.Mod.DJMapHelper {
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
-            FinalBossReversed.OnLoad();
             TheoCrystalIntoBubble.OnLoad();
+            DestoryAllCrystalSpinnerTrigger.OnLoad();
+            WindAttackTriggerLeft.OnLoad();
+            MaxDashesTrigger.OnLoad();
+            FinalBossReversed.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
+
+
 
         public override void LoadContent(bool firstLoad) {
             if (firstLoad) {
@@ -51,9 +60,12 @@ namespace Celeste.Mod.DJMapHelper {
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
-            FinalBossReversed.OnUnload();
             TheoCrystalIntoBubble.OnUnload();
-            TheoCrystalBarrier.OnUnload();
+            DestoryAllCrystalSpinnerTrigger.OnUnload();
+            WindAttackTriggerLeft.OnUnload();
+            MaxDashesTrigger.OnUnload();
+            FinalBossReversed.OnUnload();
+            TheoCrystalBarrier.OnUnload();            
         }
 
 
@@ -80,14 +92,23 @@ namespace Celeste.Mod.DJMapHelper {
                 case "featherBarrier":
                     level.Add(new FeatherBarrier(entityData, offset));
                     return true;
+                case "templeGateReversed":
+                    level.Add(new TempleGateReversed(entityData, offset));
+                    return true;
+                case "maxDashesTrigger":
+                    level.Add(new MaxDashesTrigger(entityData, offset));
+                    return true;
+                case "windAttackTriggerLeft":
+                    level.Add(new WindAttackTriggerLeft(entityData, offset));
+                    return true;
+                case "destoryAllCrystalSpinnerTrigger":
+                    level.Add(new DestoryAllCrystalSpinnerTrigger(entityData, offset));
+                    return true;
                 case "finalBossReversed":
                     level.Add(new FinalBossReversed(entityData, offset));
                     return true;
                 case "killBoxTrigger":
                     level.Add(new KillBoxTrigger(entityData, offset));
-                    return true;
-                case "templeGateReversed":
-                    level.Add(new TempleGateReversed(entityData, offset));
                     return true;
                 case "theoCrystalBarrier":
                     level.Add(new TheoCrystalBarrier(entityData, offset));
