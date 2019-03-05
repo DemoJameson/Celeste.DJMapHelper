@@ -158,14 +158,31 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static void CollideCheckOutside(Player player, Vector2 direction) {
             if (player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction) is TheoCrystalBarrier barrier) {
-                if (direction.X == 0) {
-                    direction = 10 * direction - Vector2.UnitX * (int)player.Facing;
+                if (direction.Abs().Y > 0) {
+                    direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
                 }
-                player.PointBounce(player.Center + direction);
+
+                if (direction.Abs().X > 0) {
+                    On.Celeste.Player.RefillStamina += DisabledRefillStamina;
+                    On.Celeste.Player.RefillDash += DisabledRefillDash;
+                    player.PointBounce(player.Center + direction);
+                    On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
+                    On.Celeste.Player.RefillDash -= DisabledRefillDash;
+                }
+                else {
+                    player.PointBounce(player.Center + direction);
+                }
+
                 Audio.Play("event:/game/general/crystalheart_bounce", player.Center + direction);
                 Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
                 barrier.OnReflect();
             }
+        }
+
+        private static void DisabledRefillStamina(On.Celeste.Player.orig_RefillStamina orig, Player self) { }
+
+        private static bool DisabledRefillDash(On.Celeste.Player.orig_RefillDash orig, Player self) {
+            return false;
         }
 
         private static bool PlayerOnPickup(On.Celeste.Player.orig_Pickup orig, Player self, Holdable pickup) {

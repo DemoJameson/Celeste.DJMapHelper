@@ -1,5 +1,6 @@
 ﻿using System;
 using Celeste.Mod.DJMapHelper.Entities;
+using Celeste.Mod.DJMapHelper.Other;
 using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
 using Monocle;

@@ -61,9 +61,9 @@
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
-    <Compile Include="Entities\TheoCrystalIntoBubble.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DJMapHelperModule.cs" />
+    <Compile Include="Other\TheoCrystalIntoBubble.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
