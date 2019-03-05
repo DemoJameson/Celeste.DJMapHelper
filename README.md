@@ -21,10 +21,15 @@
         - black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.
         - blue: only +stamina
         - red: only +dash
-    - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
     - Temple Gate Reversed - Used for going from right to left
         - Changed the width of Theo Gate: 16 -> 8
-    - TheoCrystalBarrier - Like Seeker Barrier except for theo.    
+    - TheoCrystalBarrier - Like Seeker Barrier except for theo.  
+    - FinalBossReversed - Badeline boss which won't lock camera.
+    - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
+    - MaxDashesTrigger - Change the max dashes
+    - WindAttackTriggerLeft - SnowBalls going to the right
+    - DestoryAllCrystallSpinnerTrigger
+    - KillBoxTrigger - Die when Madeline goes in
 
 4. **Compatibility features**
 
