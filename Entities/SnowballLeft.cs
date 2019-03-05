@@ -16,12 +16,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Collider = new Hitbox(12f, 9f, -5f, -2f);
             Collider bounceCollider = new Hitbox(16f, 6f, -6f, -8f);
             Add(
-                new PlayerCollider(OnPlayer, null, null));
-            Add(new PlayerCollider(OnPlayerBounce, bounceCollider,
-                null));
+                new PlayerCollider(OnPlayer));
+            Add(new PlayerCollider(OnPlayerBounce, bounceCollider));
             Add(sine = new SineWave(0.5f));
             Add(sprite = DJMapHelperModule.Instance.SpriteBank.Create("snowballleft"));
-            sprite.Play("spin", false, false);
+            sprite.Play("spin");
             Add(spawnSfx = new SoundSource());
         }
 
@@ -34,13 +33,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private void ResetPosition() {
             Player entity = level.Tracker.GetEntity<Player>();
             if (entity != null && entity.Left > (double) (level.Bounds.Left + 64)) {
-                spawnSfx.Play("event:/game/04_cliffside/snowball_spawn", null, 0.0f);
+                spawnSfx.Play("event:/game/04_cliffside/snowball_spawn");
                 Collidable = Visible = true;
                 resetTimer = 0.0f;
                 X = level.Camera.Left - 10f;
                 atY = Y = entity.CenterY;
                 sine.Reset();
-                sprite.Play("spin", false, false);
+                sprite.Play("spin");
             }
             else {
                 resetTimer = 0.05f;
@@ -49,11 +48,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void Destroy() {
             Collidable = false;
-            sprite.Play("break", false, false);
+            sprite.Play("break");
         }
 
         private void OnPlayer(Player player) {
-            player.Die(new Vector2(-1f, 0.0f), false, true);
+            player.Die(new Vector2(1f, 0.0f));
             Destroy();
             Audio.Play("event:/game/04_cliffside/snowball_impact", Position);
         }
