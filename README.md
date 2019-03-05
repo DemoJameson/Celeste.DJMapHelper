@@ -29,6 +29,7 @@
     - MaxDashesTrigger - Change the max dashes
     - WindAttackTriggerLeft - SnowBalls going to the right
     - DestoryAllCrystallSpinnerTrigger
+    - KillBoxTrigger - Die when Madeline goes in
 
 4. **Compatibility features**
 
