@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
     public class TheoCrystalBarrier : Solid {
         private readonly List<TheoCrystalBarrier> adjacent = new List<TheoCrystalBarrier>();

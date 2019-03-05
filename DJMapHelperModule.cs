@@ -1,4 +1,6 @@
 ﻿using System;
+using Celeste.Mod.DJMapHelper.Entities;
+using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -33,8 +35,6 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
             TheoCrystalIntoBubble.OnLoad();
-            WindAttackTriggerLeft.OnLoad();
-            MaxDashesTrigger.OnLoad();
             FinalBossReversed.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
@@ -56,8 +56,6 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
             TheoCrystalIntoBubble.OnUnload();
-            WindAttackTriggerLeft.OnUnload();
-            MaxDashesTrigger.OnUnload();
             FinalBossReversed.OnUnload();
             TheoCrystalBarrier.OnUnload();            
         }

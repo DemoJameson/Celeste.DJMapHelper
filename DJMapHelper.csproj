@@ -53,22 +53,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClimbBlockerTrigger.cs" />
-    <Compile Include="ColorfulRefill.cs" />
-    <Compile Include="FinallBossReversed.cs" />
-    <Compile Include="KillBoxTrigger.cs" />
-    <Compile Include="MaxDashesTrigger.cs" />
-    <Compile Include="SnowballLeft.cs" />
-    <Compile Include="TheoCrystalBarrier.cs" />
+    <Compile Include="Entities\ColorfulFlyFeather.cs" />
+    <Compile Include="Entities\ColorfulRefill.cs" />
+    <Compile Include="Entities\FeatherBarrier.cs" />
+    <Compile Include="Entities\FinallBossReversed.cs" />
+    <Compile Include="Entities\SnowballLeft.cs" />
+    <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
+    <Compile Include="Entities\TheoCrystalBarrier.cs" />
+    <Compile Include="Entities\TheoCrystalIntoBubble.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FeatherBarrier.cs" />
     <Compile Include="DJMapHelperModule.cs" />
-    <Compile Include="ColorfulFlyFeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TempleGateReversed.cs" />
-    <Compile Include="TheoCrystalIntoBubble.cs" />
-    <Compile Include="WindAttackTriggerLeft.cs" />
+    <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
+    <Compile Include="Triggers\KillBoxTrigger.cs" />
+    <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\WindAttackTriggerLeft.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />

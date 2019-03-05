@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     public static class TheoCrystalIntoBubble {
         private static bool allowTheoCrystalIntoBubble;
 

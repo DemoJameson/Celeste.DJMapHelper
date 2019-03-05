@@ -27,8 +27,7 @@
     - FinalBossReversed - Badeline boss which won't lock camera.
     - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
     - MaxDashesTrigger - Change the max dashes
-    - WindAttackTriggerLeft - SnowBalls going to the right
-    - DestoryAllCrystallSpinnerTrigger
+    - Snowballs Left Trigger - SnowBalls going to the right
     - KillBoxTrigger - Die when Madeline goes in
 
 4. **Compatibility features**

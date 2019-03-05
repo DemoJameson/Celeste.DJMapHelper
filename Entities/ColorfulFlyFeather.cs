@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
     public class ColorfulFlyFeather : FlyFeather {
         public enum FeatherColor {
