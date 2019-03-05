@@ -162,15 +162,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
                 }
 
-                if (direction.Abs().X > 0) {
+                if (direction.Y > 0) {
+                    player.PointBounce(player.Center + direction);
+                }
+                else {
                     On.Celeste.Player.RefillStamina += DisabledRefillStamina;
                     On.Celeste.Player.RefillDash += DisabledRefillDash;
                     player.PointBounce(player.Center + direction);
                     On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
                     On.Celeste.Player.RefillDash -= DisabledRefillDash;
-                }
-                else {
-                    player.PointBounce(player.Center + direction);
                 }
 
                 Audio.Play("event:/game/general/crystalheart_bounce", player.Center + direction);
