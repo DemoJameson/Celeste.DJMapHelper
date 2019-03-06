@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked(false)]
     public class FinalBossReversed : Entity {
         private readonly FinalBoss finalBoss;

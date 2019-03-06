@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 // ReSharper disable MemberCanBePrivate.Global
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     public class ColorfulRefill : Refill {
         public enum RefillColor {
             Red,

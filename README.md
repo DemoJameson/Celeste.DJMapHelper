@@ -27,8 +27,7 @@
     - FinalBossReversed - Badeline boss which won't lock camera.
     - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
     - MaxDashesTrigger - Change the max dashes
-    - WindAttackTriggerLeft - SnowBalls going to the right
-    - DestoryAllCrystallSpinnerTrigger
+    - Snowballs Left Trigger - SnowBalls going to the right
     - KillBoxTrigger - Die when Madeline goes in
 
 4. **Compatibility features**
@@ -40,4 +39,4 @@
 - [Exudias](https://gamebanana.com/members/1651705) - His mods taught me a lot about writing new entities ~~and stolen this README from him~~.
 - Hyper ツ - Source of the idea for feather barrier.
 - [meiyou](https://gamebanana.com/members/1650353) - Source of the idea for climb blocker trigger.
-- [HigashiD](https://gamebanana.com/members/1661237) - Source of the idea for temple gate reversed and creator of Colorful Refill.
+- [HigashiD](https://gamebanana.com/members/1661237) - Coop-Coder.

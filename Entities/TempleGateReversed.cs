@@ -3,9 +3,9 @@ using System.Collections;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     public class TempleGateReversed : Solid {
-        public enum Types
+        private enum Types
         {
             CloseBehindPlayer,
             CloseBehindPlayerAlways,
@@ -30,7 +30,7 @@ namespace Celeste.Mod.DJMapHelper {
         private bool open;
         private readonly Types type;
 
-        public TempleGateReversed(
+        private TempleGateReversed(
             Vector2 position,
             int height,
             Types type,

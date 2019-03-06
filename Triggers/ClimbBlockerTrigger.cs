@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
-    [Monocle.Tracked]
+namespace Celeste.Mod.DJMapHelper.Triggers {
+    [Tracked]
     public class ClimbBlockerTrigger : Trigger {
         private readonly bool wallJump;
         private readonly bool climb;

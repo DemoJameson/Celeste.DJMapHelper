@@ -1,8 +1,7 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using Celeste.Mod.DJMapHelper.Entities;
+using Celeste.Mod.DJMapHelper.Other;
+using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -37,9 +36,6 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
             TheoCrystalIntoBubble.OnLoad();
-            DestoryAllCrystalSpinnerTrigger.OnLoad();
-            WindAttackTriggerLeft.OnLoad();
-            MaxDashesTrigger.OnLoad();
             FinalBossReversed.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
@@ -61,9 +57,6 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
             TheoCrystalIntoBubble.OnUnload();
-            DestoryAllCrystalSpinnerTrigger.OnUnload();
-            WindAttackTriggerLeft.OnUnload();
-            MaxDashesTrigger.OnUnload();
             FinalBossReversed.OnUnload();
             TheoCrystalBarrier.OnUnload();            
         }
@@ -100,9 +93,6 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "windAttackTriggerLeft":
                     level.Add(new WindAttackTriggerLeft(entityData, offset));
-                    return true;
-                case "destoryAllCrystalSpinnerTrigger":
-                    level.Add(new DestoryAllCrystalSpinnerTrigger(entityData, offset));
                     return true;
                 case "finalBossReversed":
                     level.Add(new FinalBossReversed(entityData, offset));

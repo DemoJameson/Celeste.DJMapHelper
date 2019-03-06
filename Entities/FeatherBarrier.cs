@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper {
+namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
     public class FeatherBarrier : Solid {
         private static readonly FieldInfo StarFlyTimerFieldInfo = typeof(Player).GetPrivateField("starFlyTimer");
