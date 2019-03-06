@@ -18,5 +18,11 @@
     <Anim id="loop" path="idle" delay="0.06" frames="0-20" goto="flash"/>
     <Anim id="flash" path="flash" delay="0.06"  frames="0-20" goto="loop"/>
   </redFlyFeather>
+  
+  <snowballleft path="objects/DJMapHelper/snowballleft/" start="spin">
+    <Center/>
+    <Loop id="spin" path="snowball" delay="0.08" frames="0-11"/>
+    <Anim id="break" path="snowball" delay="0.04" frames="12-16"/>
+  </snowballleft>
 
 </Sprites>
