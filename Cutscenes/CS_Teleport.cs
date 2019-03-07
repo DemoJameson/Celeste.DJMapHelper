@@ -46,7 +46,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.DummyAutoAnimate = false;
                 player.Sprite.Play("duck");
                 yield return 0.5f;
+                bool dreaming = level.Session.Dreaming;
+                level.Session.Dreaming = false;
                 bonfire.SetMode(Bonfire.Mode.Lit);
+                level.Session.Dreaming = dreaming;
                 yield return 1f;
                 player.Sprite.Play("idle");
                 yield return 0.4f;
