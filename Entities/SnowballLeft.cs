@@ -13,8 +13,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public SnowballLeft() {
             Depth = -12500;
-            Collider = new Hitbox(12f, 9f, -7f, -2f);
-            Collider bounceCollider = new Hitbox(16f, 6f, -10f, -8f);
+            Collider = new Hitbox(12f, 9f, -6f, -2f);
+            Collider bounceCollider = new Hitbox(16f, 6f, -9f, -8f);
             Add(
                 new PlayerCollider(OnPlayer));
             Add(new PlayerCollider(OnPlayerBounce, bounceCollider));
