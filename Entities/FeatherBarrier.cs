@@ -81,16 +81,16 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Update();
         }
 
-        private void OnReflectFeather() {
+        private void OnReflect() {
             flash = 1f;
             flashing = true;
-            Scene.CollideInto(
-                new Rectangle((int) X, (int) Y - 2, (int) Width, (int) Height + 4), adjacent);
-            Scene.CollideInto(
-                new Rectangle((int) X - 2, (int) Y, (int) Width + 4, (int) Height), adjacent);
-            foreach (FeatherBarrier featherBarrier in adjacent)
-                if (!featherBarrier.flashing)
-                    featherBarrier.OnReflectFeather();
+            Scene.CollideInto(new Rectangle((int) X, (int) Y - 2, (int) Width, (int) Height + 4), adjacent);
+            Scene.CollideInto(new Rectangle((int) X - 2, (int) Y, (int) Width + 4, (int) Height), adjacent);
+            foreach (FeatherBarrier featherBarrier in adjacent) {
+                if (!featherBarrier.flashing) {
+                    featherBarrier.OnReflect();
+                }
+            }
 
             adjacent.Clear();
         }
@@ -118,34 +118,52 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnLoad() {
             On.Celeste.Player.Update += PlayerOnUpdate;
-            On.Celeste.Player.OnCollideH += PlayerOnOnCollideH;
-            On.Celeste.Player.OnCollideV += PlayerOnOnCollideV;
+            On.Celeste.Actor.MoveHExact += ActorOnMoveHExact;
+            On.Celeste.Actor.MoveVExact += ActorOnMoveVExact;
         }
 
         public static void OnUnload() {
             On.Celeste.Player.Update -= PlayerOnUpdate;
-            On.Celeste.Player.OnCollideH -= PlayerOnOnCollideH;
-            On.Celeste.Player.OnCollideV -= PlayerOnOnCollideV;
+            On.Celeste.Actor.MoveHExact -= ActorOnMoveHExact;
+            On.Celeste.Actor.MoveVExact -= ActorOnMoveVExact;
         }
 
-        private static void PlayerOnOnCollideH(On.Celeste.Player.orig_OnCollideH orig, Player self,
-            CollisionData data) {
-            orig(self, data);
-            OnCollide(self, data);
+        private static bool ActorOnMoveHExact(On.Celeste.Actor.orig_MoveHExact orig, Actor self, int moveH,
+            Collision onCollide, Solid pusher) {
+            if (self is Player && onCollide != null) {
+                On.Monocle.Collide.First_Entity_IEnumerable1 += ColliderOnCollideEntity;
+            }
+
+            bool result = orig(self, moveH, onCollide, pusher);
+
+            On.Monocle.Collide.First_Entity_IEnumerable1 -= ColliderOnCollideEntity;
+
+            return result;
         }
 
-        private static void PlayerOnOnCollideV(On.Celeste.Player.orig_OnCollideV orig, Player self,
-            CollisionData data) {
-            orig(self, data);
-            OnCollide(self, data);
+        private static bool ActorOnMoveVExact(On.Celeste.Actor.orig_MoveVExact orig, Actor self, int moveV,
+            Collision onCollide, Solid pusher) {
+            if (self is Player && onCollide != null) {
+                On.Monocle.Collide.First_Entity_IEnumerable1 += ColliderOnCollideEntity;
+            }
+
+            bool result = orig(self, moveV, onCollide, pusher);
+
+            On.Monocle.Collide.First_Entity_IEnumerable1 -= ColliderOnCollideEntity;
+
+            return result;
         }
 
-        private new static void OnCollide(Player self, CollisionData data) {
-            if (self.StateMachine.State == Player.StStarFly) {
-                if ((float) StarFlyTimerFieldInfo.GetValue(self) >= 0.2 &&
-                    data.Hit is FeatherBarrier barrier) {
-                    barrier.OnReflectFeather();
-                }
+        private static Entity ColliderOnCollideEntity(On.Monocle.Collide.orig_First_Entity_IEnumerable1 orig,
+            Entity entity, IEnumerable<Entity> enumerable) {
+            Entity result = orig(entity, enumerable);
+            OnCollide(result);
+            return result;
+        }
+
+        private new static void OnCollide(Entity result) {
+            if (result is FeatherBarrier barrier) {
+                barrier.OnReflect();
             }
         }
 
@@ -159,7 +177,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
 
-            if (self.CollideFirst<FeatherBarrier>() is FeatherBarrier barrier && self.StateMachine.State != Player.StStarFly) {
+            if (self.CollideFirst<FeatherBarrier>() is FeatherBarrier barrier &&
+                self.StateMachine.State != Player.StStarFly) {
                 if (SaveData.Instance.Assists.Invincible) {
                     barrier.Collidable = false;
                 }
