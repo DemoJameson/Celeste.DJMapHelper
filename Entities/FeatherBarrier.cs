@@ -162,7 +162,16 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private new static void OnCollide(Entity result) {
-            if (result is FeatherBarrier barrier) {
+            if (!(Engine.Scene is Level level) || !(level.Tracker.GetEntity<Player>() is Player player)) {
+                return;
+            }
+
+            if (player.StateMachine.State != Player.StStarFly) {
+                return;
+            }
+
+            if ((float) StarFlyTimerFieldInfo.GetValue(player) >= 0.2 &&
+                result is FeatherBarrier barrier) {
                 barrier.OnReflect();
             }
         }
