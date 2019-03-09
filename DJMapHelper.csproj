@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
@@ -66,14 +67,13 @@
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DJMapHelperModule.cs" />
-    <Compile Include="Other\DJHepler_CS00_Teleport.cs" />
     <Compile Include="Other\TheoCrystalIntoBubble.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
-    <Compile Include="Triggers\WindAttackTriggerLeft.cs" />
+    <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
