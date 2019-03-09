@@ -89,8 +89,8 @@ namespace Celeste.Mod.DJMapHelper {
                 case "finalBossReversed":
                     level.Add(new FinalBossReversed(entityData, offset));
                     return true;
-                case "startPlayer":
-                    level.Add(new StartPlayer(entityData, offset));
+                case "startPoint":
+                    level.Add(new StartPoint(entityData, offset));
                     return true;
                 case "theoCrystalBarrier":
                     level.Add(new TheoCrystalBarrier(entityData, offset));

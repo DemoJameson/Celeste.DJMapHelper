@@ -61,7 +61,7 @@
     <Compile Include="Entities\FinallBossReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
-    <Compile Include="Entities\StartPlayer.cs" />
+    <Compile Include="Entities\StartPoint.cs" />
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
