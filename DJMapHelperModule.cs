@@ -92,6 +92,12 @@ namespace Celeste.Mod.DJMapHelper {
                 case "theoCrystalBarrier":
                     level.Add(new TheoCrystalBarrier(entityData, offset));
                     return true;
+                case "oshiroBossRight":
+                    level.Add(new AngryOshiroRight(entityData, offset));
+                    return true;  
+                case "playSprite":
+                    level.Add(new PlaySprite(entityData, offset));
+                    return true;  
                 
                 // Triggers
                 case "climbBlockerTrigger":
