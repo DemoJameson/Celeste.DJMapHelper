@@ -73,9 +73,7 @@ namespace Celeste.Mod.DJMapHelper {
 
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (entityName) {
-                case "climbBlockerTrigger":
-                    level.Add(new ClimbBlockerTrigger(entityData, offset));
-                    return true;
+                // Entities
                 case "colorfulFlyFeather":
                     level.Add(new ColorfulFlyFeather(entityData, offset));
                     return true;
@@ -88,20 +86,28 @@ namespace Celeste.Mod.DJMapHelper {
                 case "templeGateReversed":
                     level.Add(new TempleGateReversed(entityData, offset));
                     return true;
-                case "maxDashesTrigger":
-                    level.Add(new MaxDashesTrigger(entityData, offset));
-                    return true;
-                case "windAttackTriggerLeft":
-                    level.Add(new WindAttackTriggerLeft(entityData, offset));
-                    return true;
                 case "finalBossReversed":
                     level.Add(new FinalBossReversed(entityData, offset));
+                    return true;
+                case "theoCrystalBarrier":
+                    level.Add(new TheoCrystalBarrier(entityData, offset));
+                    return true;
+                
+                // Triggers
+                case "climbBlockerTrigger":
+                    level.Add(new ClimbBlockerTrigger(entityData, offset));
                     return true;
                 case "killBoxTrigger":
                     level.Add(new KillBoxTrigger(entityData, offset));
                     return true;
-                case "theoCrystalBarrier":
-                    level.Add(new TheoCrystalBarrier(entityData, offset));
+                case "maxDashesTrigger":
+                    level.Add(new MaxDashesTrigger(entityData, offset));
+                    return true;
+                case "teleportTrigger":
+                    level.Add(new TeleportTrigger(entityData, offset));
+                    return true;
+                case "windAttackTriggerLeft":
+                    level.Add(new WindAttackLeftTrigger(entityData, offset));
                     return true;
             }
 

@@ -13,13 +13,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public SnowballLeft() {
             Depth = -12500;
-            Collider = new Hitbox(12f, 9f, -5f, -2f);
-            Collider bounceCollider = new Hitbox(16f, 6f, -6f, -8f);
+            Collider = new Hitbox(12f, 9f, -6f, -2f);
+            Collider bounceCollider = new Hitbox(16f, 6f, -9f, -8f);
             Add(
                 new PlayerCollider(OnPlayer));
             Add(new PlayerCollider(OnPlayerBounce, bounceCollider));
             Add(sine = new SineWave(0.5f));
-            Add(sprite = DJMapHelperModule.Instance.SpriteBank.Create("snowballleft"));
+            Add(sprite = GFX.SpriteBank.Create("snowball"));
+            sprite.Scale.X *= -1;
             sprite.Play("spin");
             Add(spawnSfx = new SoundSource());
         }

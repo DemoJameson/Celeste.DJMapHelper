@@ -4,8 +4,8 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
-    public class WindAttackTriggerLeft : Trigger {
-        public WindAttackTriggerLeft(EntityData data, Vector2 offset)
+    public class WindAttackLeftTrigger : Trigger {
+        public WindAttackLeftTrigger(EntityData data, Vector2 offset)
             : base(data, offset) { }
 
         public override void OnEnter(Player player) {
