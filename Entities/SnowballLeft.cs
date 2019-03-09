@@ -19,7 +19,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 new PlayerCollider(OnPlayer));
             Add(new PlayerCollider(OnPlayerBounce, bounceCollider));
             Add(sine = new SineWave(0.5f));
-            Add(sprite = DJMapHelperModule.Instance.SpriteBank.Create("snowBallLeft"));
+            Add(sprite = GFX.SpriteBank.Create("snowball"));
+            sprite.Scale.X *= -1;
             sprite.Play("spin");
             Add(spawnSfx = new SoundSource());
         }
