@@ -30,10 +30,6 @@
     - Snowballs Left Trigger - SnowBalls going to the right
     - KillBoxTrigger - Die when Madeline goes in
 
-4. **Compatibility features**
-
-    - Crystal Theo were allowed into the bubble, as long as any one room name contains the word "allowTheoCrystalIntoBubble" to take effect on the entire map.
-
 # Thanks
 - Artain - Provide pictures of the feathers.
 - [Exudias](https://gamebanana.com/members/1651705) - His mods taught me a lot about writing new entities ~~and stolen this README from him~~.
