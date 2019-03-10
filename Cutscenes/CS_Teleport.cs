@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -11,13 +12,15 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private readonly Vector2 spawnPoint;
         private Bonfire bonfire;
         private int maxDashes;
+        private TeleportTrigger.Dreams dreams;
 
-        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint)
+        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint, TeleportTrigger.Dreams dreams)
             : base(false) {
             this.player = player;
             this.sitFire = sitFire;
             this.teleportRoom = teleportRoom;
             this.spawnPoint = spawnPoint;
+            this.dreams = dreams;
         }
 
         public override void OnBegin(Level level) {
@@ -76,6 +79,15 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             level.OnEndOfFrame += (Action) (() => {
                 level.Remove(player);
                 level.UnloadLevel();
+                switch (dreams)
+                {
+                    case TeleportTrigger.Dreams.Awake:
+                        level.Session.Dreaming = false;
+                        break;
+                    case TeleportTrigger.Dreams.Dreaming:
+                        level.Session.Dreaming = true;
+                        break;
+                }  
                 level.Session.Level = teleportRoom;
                 level.Session.RespawnPoint = level.GetSpawnPoint(new Vector2(level.Bounds.Left, level.Bounds.Top) + spawnPoint);
                 level.Session.Inventory.Dashes = maxDashes;

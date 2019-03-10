@@ -1,45 +1,54 @@
-using System;
 using Celeste.Mod.DJMapHelper.Cutscenes;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Triggers
-{
+namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
-    public class TeleportTrigger : Trigger
-    {
+    public class TeleportTrigger : Trigger {
         private readonly string room;
         private readonly bool bonfire;
         private readonly int spawnPointX;
         private readonly int spawnPointY;
         private bool triggered;
 
-        public TeleportTrigger(EntityData data, Vector2 offset) : base(data, offset)
-        {
+        public enum Dreams {
+            Dreaming,
+            Awake,
+            NoChange
+        }
+
+        private readonly Dreams dreams;
+
+        public TeleportTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             bonfire = data.Bool("bonfire");
             room = data.Attr("room");
             spawnPointX = data.Int("spawnPointX");
             spawnPointY = data.Int("spawnPointY");
-
-            if (string.IsNullOrEmpty(room)) {
-                throw new ArgumentException("The room name must not be empty");
-            }
-
-            if (Engine.Scene is Level level && level.Session.MapData.Get(room) == null){
-                throw new ArgumentException("The room name does not exist");
-            }
+            dreams = data.Enum("Dreaming", Dreams.NoChange);
         }
 
-        public override void OnEnter(Player player)
-        {
+        public override void OnEnter(Player player) {
             base.OnEnter(player);
-            
+
             if (triggered) {
                 return;
             }
-            
+
             triggered = true;
-            Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY)));
+
+            if (Engine.Scene is Level level) {
+                if (string.IsNullOrEmpty(room)) {
+                    level.Add(new MiniTextbox("DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_EMPTY"));
+                    return;
+                }
+
+                if (level.Session.MapData.Get(room) == null) {
+                    level.Add(new MiniTextbox("DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_NOT_EXIST"));
+                    return;
+                }
+            }
+
+            Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY), dreams));
         }
     }
 }
