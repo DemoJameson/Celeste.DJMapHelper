@@ -5,7 +5,7 @@ using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/playSprite" playSprite(x::Integer, y::Integer, SpriteName::String="", SpriteId::String="", flipX::Bool=false, flipY::Bool=false)
 
 const placements = Ahorn.PlacementDict(
-    "PlaySprite (DJMapHelper)" => Ahorn.EntityPlacement(
+    "Play Sprite (DJMapHelper)" => Ahorn.EntityPlacement(
         playSprite,
         "rectangle"
     ),

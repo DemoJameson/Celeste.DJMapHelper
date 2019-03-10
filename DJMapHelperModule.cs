@@ -1,6 +1,5 @@
 ﻿using System;
 using Celeste.Mod.DJMapHelper.Entities;
-using Celeste.Mod.DJMapHelper.Other;
 using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -35,7 +34,6 @@ namespace Celeste.Mod.DJMapHelper {
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
-            TheoCrystalIntoBubble.OnLoad();
             FinalBossReversed.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
@@ -56,7 +54,6 @@ namespace Celeste.Mod.DJMapHelper {
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
-            TheoCrystalIntoBubble.OnUnload();
             FinalBossReversed.OnUnload();
             TheoCrystalBarrier.OnUnload();            
         }
@@ -88,6 +85,9 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "finalBossReversed":
                     level.Add(new FinalBossReversed(entityData, offset));
+                    return true;
+                case "startPoint":
+                    level.Add(new StartPoint(entityData, offset));
                     return true;
                 case "theoCrystalBarrier":
                     level.Add(new TheoCrystalBarrier(entityData, offset));

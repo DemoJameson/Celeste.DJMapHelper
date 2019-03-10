@@ -1,6 +1,7 @@
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.DebugMode {
+    // ReSharper disable once UnusedMember.Global
     public static class Commands {
         [Command("metadata", "check metadata values")]
         private static void CmdMetadata() {
