@@ -13,14 +13,16 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private Bonfire bonfire;
         private int maxDashes;
         private TeleportTrigger.Dreams dreams;
+        private bool keepKey;
 
-        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint, TeleportTrigger.Dreams dreams)
+        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint, TeleportTrigger.Dreams dreams, bool keepKey)
             : base(false) {
             this.player = player;
             this.sitFire = sitFire;
             this.teleportRoom = teleportRoom;
             this.spawnPoint = spawnPoint;
             this.dreams = dreams;
+            this.keepKey = keepKey;
         }
 
         public override void OnBegin(Level level) {
@@ -77,8 +79,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
 
         public override void OnEnd(Level level) {
             level.OnEndOfFrame += (Action) (() => {
+                Leader.StoreStrawberries(player.Leader);
                 level.Remove(player);
                 level.UnloadLevel();
+                if(!keepKey)level.Session.Keys.Clear();
                 switch (dreams)
                 {
                     case TeleportTrigger.Dreams.Awake:
@@ -92,6 +96,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 level.Session.RespawnPoint = level.GetSpawnPoint(new Vector2(level.Bounds.Left, level.Bounds.Top) + spawnPoint);
                 level.Session.Inventory.Dashes = maxDashes;
                 level.LoadLevel(Player.IntroTypes.WakeUp);
+                Leader.RestoreStrawberries(level.Tracker.GetEntity<Player>().Leader);
             });
         }
     }
