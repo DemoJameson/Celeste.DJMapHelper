@@ -103,6 +103,9 @@ namespace Celeste.Mod.DJMapHelper {
                 case "climbBlockerTrigger":
                     level.Add(new ClimbBlockerTrigger(entityData, offset));
                     return true;
+                case "colorGradeTrigger":
+                    level.Add(new ColorGradeTrigger(entityData, offset));
+                    return true;
                 case "killBoxTrigger":
                     level.Add(new KillBoxTrigger(entityData, offset));
                     return true;
@@ -114,9 +117,6 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "windAttackTriggerLeft":
                     level.Add(new WindAttackLeftTrigger(entityData, offset));
-                    return true;
-                case "colorGradeTrigger":
-                    level.Add(new ColorGradeTrigger(entityData, offset));
                     return true;
             }
 
