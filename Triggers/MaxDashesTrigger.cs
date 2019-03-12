@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     public class MaxDashesTrigger : Trigger {
+        private static bool? NoRefills;
+
         private enum DashesNum {
+            Zero,
             One,
             Two
         }
@@ -16,16 +19,38 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
         public override void OnEnter(Player player) {
             base.OnEnter(player);
+            Session session = SceneAs<Level>().Session;
             switch (dashesNum) {
+                case DashesNum.Zero:
+                    session.Inventory.Dashes = 0;
+                    
+                    if (NoRefills == null) {
+                        NoRefills = session.Inventory.NoRefills;
+                    }
+
+                    session.Inventory.NoRefills = true;
+                    player.Dashes = 0;
+                    break;
                 case DashesNum.One:
-                    SceneAs<Level>().Session.Inventory.Dashes = 1;
+                    session.Inventory.Dashes = 1;
                     if (player.Dashes > 1) {
                         player.Dashes = 1;
                     }
 
+                    if (NoRefills != null) {
+                        session.Inventory.NoRefills = (bool) NoRefills;
+                        NoRefills = null;
+                    }
+
                     break;
                 case DashesNum.Two:
-                    SceneAs<Level>().Session.Inventory.Dashes = 2;
+                    session.Inventory.Dashes = 2;
+
+                    if (NoRefills != null) {
+                        session.Inventory.NoRefills = (bool) NoRefills;
+                        NoRefills = null;
+                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

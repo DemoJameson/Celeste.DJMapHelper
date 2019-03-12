@@ -35,15 +35,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
 
             Add(new DisplacementRenderHook(RenderDisplacement));
-            Add(new HoldableCollider(OnTheoCrystal));
         }
 
         public TheoCrystalBarrier(EntityData data, Vector2 offset)
             : this(data.Position + offset, data.Width, data.Height) { }
-
-        private void OnTheoCrystal(Holdable theoCrystal) {
-            OnReflect();
-        }
 
         public override void Update() {
             offX += Engine.DeltaTime * 12f;
@@ -107,57 +102,34 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnLoad() {
             On.Celeste.TheoCrystal.Update += TheoCrystalOnUpdate;
-            On.Celeste.Actor.MoveHExact += ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact += ActorOnMoveVExact;
+            On.Celeste.TheoCrystal.OnCollideH += TheoCrystalOnOnCollideH;
+            On.Celeste.TheoCrystal.OnCollideV += TheoCrystalOnOnCollideV;
             On.Celeste.Player.Update += PlayerOnUpdate;
             On.Celeste.Player.Pickup += PlayerOnPickup;
         }
 
         public static void OnUnload() {
             On.Celeste.TheoCrystal.Update -= TheoCrystalOnUpdate;
-            On.Celeste.Actor.MoveHExact -= ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact -= ActorOnMoveVExact;
-            On.Celeste.Player.Update -= PlayerOnUpdate;
+            On.Celeste.TheoCrystal.OnCollideH -= TheoCrystalOnOnCollideH;
+            On.Celeste.TheoCrystal.OnCollideV -= TheoCrystalOnOnCollideV;
+            On.Celeste.Player.Update += PlayerOnUpdate;
             On.Celeste.Player.Pickup -= PlayerOnPickup;
         }
 
-        private static bool ActorOnMoveHExact(On.Celeste.Actor.orig_MoveHExact orig, Actor self, int moveH,
-            Collision onCollide, Solid pusher) {
-            
-            if (self is TheoCrystal && onCollide != null) {
-                On.Monocle.Collide.First_Entity_IEnumerable1 += ColliderOnCollideEntity;
-            }
-
-            bool result = orig(self, moveH, onCollide, pusher);
-            
-            On.Monocle.Collide.First_Entity_IEnumerable1 -= ColliderOnCollideEntity;
-            
-            return result;
+        private static void TheoCrystalOnOnCollideH(On.Celeste.TheoCrystal.orig_OnCollideH orig, TheoCrystal self,
+            CollisionData data) {
+            orig(self, data);
+            OnCollide(data);
         }
 
-        private static bool ActorOnMoveVExact(On.Celeste.Actor.orig_MoveVExact orig, Actor self, int moveV,
-            Collision onCollide, Solid pusher) {
-            
-            if (self is TheoCrystal && onCollide != null) {
-                On.Monocle.Collide.First_Entity_IEnumerable1 += ColliderOnCollideEntity;
-            }
-            
-            bool result = orig(self, moveV, onCollide, pusher);
-            
-            On.Monocle.Collide.First_Entity_IEnumerable1 -= ColliderOnCollideEntity;
-            
-            return result;
+        private static void TheoCrystalOnOnCollideV(On.Celeste.TheoCrystal.orig_OnCollideV orig, TheoCrystal self,
+            CollisionData data) {
+            orig(self, data);
+            OnCollide(data);
         }
 
-        private static Entity ColliderOnCollideEntity(On.Monocle.Collide.orig_First_Entity_IEnumerable1 orig,
-            Entity entity, IEnumerable<Entity> enumerable) {
-            Entity result = orig(entity, enumerable);
-            OnCollide(result);
-            return result;
-        }
-
-        private new static void OnCollide(Entity result) {
-            if (result is TheoCrystalBarrier barrier) {
+        private new static void OnCollide(CollisionData data) {
+            if (data.Hit is TheoCrystalBarrier barrier) {
                 barrier.OnReflect();
             }
         }
@@ -185,8 +157,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static void CollideCheckOutside(Player player, Vector2 direction) {
-            if (player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction) is TheoCrystalBarrier
-                barrier) {
+            if (player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction) is TheoCrystalBarrier barrier) {
                 if (direction.Abs().Y > 0) {
                     direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
                 }
