@@ -115,6 +115,9 @@ namespace Celeste.Mod.DJMapHelper {
                 case "windAttackTriggerLeft":
                     level.Add(new WindAttackLeftTrigger(entityData, offset));
                     return true;
+                case "colorGradeTrigger":
+                    level.Add(new ColorGradeTrigger(entityData, offset));
+                    return true;
             }
 
             return false;
