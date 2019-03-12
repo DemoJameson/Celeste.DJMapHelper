@@ -10,6 +10,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private readonly int spawnPointX;
         private readonly int spawnPointY;
         private bool triggered;
+        private bool keepKey;
 
         public enum Dreams {
             Dreaming,
@@ -25,6 +26,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             spawnPointX = data.Int("spawnPointX");
             spawnPointY = data.Int("spawnPointY");
             dreams = data.Enum("Dreaming", Dreams.NoChange);
+            keepKey = data.Bool("KeepKey", false);
         }
 
         public override void OnEnter(Player player) {
@@ -48,7 +50,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 }
             }
 
-            Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY), dreams));
+            Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY), dreams, keepKey));
         }
     }
 }
