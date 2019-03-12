@@ -69,6 +69,7 @@
     <Compile Include="DJMapHelperModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
+    <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
