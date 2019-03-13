@@ -21,14 +21,17 @@
         - black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.
         - blue: only +stamina
         - red: only +dash
-    - Temple Gate Reversed - Used for going from right to left
-        - Changed the width of Theo Gate: 16 -> 8
-    - TheoCrystalBarrier - Like Seeker Barrier except for theo.  
     - FinalBossReversed - Badeline boss which won't lock camera.
+    - Start Level Spawn Point - Used in cases where the start room has multiple spawn points. Search for a spawn point near this entity when the chapter begins.
+    - Play Sprite Entity - Play the sprite in Sprites.xml (Madeline's hair is not yet supported).
+    - Temple Gate Reversed - Used for going from right to left.
+    - Theo Crystal Barrier - Like Seeker Barrier except for theo.  
     - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
-    - MaxDashesTrigger - Change the max dashes
-    - Snowballs Left Trigger - SnowBalls going to the right
-    - KillBoxTrigger - Die when Madeline goes in
+    - Color Grade Trigger - Change the color grade.
+    - Kill Box Trigger - Die instantly when enters.
+    - MaxDashes Trigger - Change the max dashes.
+    - Snowballs Left Trigger - SnowBalls going to the right.
+    - Teleport Trigger - Teleport player to assigned room.
 
 # Thanks
 - Artain - Provide pictures of the feathers.
