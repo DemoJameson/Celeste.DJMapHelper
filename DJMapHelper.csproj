@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cutscenes\CS_Teleport.cs" />
+    <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />

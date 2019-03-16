@@ -1,4 +1,5 @@
 ﻿using System;
+using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
 using Microsoft.Xna.Framework;
@@ -35,9 +36,9 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
             FinalBossReversed.OnLoad();
+            LookoutBuilder.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
-
 
 
         public override void LoadContent(bool firstLoad) {
@@ -55,7 +56,8 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
             FinalBossReversed.OnUnload();
-            TheoCrystalBarrier.OnUnload();            
+            LookoutBuilder.OnUnload();
+            TheoCrystalBarrier.OnUnload();
         }
 
 
@@ -94,11 +96,11 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "oshiroBossRight":
                     level.Add(new AngryOshiroRight(entityData, offset));
-                    return true;  
+                    return true;
                 case "playSprite":
                     level.Add(new PlaySprite(entityData, offset));
-                    return true;  
-                
+                    return true;
+
                 // Triggers
                 case "climbBlockerTrigger":
                     level.Add(new ClimbBlockerTrigger(entityData, offset));
