@@ -132,7 +132,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayer(Player player) {
-            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && !(Sprite.CurrentAnimationID != "respawn")) {
+            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") {
                 return;
             }
 
