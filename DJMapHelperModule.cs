@@ -102,6 +102,9 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
 
                 // Triggers
+                case "changeBossPatternTrigger":
+                    level.Add(new ChangeBossPatternTrigger(entityData, offset));
+                    return true;
                 case "climbBlockerTrigger":
                     level.Add(new ClimbBlockerTrigger(entityData, offset));
                     return true;
