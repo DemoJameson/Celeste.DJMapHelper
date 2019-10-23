@@ -112,7 +112,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             On.Celeste.TheoCrystal.Update -= TheoCrystalOnUpdate;
             On.Celeste.TheoCrystal.OnCollideH -= TheoCrystalOnOnCollideH;
             On.Celeste.TheoCrystal.OnCollideV -= TheoCrystalOnOnCollideV;
-            On.Celeste.Player.Update += PlayerOnUpdate;
+            On.Celeste.Player.Update -= PlayerOnUpdate;
             On.Celeste.Player.Pickup -= PlayerOnPickup;
         }
 
