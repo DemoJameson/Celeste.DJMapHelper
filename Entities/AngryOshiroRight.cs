@@ -94,8 +94,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             });
             Add(prechargeSfx = new SoundSource());
             Add(chargeSfx = new SoundSource());
-            //1 -> -1
-            Distort.AnxietyOrigin = new Vector2(-1f, 0.5f);
+            Distort.AnxietyOrigin = new Vector2(1f, 0.5f);
             Sprite.Scale.X *= -1;
         }
 
@@ -163,11 +162,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             yApproachSpeed = Calc.Approach(yApproachSpeed, 100f, 300f * Engine.DeltaTime);
             if (state.State != 3 && canControlTimeRate) {
                 if (state.State == 2 && attackSpeed > 200.0) {
-                    Player entity = Scene.Tracker.GetEntity<Player>();
-                    Engine.TimeRate = entity == null || entity.Dead || (double) CenterX <= (double) entity.CenterX - 4.0
+                    Player player = Scene.Tracker.GetEntity<Player>();
+                    Engine.TimeRate = player == null || player.Dead || (double) CenterX <= (double) player.CenterX - 4.0
                         ? 1f
-                        : MathHelper.Lerp(Calc.ClampedMap(-entity.CenterX + CenterX, 30f, 80f, 0.5f, 1f), 1f,
-                            Calc.ClampedMap(Math.Abs(entity.CenterY - CenterY), 32f, 48f, 0.0f, 1f));
+                        : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f, 1f), 1f,
+                            Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f, 0.0f, 1f));
                 }
                 else {
                     Engine.TimeRate = 1f;
