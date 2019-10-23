@@ -31,6 +31,7 @@ namespace Celeste.Mod.DJMapHelper {
         public override void Load() {
             Everest.Events.Level.OnLoadEntity += LevelOnOnLoadEntity;
 
+            BarrierUtils.OnLoad();
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
@@ -51,6 +52,7 @@ namespace Celeste.Mod.DJMapHelper {
         public override void Unload() {
             Everest.Events.Level.OnLoadEntity -= LevelOnOnLoadEntity;
 
+            BarrierUtils.OnUnLoad();
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
