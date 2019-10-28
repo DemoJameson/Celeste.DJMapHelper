@@ -69,6 +69,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="DJMapHelperModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DJMapHelperSettings.cs" />
     <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
@@ -83,6 +84,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Dialog\English.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialog\Simplified Chinese.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="everest.yaml">

@@ -18,15 +18,15 @@
 # {trigger x} this triggers an in-game event
 # {anchor} controls the visual position of the textbox in-game
 
-# Language (id,label)
-	LANGUAGE=english,English
-	ICON=Icons/canadian-english.png
-	ORDER=0
+# Language
+	LANGUAGE=schinese,简体中文
+	ICON=Icons/simplified-chinese.png
+	ORDER=70
+	SPLIT_REGEX=(\s|\{|\})|([^\s\{\}]+?[、|。|！|」|，])
+	COMMAS=,、，
+	PERIODS=.?!？！。
+	FONT=Noto Sans CJK SC Medium,64
 
-# Font (Face, Base Size)
-# Use BMFONT to generate the .fnt and image files
-	FONT=Renogare,64
-	
 # ================================== TeleportTrigger ==================================
 DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_EMPTY=
     [MADELINE left upset]
@@ -36,4 +36,5 @@ DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_NOT_EXIST=
     The room name does not exist.
 
 # ================================== LookoutBuilder ==================================
-DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Ctrl+Q Add Tower Viewer
+DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Ctrl+Q 添加望远镜
+

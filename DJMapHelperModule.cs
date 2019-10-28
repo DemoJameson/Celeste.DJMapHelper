@@ -20,7 +20,8 @@ namespace Celeste.Mod.DJMapHelper {
         }
 
         // If you don't need to store any settings, => null
-        public override Type SettingsType => null;
+        public override Type SettingsType => typeof(DJMapHelperSettings);
+        public static DJMapHelperSettings Settings => (DJMapHelperSettings) Instance._Settings;
 
         // If you don't need to store any save data, => null
         public override Type SaveDataType => null;
