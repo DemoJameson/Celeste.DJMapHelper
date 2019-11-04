@@ -8,7 +8,7 @@ const placements = Ahorn.PlacementDict(
     )
 )
 
-sprite = "characters/oshiro/boss13.png"
+sprite = "characters/DJMapHelper/oshiro/boss13.png"
 
 function Ahorn.selection(entity::OshiroRight)
     x, y = Ahorn.position(entity)

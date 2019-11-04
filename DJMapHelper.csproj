@@ -60,6 +60,7 @@
     <Compile Include="Entities\ColorfulRefill.cs" />
     <Compile Include="Entities\FeatherBarrier.cs" />
     <Compile Include="Entities\FinallBossReversed.cs" />
+    <Compile Include="Entities\FlingBirdReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
     <Compile Include="Entities\StartPoint.cs" />

@@ -38,10 +38,10 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnLoad();
             FeatherBarrier.OnLoad();
             FinalBossReversed.OnLoad();
+            FlingBirdReversed.OnLoad();
             LookoutBuilder.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
-
 
         public override void LoadContent(bool firstLoad) {
             if (firstLoad) {
@@ -59,6 +59,7 @@ namespace Celeste.Mod.DJMapHelper {
             ClimbBlockerTrigger.OnUnLoad();
             FeatherBarrier.OnUnload();
             FinalBossReversed.OnUnload();
+            FlingBirdReversed.OnUnLoad();
             LookoutBuilder.OnUnload();
             TheoCrystalBarrier.OnUnload();
         }
@@ -84,6 +85,9 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "featherBarrier":
                     level.Add(new FeatherBarrier(entityData, offset));
+                    return true;
+                case "flingBirdReversed":
+                    level.Add(new FlingBirdReversed(entityData, offset));
                     return true;
                 case "templeGateReversed":
                     level.Add(new TempleGateReversed(entityData, offset));
