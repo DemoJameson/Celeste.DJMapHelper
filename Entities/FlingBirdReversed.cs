@@ -239,8 +239,7 @@ namespace Celeste {
         private IEnumerator DoFlingRoutine(Player player) {
             Level level = Scene as Level;
             Vector2 camera = level.Camera.Position;
-            // Vector2 zoom = player.Position - camera;
-            Vector2 zoom = camera - player.Position;
+            Vector2 zoom = player.Position - camera;
             zoom.X = Calc.Clamp(zoom.X, 145f, 215f);
             zoom.Y = Calc.Clamp(zoom.Y, 85f, 95f);
             Add(new Coroutine(level.ZoomTo(zoom, 1.1f, 0.2f)));
