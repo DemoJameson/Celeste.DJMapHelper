@@ -1,8 +1,5 @@
-using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using System.Reflection;
-using Celeste;
+using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     public class ChangeSpinnerColorTrigger : Trigger {
@@ -58,15 +55,21 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
             if (mode == Modes.OnLevelStart) {
                 Color = color;
+            }
+        }
+
+        public override void Awake(Scene scene) {
+            base.Awake(scene);
+            if (mode == Modes.OnLevelStart) {
                 RemoveSelf();
             }
         }
 
         public override void OnEnter(Player player) {
             base.OnEnter(player);
+            RemoveSelf();
             if (mode == Modes.OnPlayerEnter) {
                 Color = color;
-                RemoveSelf();
             }
         }
 
