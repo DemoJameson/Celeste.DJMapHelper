@@ -40,6 +40,7 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnLoad();
             FlingBirdReversed.OnLoad();
             LookoutBuilder.OnLoad();
+            ChangeSpinnerColorTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
         }
 
@@ -52,7 +53,7 @@ namespace Celeste.Mod.DJMapHelper {
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
             Everest.Events.Level.OnLoadEntity -= LevelOnOnLoadEntity;
-
+            
             BarrierUtils.OnUnLoad();
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
@@ -61,6 +62,7 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnUnload();
             FlingBirdReversed.OnUnLoad();
             LookoutBuilder.OnUnload();
+            ChangeSpinnerColorTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
         }
 
@@ -111,6 +113,9 @@ namespace Celeste.Mod.DJMapHelper {
                 // Triggers
                 case "changeBossPatternTrigger":
                     level.Add(new ChangeBossPatternTrigger(entityData, offset));
+                    return true;
+                case "changeSpinnerColorTrigger":
+                    level.Add(new ChangeSpinnerColorTrigger(entityData, offset));
                     return true;
                 case "climbBlockerTrigger":
                     level.Add(new ClimbBlockerTrigger(entityData, offset));

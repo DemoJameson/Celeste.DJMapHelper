@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DJMapHelperSettings.cs" />
     <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
+    <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
