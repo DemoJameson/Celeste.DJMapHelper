@@ -129,6 +129,9 @@ namespace Celeste.Mod.DJMapHelper {
                 case "maxDashesTrigger":
                     level.Add(new MaxDashesTrigger(entityData, offset));
                     return true;
+                case "talkToBadelineTrigger":
+                    level.Add(new TalkToBadelineTrigger(entityData, offset));
+                    return true;
                 case "teleportTrigger":
                     level.Add(new TeleportTrigger(entityData, offset));
                     return true;

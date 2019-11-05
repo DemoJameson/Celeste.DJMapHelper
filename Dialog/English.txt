@@ -34,6 +34,9 @@ DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_EMPTY=
 DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_NOT_EXIST=
     [MADELINE left upset]
     The room name does not exist.
+DJ_MAP_HELPER_TALK_TO_BADELINE_TRIGGER_DIALOG_ID_EMPTY=
+    [MADELINE left upset]
+    The dialog ID must not be empty.
 
 # ================================== LookoutBuilder ==================================
 DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Ctrl+Q Add Tower Viewer

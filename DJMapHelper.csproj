@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
     <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
   </ItemGroup>
