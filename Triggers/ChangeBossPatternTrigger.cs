@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Monocle;
 

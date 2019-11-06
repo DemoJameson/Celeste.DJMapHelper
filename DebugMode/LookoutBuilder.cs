@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Monocle;

@@ -68,8 +68,9 @@
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="DJMapHelperModule.cs" />
+    <Compile Include="Extensions\CommonExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DJMapHelperSettings.cs" />
     <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
