@@ -12,7 +12,7 @@ const placements = Ahorn.PlacementDict(
 
 Ahorn.nodeLimits(entity::FlingBirdDJMapHelper) = 0, -1
 
-sprite = "characters/DJMapHelper/bird/Hover04"
+sprite = "characters/bird/Hover04"
 
 function Ahorn.selection(entity::FlingBirdDJMapHelper)
     nodes = get(entity.data, "nodes", ())
@@ -45,7 +45,7 @@ end
 
 function Ahorn.renderAbs(ctx::Ahorn.Cairo.CairoContext, entity::FlingBirdDJMapHelper, room::Maple.Room)
     x, y = Ahorn.position(entity)
-    Ahorn.drawSprite(ctx, sprite, x, y)
+    Ahorn.drawSprite(ctx, sprite, x, y, sx=-1)
 end
 
 end
