@@ -67,12 +67,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Add(light = new VertexLight(Color.White, 1f, 32, 64));
             Add(shaker = new Shaker(false, null));
             state = new StateMachine(10);
-            state.SetCallbacks(0, ChaseUpdate, ChaseCoroutine, ChaseBegin, null);
-            state.SetCallbacks(1, ChargeUpUpdate, ChargeUpCoroutine, null, ChargeUpEnd);
-            state.SetCallbacks(2, AttackUpdate, AttackCoroutine, AttackBegin, AttackEnd);
-            state.SetCallbacks(3, null, null, null, null);
-            state.SetCallbacks(4, WaitingUpdate, null, null, null);
-            state.SetCallbacks(5, HurtUpdate, null, HurtBegin, null);
+            state.SetCallbacks(StChase, ChaseUpdate, ChaseCoroutine, ChaseBegin, null);
+            state.SetCallbacks(StChargeUp, ChargeUpUpdate, ChargeUpCoroutine, null, ChargeUpEnd);
+            state.SetCallbacks(StAttack, AttackUpdate, AttackCoroutine, AttackBegin, AttackEnd);
+            state.SetCallbacks(StDummy, null, null, null, null);
+            state.SetCallbacks(StWaiting, WaitingUpdate, null, null, null);
+            state.SetCallbacks(StHurt, HurtUpdate, null, HurtBegin, null);
             Add(state);
             Add(new TransitionListener {
                 OnOutBegin = () => {
@@ -99,7 +99,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public AngryOshiroRight(EntityData data, Vector2 offset)
-            : this(data.Position + offset) { }
+            : this(data.Position + offset + Vector2.UnitX * 10000) { }
 
         private float TargetY {
             get {
