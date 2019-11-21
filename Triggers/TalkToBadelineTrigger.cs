@@ -24,6 +24,11 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 return;
             }
 
+            Session session = player.SceneAs<Level>().Session;
+            if (session.GetFlag(dialogEntry)) {
+                return;
+            }
+            session.SetFlag(dialogEntry);
             player.Scene.Add(new CS_TalkToBadeline(player, dialogEntry, endLevel, rejoin));
         }
     }
