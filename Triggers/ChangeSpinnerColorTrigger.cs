@@ -20,8 +20,11 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
         private static void ChangeColor(On.Celeste.CrystalStaticSpinner.orig_ctor_EntityData_Vector2_CrystalColor orig,
             CrystalStaticSpinner self, EntityData data, Vector2 offset, CrystalColor color) {
-            if (Color != null) {
-                orig(self, data, offset, (CrystalColor) Color);
+
+            var savedColor = GetColorFromSession();
+            
+            if (savedColor != null) {
+                orig(self, data, offset, (CrystalColor) savedColor);
             }
             else {
                 orig(self, data, offset, color);
@@ -31,12 +34,13 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         }
 
         private static void LevelLoaderOnCtor(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session, Vector2? startPosition) {
-            Color = null;
-            // 将 trigger 提前到所有刺初始化之前，这样才能应用修改的颜色
-            var entityDataList = session.LevelData.Triggers.FindAll(data => data.Name == "DJMapHelper/changeSpinnerColorTrigger");
-            foreach (EntityData entityData in entityDataList) {
-                session.LevelData.Triggers.Remove(entityData);
-                session.LevelData.Entities.Insert(0, entityData);
+            if (session.LevelData != null) {
+                // 将 trigger 提前到所有刺初始化之前，这样才能应用修改的颜色
+                var entityDataList = session.LevelData.Triggers.FindAll(data => data.Name == "DJMapHelper/changeSpinnerColorTrigger");
+                foreach (EntityData entityData in entityDataList) {
+                    session.LevelData.Triggers.Remove(entityData);
+                    session.LevelData.Entities.Insert(0, entityData);
+                }
             }
 
             orig(self, session, startPosition);
@@ -45,7 +49,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private static readonly FieldInfo ColorFieldInfo = typeof(CrystalStaticSpinner).GetPrivateField("color");
         private static readonly MethodInfo ClearSpritesMethodInfo = typeof(CrystalStaticSpinner).GetPrivateMethod("ClearSprites");
         private static readonly MethodInfo CreateSpritesMethodInfo = typeof(CrystalStaticSpinner).GetPrivateMethod("CreateSprites");
-        private static CrystalColor? Color;
+        private static readonly FieldInfo SessionField = typeof(LevelLoader).GetPrivateField("session");
         private readonly CrystalColor? color;
         private readonly Modes mode;
 
@@ -54,7 +58,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             color = TryGetCrystalColor(data.Attr("color", "Default"));
 
             if (mode == Modes.OnLevelStart) {
-                Color = color;
+                SaveColorToSession(color);
             }
         }
 
@@ -85,10 +89,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
             RemoveSelf();
-            
+
             if (mode == Modes.OnPlayerEnter) {
                 Level level = player.SceneAs<Level>();
-                Color = color;
+                SaveColorToSession(color);
                 level.Tracker.GetEntities<CrystalStaticSpinner>().Cast<CrystalStaticSpinner>().ToList().ForEach(entity => {
                     if (color != null) {
                         entity.Add(new ChangeColorComponent(entity, (CrystalColor) color));
@@ -101,10 +105,53 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                         if (origColor == ~CrystalColor.Blue) {
                             origColor = level.CoreMode != Session.CoreModes.Cold ? CrystalColor.Red : CrystalColor.Blue;
                         }
+
                         entity.Add(new ChangeColorComponent(entity, (CrystalColor) origColor));
                     }
                 });
             }
+        }
+
+        private static Session GetSession() {
+            Session session = null;
+            if (Engine.Scene is LevelLoader levelLoader) {
+                session = levelLoader.Level.Session;
+            } else if (Engine.Scene is Level level) {
+                session = level.Session;
+            }
+
+            return session;
+        }
+
+        private const string PREFIX = "DJMapHelper/changeSpinnerColorTrigger_";
+        private static void SaveColorToSession(CrystalColor? color) {
+            Session session = GetSession();
+            
+            if (color != null) {
+                session?.SetFlag(PREFIX + color);
+            }
+            else {
+                foreach (string name in Enum.GetNames(typeof(CrystalColor))) {
+                    session?.SetFlag(PREFIX + name, false);
+                }
+            }
+        }
+
+        private static CrystalColor? GetColorFromSession() {
+            Session session = GetSession();
+            
+            if (session == null) {
+                return null;
+            }
+            
+            foreach (string name in Enum.GetNames(typeof(CrystalColor))) {
+                bool existColor = session.GetFlag(PREFIX + name);
+                if (existColor) {
+                    return TryGetCrystalColor(name);
+                }
+            }
+
+            return null;
         }
 
         private class ChangeColorComponent : Component {
