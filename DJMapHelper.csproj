@@ -57,13 +57,16 @@
     <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
+    <Compile Include="Entities\BadelineBoostDown.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
+    <Compile Include="Entities\DreamBlockYellow.cs" />
     <Compile Include="Entities\FeatherBarrier.cs" />
     <Compile Include="Entities\FinallBossReversed.cs" />
     <Compile Include="Entities\FlingBirdReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
+    <Compile Include="Entities\SpringGreen.cs" />
     <Compile Include="Entities\StartPoint.cs" />
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />

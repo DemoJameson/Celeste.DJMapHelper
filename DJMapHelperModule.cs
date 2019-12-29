@@ -42,6 +42,8 @@ namespace Celeste.Mod.DJMapHelper {
             LookoutBuilder.OnLoad();
             ChangeSpinnerColorTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
+            SpringGreen.OnLoad();
+            DreamBlockYellow.OnLoad();
         }
 
         public override void LoadContent(bool firstLoad) {
@@ -64,6 +66,8 @@ namespace Celeste.Mod.DJMapHelper {
             LookoutBuilder.OnUnload();
             ChangeSpinnerColorTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
+            SpringGreen.OnUnLoad();
+            DreamBlockYellow.OnUnLoad();
         }
 
 
@@ -108,6 +112,12 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "playSprite":
                     level.Add(new PlaySprite(entityData, offset));
+                    return true;
+                case "springGreen":
+                    level.Add(new SpringGreen(entityData, offset));
+                    return true;
+                case "dreamBlockYellow":
+                    level.Add(new DreamBlockYellow(entityData, offset));
                     return true;
 
                 // Triggers
