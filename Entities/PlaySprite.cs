@@ -7,12 +7,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private string SpriteId;
         private bool flipX;
         private bool flipY;
-        public Sprite Sprite;
+        private Sprite Sprite;
 
-        PlaySprite(Vector2 position) : base(position) { }
-
-        public PlaySprite(EntityData data, Vector2 offset)
-            : this(data.Position + offset) {
+        public PlaySprite(EntityData data, Vector2 offset) : base(data.Position + offset) {
             SpriteName = data.Attr("SpriteName");
             SpriteId = data.Attr("SpriteId");
             flipX = data.Bool("flipX");

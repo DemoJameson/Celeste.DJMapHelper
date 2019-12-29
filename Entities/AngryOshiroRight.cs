@@ -67,12 +67,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Add(light = new VertexLight(Color.White, 1f, 32, 64));
             Add(shaker = new Shaker(false, null));
             state = new StateMachine(10);
-            state.SetCallbacks(0, ChaseUpdate, ChaseCoroutine, ChaseBegin, null);
-            state.SetCallbacks(1, ChargeUpUpdate, ChargeUpCoroutine, null, ChargeUpEnd);
-            state.SetCallbacks(2, AttackUpdate, AttackCoroutine, AttackBegin, AttackEnd);
-            state.SetCallbacks(3, null, null, null, null);
-            state.SetCallbacks(4, WaitingUpdate, null, null, null);
-            state.SetCallbacks(5, HurtUpdate, null, HurtBegin, null);
+            state.SetCallbacks(StChase, ChaseUpdate, ChaseCoroutine, ChaseBegin, null);
+            state.SetCallbacks(StChargeUp, ChargeUpUpdate, ChargeUpCoroutine, null, ChargeUpEnd);
+            state.SetCallbacks(StAttack, AttackUpdate, AttackCoroutine, AttackBegin, AttackEnd);
+            state.SetCallbacks(StDummy, null, null, null, null);
+            state.SetCallbacks(StWaiting, WaitingUpdate, null, null, null);
+            state.SetCallbacks(StHurt, HurtUpdate, null, HurtBegin, null);
             Add(state);
             Add(new TransitionListener {
                 OnOutBegin = () => {
@@ -94,13 +94,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             });
             Add(prechargeSfx = new SoundSource());
             Add(chargeSfx = new SoundSource());
-            //1 -> -1
-            Distort.AnxietyOrigin = new Vector2(-1f, 0.5f);
+            Distort.AnxietyOrigin = new Vector2(1f, 0.5f);
             Sprite.Scale.X *= -1;
         }
 
         public AngryOshiroRight(EntityData data, Vector2 offset)
-            : this(data.Position + offset) { }
+            : this(data.Position + offset + Vector2.UnitX * 10000) { }
 
         private float TargetY {
             get {
@@ -132,7 +131,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayer(Player player) {
-            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && !(Sprite.CurrentAnimationID != "respawn")) {
+            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") {
                 return;
             }
 
@@ -163,11 +162,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             yApproachSpeed = Calc.Approach(yApproachSpeed, 100f, 300f * Engine.DeltaTime);
             if (state.State != 3 && canControlTimeRate) {
                 if (state.State == 2 && attackSpeed > 200.0) {
-                    Player entity = Scene.Tracker.GetEntity<Player>();
-                    Engine.TimeRate = entity == null || entity.Dead || (double) CenterX <= (double) entity.CenterX - 4.0
+                    Player player = Scene.Tracker.GetEntity<Player>();
+                    Engine.TimeRate = player == null || player.Dead || (double) CenterX <= (double) player.CenterX - 4.0
                         ? 1f
-                        : MathHelper.Lerp(Calc.ClampedMap(-entity.CenterX + CenterX, 30f, 80f, 0.5f, 1f), 1f,
-                            Calc.ClampedMap(Math.Abs(entity.CenterY - CenterY), 32f, 48f, 0.0f, 1f));
+                        : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f, 1f), 1f,
+                            Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f, 0.0f, 1f));
                 }
                 else {
                     Engine.TimeRate = 1f;

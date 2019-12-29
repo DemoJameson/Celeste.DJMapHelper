@@ -2,11 +2,16 @@ module ColorGradeTrigger
 
 using ..Ahorn, Maple
 
-@mapdef Trigger "DJMapHelper/colorGradeTrigger" colorGrade(x::Integer, y::Integer, width::Integer=16, height::Integer=16, ColorGrade::String="Null")
+@mapdef Trigger "DJMapHelper/colorGradeTrigger" colorGrade(x::Integer, y::Integer, width::Integer=16, height::Integer=16, ColorGrade::String="none")
 const colorGrades = String[
-    "Null",
+    "none",
+    "cold",
+    "credits",
+    "hot",
     "oldsite",
-    "reflection"
+    "panicattack",
+    "reflection",
+    "templevoid",
 ]
 
 const placements = Ahorn.PlacementDict(

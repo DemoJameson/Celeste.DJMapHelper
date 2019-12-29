@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\DJ_Map_Helper</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -32,46 +32,54 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Celeste, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Celeste">
       <HintPath>..\..\..\Celeste.exe</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="FNA, Version=18.1.2.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="FNA">
       <HintPath>..\..\..\FNA.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MMHOOK_Celeste, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="MMHOOK_Celeste">
       <HintPath>..\..\..\MMHOOK_Celeste.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="YamlDotNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="YamlDotNet">
       <HintPath>..\..\..\YamlDotNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
+    <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
     <Compile Include="Entities\FeatherBarrier.cs" />
     <Compile Include="Entities\FinallBossReversed.cs" />
+    <Compile Include="Entities\FlingBirdReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
     <Compile Include="Entities\StartPoint.cs" />
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="DJMapHelperModule.cs" />
+    <Compile Include="Extensions\CommonExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DJMapHelperSettings.cs" />
+    <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
+    <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
     <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
   </ItemGroup>
@@ -81,6 +89,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Dialog\English.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialog\Simplified Chinese.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="everest.yaml">
