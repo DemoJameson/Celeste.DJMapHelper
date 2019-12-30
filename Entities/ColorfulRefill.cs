@@ -64,13 +64,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             On.Celeste.Refill.OnPlayer -= RefillOnPlayer;
         }
 
-        private static void RefillOnPlayer(On.Celeste.Refill.orig_OnPlayer orig, Refill self, Player player) {
-            if (self.GetType() == typeof(Refill)) {
-                orig(self, player);
-            }
-            else if (self.GetType() == typeof(ColorfulRefill)) {
+        private static void RefillOnPlayer(On.Celeste.Refill.orig_OnPlayer orig, Refill self, Player player)
+        {
+            if (self.GetType() == typeof(ColorfulRefill))
+            {
                 RefillColor color = ((ColorfulRefill) self).color;
-                switch (color) {
+                switch (color)
+                {
                     case RefillColor.Red:
                         On.Celeste.Player.UseRefill += PlayerUseRedRefill;
                         orig(self, player);
@@ -90,6 +90,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         throw new ArgumentOutOfRangeException(nameof(color), color, null);
                 }
             }
+            orig(self, player);
         }
 
         private static bool PlayerUseRedRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
