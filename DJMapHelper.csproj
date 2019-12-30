@@ -53,11 +53,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
     <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\BadelineBoostDown.cs" />
+    <Compile Include="Entities\BadelineBoostTeleport.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
     <Compile Include="Entities\DreamBlockYellow.cs" />
