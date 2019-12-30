@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
@@ -44,12 +45,20 @@ namespace Celeste.Mod.DJMapHelper {
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
             DreamBlockYellow.OnLoad();
+            BadelineBoostDown.OnLoad();
         }
 
         public override void LoadContent(bool firstLoad) {
             if (firstLoad) {
                 SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
             }
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            Tracker.StoredEntityTypes.Add(typeof(DreamBlockYellow));
+            Tracker.TrackedEntityTypes[typeof(DreamBlockYellow)] = new List<Type>{typeof(DreamBlock)};
         }
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
@@ -68,6 +77,7 @@ namespace Celeste.Mod.DJMapHelper {
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
             DreamBlockYellow.OnUnLoad();
+            BadelineBoostDown.OnUnLoad();
         }
 
 
@@ -119,6 +129,15 @@ namespace Celeste.Mod.DJMapHelper {
                 case "dreamBlockYellow":
                     level.Add(new DreamBlockYellow(entityData, offset));
                     return true;
+                case "badelineBoostDown":
+                    level.Add(new BadelineBoostDown(entityData, offset));
+                    return true;
+                case "badelineBoostTeleport":
+                    level.Add(new BadelineBoostTeleport(entityData, offset));
+                    return true;
+                case "shield":
+                    level.Add(new Shield(entityData, offset));
+                    return true;
 
                 // Triggers
                 case "changeBossPatternTrigger":
@@ -147,6 +166,12 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "windAttackTriggerLeft":
                     level.Add(new WindAttackLeftTrigger(entityData, offset));
+                    return true;
+                case "badelineProtectTrigger":
+                    level.Add(new BadelineProtectTrigger(entityData, offset));
+                    return true;
+                case "stopProtectTrigger":
+                    level.Add(new StopProtectTrigger(entityData, offset));
                     return true;
             }
 
