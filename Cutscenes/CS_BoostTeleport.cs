@@ -166,16 +166,12 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes
             Level.OnEndOfFrame += (Action) (() =>
             {
                 Level.TeleportTo(player, nextLevelName, nextLevelIntro, new Vector2?());
-                if (Level.Wipe != null)
-                    Level.Wipe.Cancel();
                 if (nextColorGrade != "")
                 {
                     if (nextColorGrade == "none")
                         nextColorGrade = null;
                     level.SnapColorGrade(nextColorGrade);
                 }
-                new FadeWipe((Scene) level, true, (Action) null).Duration = 2f;
-                ScreenWipe.WipeColor = Color.White;
             });
         }
 
