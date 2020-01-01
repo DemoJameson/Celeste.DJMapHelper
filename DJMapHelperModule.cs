@@ -44,7 +44,6 @@ namespace Celeste.Mod.DJMapHelper {
             ChangeSpinnerColorTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
-            DreamBlockYellow.OnLoad();
             BadelineBoostDown.OnLoad();
         }
 
@@ -52,13 +51,6 @@ namespace Celeste.Mod.DJMapHelper {
             if (firstLoad) {
                 SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
             }
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            Tracker.StoredEntityTypes.Add(typeof(DreamBlockYellow));
-            Tracker.TrackedEntityTypes[typeof(DreamBlockYellow)] = new List<Type>{typeof(DreamBlock)};
         }
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
@@ -76,7 +68,6 @@ namespace Celeste.Mod.DJMapHelper {
             ChangeSpinnerColorTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
-            DreamBlockYellow.OnUnLoad();
             BadelineBoostDown.OnUnLoad();
         }
 
@@ -126,9 +117,6 @@ namespace Celeste.Mod.DJMapHelper {
                 case "springGreen":
                     level.Add(new SpringGreen(entityData, offset));
                     return true;
-                case "dreamBlockYellow":
-                    level.Add(new DreamBlockYellow(entityData, offset));
-                    return true;
                 case "badelineBoostDown":
                     level.Add(new BadelineBoostDown(entityData, offset));
                     return true;
@@ -172,6 +160,9 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "stopProtectTrigger":
                     level.Add(new StopProtectTrigger(entityData, offset));
+                    return true;
+                case "payphoneCallTrigger":
+                    level.Add(new PayphoneCallTrigger(entityData, offset));
                     return true;
             }
 

@@ -53,10 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Colliders\TouchSwitchCollider.cs" />
     <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
     <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
+    <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\BadelineBoostDown.cs" />
@@ -64,7 +64,6 @@
     <Compile Include="Entities\BadelineProtector.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
-    <Compile Include="Entities\DreamBlockYellow.cs" />
     <Compile Include="Entities\FeatherBarrier.cs" />
     <Compile Include="Entities\FinallBossReversed.cs" />
     <Compile Include="Entities\FlingBirdReversed.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\PayphoneCallTrigger.cs" />
     <Compile Include="Triggers\StopProtectTrigger.cs" />
     <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
