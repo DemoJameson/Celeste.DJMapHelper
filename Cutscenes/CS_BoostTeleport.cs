@@ -133,22 +133,22 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes
             string nextLevelName = normalRoom;
             string nextColorGrade = normalColorGrade;
 
-            if (hasKey && !hasGolden)
+            if (hasKey && !hasGolden && keyRoom!="")
             {
                 nextLevelName = keyRoom;
                 nextColorGrade = keyColorGrade;
             }
-            else if (!hasKey && hasGolden)
+            else if (!hasKey && hasGolden && goldenRoom!="")
             {
                 nextLevelName = goldenRoom;
                 nextColorGrade = goldenColorGrade;
             }
-            else if(hasKey && hasGolden && keyFirst)
+            else if(hasKey && hasGolden && keyFirst && keyRoom!="")
             {
                 nextLevelName = keyRoom;
                 nextColorGrade = keyColorGrade;
             }
-            else if(hasKey && hasGolden &&!keyFirst)
+            else if(hasKey && hasGolden &&!keyFirst && goldenRoom!="")
             {
                 nextLevelName = goldenRoom;
                 nextColorGrade = goldenColorGrade;

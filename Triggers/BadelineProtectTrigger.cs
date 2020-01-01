@@ -10,11 +10,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers
 
         public override void OnEnter(Player player) {
             base.OnEnter(player);
-
-            if (Scene.Entities.FindFirst<BadelineProtector>() == null) {
-                Scene.Add(new BadelineProtector());
-            }
-
+            Scene.Add(new BadelineProtector());
             RemoveSelf();
         }
     }
