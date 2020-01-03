@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Celeste.Mod;
-using Celeste.Mod.DJMapHelper;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
