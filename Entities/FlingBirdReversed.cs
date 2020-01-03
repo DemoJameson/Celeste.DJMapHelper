@@ -3,27 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Celeste.Mod;
 using Celeste.Mod.DJMapHelper;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 using Monocle;
+using MonoMod.Cil;
+using MonoMod.Utils;
 
 namespace Celeste {
     public class FlingBirdReversed : FlingBird {
-        private static readonly FieldInfo EntityDataFieldInfo = typeof(FlingBird).GetPrivateField("entityData");
         private static readonly FieldInfo FlingBirdFieldInfo = typeof(Player).GetPrivateField("flingBird");
         private static readonly FieldInfo ForceMoveXFieldInfo = typeof(Player).GetPrivateField("forceMoveX");
         private static readonly IntPtr UpdatePtr = typeof(Entity).GetMethod("Update").MethodHandle.GetFunctionPointer();
         private static readonly IntPtr AwakePtr = typeof(Entity).GetMethod("Awake").MethodHandle.GetFunctionPointer();
-        
+
         public static void OnLoad() {
-           On.Celeste.FlingBird.Awake += FlingBirdOnAwake; 
-           On.Celeste.Player.FinishFlingBird += PlayerOnFinishFlingBird;
+            On.Celeste.Player.FinishFlingBird += PlayerOnFinishFlingBird;
+            IL.Celeste.FlingBird.Awake += ModFlingBirdAwake;
         }
-        
+
         public static void OnUnLoad() {
-            On.Celeste.FlingBird.Awake -= FlingBirdOnAwake; 
             On.Celeste.Player.FinishFlingBird -= PlayerOnFinishFlingBird;
+            IL.Celeste.FlingBird.Awake -= ModFlingBirdAwake;
+        }
+
+        private static void ModFlingBirdAwake(ILContext il) {
+            ILCursor cursor = new ILCursor(il);
+
+            // List<FlingBird> all = this.Scene.Entities.FindAll<FlingBird>();
+            if (cursor.TryGotoNext(MoveType.After, instr => instr.OpCode == OpCodes.Callvirt &&
+                                                            (instr.Operand as MethodReference)?.GetID() ==
+                                                            "System.Collections.Generic.List`1<T> Monocle.EntityList::FindAll<Celeste.FlingBird>()")
+            ) {
+                String className = cursor.Method.Parameters[0].ParameterType.Name;
+                Logger.Log("DJMapHelper/FlingBirdReversed",
+                    $"Adding code to avoid touching orig flingbird at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
+
+                cursor.EmitDelegate<Func<List<FlingBird>, List<FlingBird>>>(RemoveFlingBirdReversedFrom);
+            }
+        }
+
+        private static List<FlingBird> RemoveFlingBirdReversedFrom(List<FlingBird> flingBirds) {
+            flingBirds.RemoveAll((item)=>item is FlingBirdReversed);
+            return flingBirds;
         }
 
         private static void PlayerOnFinishFlingBird(On.Celeste.Player.orig_FinishFlingBird orig, Player self) {
@@ -33,42 +58,6 @@ namespace Celeste {
                 self.Speed *= -1;
                 ForceMoveXFieldInfo.SetValue(self, -1);
             }
-        }
-
-        // 重写过滤掉 FlingBirdReversed;
-        private static void FlingBirdOnAwake(On.Celeste.FlingBird.orig_Awake orig, FlingBird self, Scene scene) {
-            var baseAwake = (Action<Scene>) Activator.CreateInstance(typeof(Action<Scene>), self, AwakePtr);
-            baseAwake(scene);
-            
-            List<FlingBird> all = scene.Entities.FindAll<FlingBird>().Where((item)=>!(item is FlingBirdReversed)).ToList();
-            EntityData entityData = (EntityData) EntityDataFieldInfo.GetValue(self);
-            for (int index = all.Count - 1; index >= 0; --index) {
-                if (((EntityData)EntityDataFieldInfo.GetValue(all[index])).Level.Name != entityData.Level.Name) {
-                    all.RemoveAt(index);
-                }
-            }
-
-            all.Sort((a, b) => Math.Sign(a.X - b.X));
-            if (all[0] == self) {
-                for (int index = 1; index < all.Count; ++index) {
-                    self.NodeSegments.Add(all[index].NodeSegments[0]);
-                    self.SegmentsWaiting.Add(all[index].SegmentsWaiting[0]);
-                    all[index].RemoveSelf();
-                }
-            }
-
-            if (self.SegmentsWaiting[0]) {
-                var sprite = self.Get<Sprite>();
-                sprite.Play("hoverStressed");
-                sprite.Scale.X = 1f;
-            }
-
-            Player player = scene.Tracker.GetEntity<Player>();
-            if (player == null || player.X <= (double) self.X) {
-                return;
-            }
-
-            self.RemoveSelf();
         }
 
         private Action _baseUpdate;
@@ -91,8 +80,7 @@ namespace Celeste {
         }
 
 
-        public new const float SkipDist = 100f;
-        public new static readonly Vector2 FlingSpeed = new Vector2(380f, -100f);
+        private new static readonly Vector2 FlingSpeed = new Vector2(380f, -100f);
         private readonly EntityData entityData;
         private float flingAccel;
         private Vector2 flingSpeed;
