@@ -4,12 +4,14 @@ using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
 using Monocle;
+using MonoMod.Cil;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
     public class FeatherBarrier : Solid {
-        public static readonly FieldInfo StarFlyTimerFieldInfo = typeof(Player).GetPrivateField("starFlyTimer");
+        private static readonly FieldInfo StarFlyTimerFieldInfo = typeof(Player).GetPrivateField("starFlyTimer");
         private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");
 
         private readonly List<FeatherBarrier> adjacent = new List<FeatherBarrier>();
@@ -45,15 +47,21 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
             Collidable = false;
             temp = new MTexture();
-            for (int index = 0; (double) index < (double) Width * (double) Height / 16.0; ++index)
+            for (int index = 0; (double) index < (double) Width * (double) Height / 16.0; ++index) {
                 particles.Add(new Vector2(Calc.Random.NextFloat(Width - 1f),
                     Calc.Random.NextFloat(Height - 1f)));
+            }
+
             offX = position.X;
             offY = position.Y;
-            while (offX < 0.0)
+            while (offX < 0.0) {
                 offX += 128f;
-            while (offY < 0.0)
+            }
+
+            while (offY < 0.0) {
                 offY += 128f;
+            }
+
             Add(new DisplacementRenderHook(RenderDisplacement));
         }
 
@@ -66,8 +74,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             offY += Engine.DeltaTime * 12f;
             if (flashing) {
                 flash = Calc.Approach(flash, 0.0f, Engine.DeltaTime * 5f);
-                if (flash <= 0.0)
+                if (flash <= 0.0) {
                     flashing = false;
+                }
             }
 
             int length = speeds.Length;
@@ -82,7 +91,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Update();
         }
 
-        public void OnReflect() {
+        private void OnReflect() {
             flash = 1f;
             flashing = true;
             Scene.CollideInto(new Rectangle((int) X, (int) Y - 2, (int) Width, (int) Height + 4), adjacent);
@@ -110,55 +119,52 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public override void Render() {
             Draw.Rect(Collider, barrieColor * 0.2f);
-            if (flash > 0.0)
+            if (flash > 0.0) {
                 Draw.Rect(Collider, barrieColor * flash);
+            }
+
             Color color = barrieColor * 0.5f;
-            foreach (Vector2 particle in particles)
+            foreach (Vector2 particle in particles) {
                 Draw.Pixel.Draw(Position + particle, Vector2.Zero, color);
+            }
         }
 
         public static void OnLoad() {
             On.Celeste.Player.Update += PlayerOnUpdate;
-            On.Celeste.Actor.MoveHExact += ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact += ActorOnMoveVExact;
-            
+            // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
+            IL.Celeste.Player.OnCollideH += AddCollideCheck;
+            IL.Celeste.Player.OnCollideV += AddCollideCheck;
         }
 
         public static void OnUnload() {
             On.Celeste.Player.Update -= PlayerOnUpdate;
-            On.Celeste.Actor.MoveHExact -= ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact -= ActorOnMoveVExact;
+            IL.Celeste.Player.OnCollideH -= AddCollideCheck;
+            IL.Celeste.Player.OnCollideV -= AddCollideCheck;
         }
 
-        private static bool ActorOnMoveHExact(On.Celeste.Actor.orig_MoveHExact orig, Actor self, int moveH,
-            Collision onCollide, Solid pusher) {
-            if (self is Player && onCollide != null) {
-                BarrierUtils.CheckCollide = true;
+        private static void AddCollideCheck(ILContext il) {
+            ILCursor cursor = new ILCursor(il);
+            while (cursor.TryGotoNext(instruction => instruction.OpCode == OpCodes.Ret)) {
+                String className = cursor.Method.Parameters[0].ParameterType.Name;
+                Logger.Log("DJMapHelper/FeatherBarrier",
+                    $"Adding code to make feather barrier light at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
+                cursor.Emit(OpCodes.Ldarg_0);
+                cursor.Emit(OpCodes.Ldarg_1);
+                cursor.EmitDelegate<Action<Player, CollisionData>>(CheckCollide);
+                cursor.GotoNext();
+            }
+        }
+
+        private static void CheckCollide(Player player, CollisionData data) {
+            if (player.StateMachine.State != Player.StStarFly) {
+                return;
             }
 
-            bool result = orig(self, moveH, onCollide, pusher);
-
-            BarrierUtils.CheckCollide = false;
-
-            return result;
-        }
-
-        private static bool ActorOnMoveVExact(On.Celeste.Actor.orig_MoveVExact orig, Actor self, int moveV,
-            Collision onCollide, Solid pusher) {
-            if (self is Player && onCollide != null) {
-                BarrierUtils.CheckCollide = true;
+            if ((float) StarFlyTimerFieldInfo.GetValue(player) >= 0.2 &&
+                data.Hit is FeatherBarrier barrier) {
+                barrier.OnReflect();
             }
-
-            bool result = orig(self, moveV, onCollide, pusher);
-
-            BarrierUtils.CheckCollide = false;
-
-            return result;
         }
-
-
-
-
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             List<FeatherBarrier> featherBarriers =
@@ -184,46 +190,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
             foreach (FeatherBarrier featherBarrier in featherBarriers) {
                 featherBarrier.Collidable = false;
-            }
-        }
-    }
-
-    public static class BarrierUtils {
-        public static bool CheckCollide;
-
-        public static void OnLoad() {
-            On.Monocle.Collide.First_Entity_IEnumerable1 += ColliderOnCollideEntity;
-        }
-
-        public static void OnUnLoad() {
-            On.Monocle.Collide.First_Entity_IEnumerable1 -= ColliderOnCollideEntity;
-        }
-        
-        private static Entity ColliderOnCollideEntity(On.Monocle.Collide.orig_First_Entity_IEnumerable1 orig,
-            Entity entity, IEnumerable<Entity> enumerable) {
-            Entity result = orig(entity, enumerable);
-            if (CheckCollide) {
-                OnCollide(result);
-            }
-
-            return result;
-        }
-
-        private static void OnCollide(Entity result) {
-            if (result is FeatherBarrier barrier) {
-                if (!(Engine.Scene is Level level) || !(level.Tracker.GetEntity<Player>() is Player player)) {
-                    return;
-                }
-                
-                if (player.StateMachine.State != Player.StStarFly) {
-                    return;
-                }
-
-                if ((float) FeatherBarrier.StarFlyTimerFieldInfo.GetValue(player) >= 0.2) {
-                    barrier.OnReflect();
-                }
-            } else if (result is TheoCrystalBarrier theoCrystalBarrier) {
-                theoCrystalBarrier.OnReflect();
             }
         }
     }

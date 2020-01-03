@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
 using Monocle;
+using MonoMod.Cil;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
@@ -13,7 +15,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private float offX;
         private float offY;
         private readonly List<Vector2> particles = new List<Vector2>();
-        private readonly float[] speeds = new float[3] {12f, 20f, 40f};
+        private readonly float[] speeds = {12f, 20f, 40f};
         private readonly MTexture temp;
 
         private TheoCrystalBarrier(Vector2 position, float width, float height)
@@ -66,7 +68,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Update();
         }
 
-        public void OnReflect() {
+        private void OnReflect() {
             flash = 1f;
             flashing = true;
             Scene.CollideInto(new Rectangle((int) X, (int) Y - 2, (int) Width, (int) Height + 4), adjacent);
@@ -93,7 +95,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public override void Render() {
-            Color backgroundColor = Calc.HexToColor("65abff");
+            Color backgroundColor = Calc.HexToColor("65ABFF");
             Draw.Rect(Collider, backgroundColor * 0.2f);
             if (flash > 0.0) {
                 Draw.Rect(Collider, backgroundColor * flash);
@@ -107,46 +109,37 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnLoad() {
             On.Celeste.TheoCrystal.Update += TheoCrystalOnUpdate;
-            On.Celeste.Actor.MoveHExact += ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact += ActorOnMoveVExact;
             On.Celeste.Player.Update += PlayerOnUpdate;
             On.Celeste.Player.Pickup += PlayerOnPickup;
+            // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
+            IL.Celeste.Player.OnCollideH += AddCollideCheck;
+            IL.Celeste.Player.OnCollideV += AddCollideCheck;
         }
 
         public static void OnUnload() {
             On.Celeste.TheoCrystal.Update -= TheoCrystalOnUpdate;
-            On.Celeste.Actor.MoveHExact -= ActorOnMoveHExact;
-            On.Celeste.Actor.MoveVExact -= ActorOnMoveVExact;
             On.Celeste.Player.Update -= PlayerOnUpdate;
             On.Celeste.Player.Pickup -= PlayerOnPickup;
+            IL.Celeste.Player.OnCollideH -= AddCollideCheck;
+            IL.Celeste.Player.OnCollideV -= AddCollideCheck;
+        }
+        
+        private static void AddCollideCheck(ILContext il) {
+            ILCursor cursor = new ILCursor(il);
+            while (cursor.TryGotoNext(instruction => instruction.OpCode == OpCodes.Ret)) {
+                String className = cursor.Method.Parameters[0].ParameterType.Name;
+                Logger.Log("DJMapHelper/TheoCrystalBarrier",
+                    $"Adding code to make theo crystal barrier light at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
+                cursor.Emit(OpCodes.Ldarg_1);
+                cursor.EmitDelegate<Action<CollisionData>>(CheckCollide);
+                cursor.GotoNext();
+            }
         }
 
-        private static bool ActorOnMoveHExact(On.Celeste.Actor.orig_MoveHExact orig, Actor self, int moveH,
-            Collision onCollide, Solid pusher) {
-            
-            if (self is TheoCrystal && onCollide != null) {
-                BarrierUtils.CheckCollide = true;
+        private static void CheckCollide(CollisionData data) {
+            if (data.Hit is TheoCrystalBarrier barrier) {
+                barrier.OnReflect();
             }
-
-            bool result = orig(self, moveH, onCollide, pusher);
-
-            BarrierUtils.CheckCollide = false;
-            
-            return result;
-        }
-
-        private static bool ActorOnMoveVExact(On.Celeste.Actor.orig_MoveVExact orig, Actor self, int moveV,
-            Collision onCollide, Solid pusher) {
-            
-            if (self is TheoCrystal && onCollide != null) {
-                BarrierUtils.CheckCollide = true;
-            }
-            
-            bool result = orig(self, moveV, onCollide, pusher);
-
-            BarrierUtils.CheckCollide = false;
-            
-            return result;
         }
 
         private static void TheoCrystalOnUpdate(On.Celeste.TheoCrystal.orig_Update orig, TheoCrystal self) {
