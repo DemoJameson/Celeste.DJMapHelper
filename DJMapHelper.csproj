@@ -85,17 +85,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
     <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
+    <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
+    <Compile Include="Entities\BadelineBoostDown.cs" />
+    <Compile Include="Entities\BadelineBoostTeleport.cs" />
+    <Compile Include="Entities\BadelineProtector.cs" />
     <Compile Include="Entities\ColorfulFlyFeather.cs" />
     <Compile Include="Entities\ColorfulRefill.cs" />
     <Compile Include="Entities\FeatherBarrier.cs" />
     <Compile Include="Entities\FinallBossReversed.cs" />
     <Compile Include="Entities\FlingBirdReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
+    <Compile Include="Entities\Shield.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
+    <Compile Include="Entities\SpringGreen.cs" />
     <Compile Include="Entities\StartPoint.cs" />
     <Compile Include="Entities\TempleGateReversed.cs" />
     <Compile Include="DebugMode\Commands.cs" />
@@ -105,12 +112,15 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DJMapHelperSettings.cs" />
+    <Compile Include="Triggers\BadelineProtectTrigger.cs" />
     <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
     <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs" />
     <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\PayphoneCallTrigger.cs" />
+    <Compile Include="Triggers\StopProtectTrigger.cs" />
     <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
     <Compile Include="Triggers\TeleportTrigger.cs" />
     <Compile Include="Triggers\WindAttackLeftTrigger.cs" />

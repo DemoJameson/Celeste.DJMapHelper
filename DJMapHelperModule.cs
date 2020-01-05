@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
@@ -42,6 +43,8 @@ namespace Celeste.Mod.DJMapHelper {
             LookoutBuilder.OnLoad();
             ChangeSpinnerColorTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
+            SpringGreen.OnLoad();
+            BadelineBoostDown.OnLoad();
         }
 
         public override void LoadContent(bool firstLoad) {
@@ -64,6 +67,8 @@ namespace Celeste.Mod.DJMapHelper {
             LookoutBuilder.OnUnload();
             ChangeSpinnerColorTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
+            SpringGreen.OnUnLoad();
+            BadelineBoostDown.OnUnLoad();
         }
 
 
@@ -109,6 +114,18 @@ namespace Celeste.Mod.DJMapHelper {
                 case "playSprite":
                     level.Add(new PlaySprite(entityData, offset));
                     return true;
+                case "springGreen":
+                    level.Add(new SpringGreen(entityData, offset));
+                    return true;
+                case "badelineBoostDown":
+                    level.Add(new BadelineBoostDown(entityData, offset));
+                    return true;
+                case "badelineBoostTeleport":
+                    level.Add(new BadelineBoostTeleport(entityData, offset));
+                    return true;
+                case "shield":
+                    level.Add(new Shield(entityData, offset));
+                    return true;
 
                 // Triggers
                 case "changeBossPatternTrigger":
@@ -137,6 +154,15 @@ namespace Celeste.Mod.DJMapHelper {
                     return true;
                 case "windAttackTriggerLeft":
                     level.Add(new WindAttackLeftTrigger(entityData, offset));
+                    return true;
+                case "badelineProtectTrigger":
+                    level.Add(new BadelineProtectTrigger(entityData, offset));
+                    return true;
+                case "stopProtectTrigger":
+                    level.Add(new StopProtectTrigger(entityData, offset));
+                    return true;
+                case "payphoneCallTrigger":
+                    level.Add(new PayphoneCallTrigger(entityData, offset));
                     return true;
             }
 
