@@ -100,6 +100,9 @@
     <Compile Include="Entities\FinallBossReversed.cs" />
     <Compile Include="Entities\FlingBirdReversed.cs" />
     <Compile Include="Entities\PlaySprite.cs" />
+    <Compile Include="Entities\SeekerBoss.cs" />
+    <Compile Include="Entities\SeekerBossBeam.cs" />
+    <Compile Include="Entities\SeekerBossShot.cs" />
     <Compile Include="Entities\Shield.cs" />
     <Compile Include="Entities\SnowballLeft.cs" />
     <Compile Include="Entities\SpringGreen.cs" />

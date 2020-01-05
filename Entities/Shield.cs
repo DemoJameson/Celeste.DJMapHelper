@@ -9,14 +9,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static ParticleType P_Flying;
         public static ParticleType P_Respawn;
         private readonly BloomPoint bloom;
-        private Level level;
         private readonly VertexLight light;
         private readonly Wiggler moveWiggle;
-        private Vector2 moveWiggleDir;
         private readonly Image outline;
         private readonly Wiggler shieldRadiusWiggle;
         private readonly SineWave sine;
         private readonly Sprite sprite;
+        private Level level;
+        private Vector2 moveWiggleDir;
         private Wiggler wiggler;
 
         public Shield(Vector2 position) : base(position) {

@@ -14,10 +14,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private readonly bool bonfire;
 
         private readonly Dreams dreams;
+        private readonly bool keepKey;
         private readonly string room;
         private readonly int spawnPointX;
         private readonly int spawnPointY;
-        private readonly bool keepKey;
         private bool triggered;
 
         public TeleportTrigger(EntityData data, Vector2 offset) : base(data, offset) {

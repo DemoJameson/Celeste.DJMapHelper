@@ -12,23 +12,23 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static ParticleType P_Ambience;
         public static ParticleType P_Move;
         private readonly BloomPoint bloom;
-        public EventInstance Ch9FinalBoostSfx;
         private readonly string goldenColorGrade;
         private readonly string goldenRoom;
-        private Player holding;
         private readonly string keyColorGrade;
         private readonly bool keyFirst;
         private readonly string keyRoom;
         private readonly VertexLight light;
-        private int nodeIndex;
         private readonly Vector2[] nodes;
         private readonly string normalColorGrade;
         private readonly string normalRoom;
         private readonly SoundSource relocateSfx;
         private readonly Sprite sprite;
         private readonly Image stretch;
-        private bool travelling;
         private readonly Wiggler wiggler;
+        public EventInstance Ch9FinalBoostSfx;
+        private Player holding;
+        private int nodeIndex;
+        private bool travelling;
 
         public BadelineBoostTeleport(Vector2[] nodes, string normalRoom, string normalColorGrade, string keyRoom,
             string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst)

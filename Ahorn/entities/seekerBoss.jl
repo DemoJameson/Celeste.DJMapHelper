@@ -1,0 +1,25 @@
+module SeekerBoss
+
+using ..Ahorn, Maple
+@mapdef Entity "DJMapHelper/seekerBoss" seekerboss(x::Integer, y::Integer)
+
+const placements = Ahorn.PlacementDict(
+    "SeekerBoss (DJMapHelper)" => Ahorn.EntityPlacement(
+        seekerboss
+    )
+)
+
+function Ahorn.selection(entity::seekerboss)
+    x, y = Ahorn.position(entity)
+    res = Ahorn.Rectangle[Ahorn.getSpriteRectangle(sprite, x, y)]
+    return res
+end
+
+sprite = "characters/monsters/predator73.png"
+
+function Ahorn.render(ctx::Ahorn.Cairo.CairoContext, entity::seekerboss, room::Maple.Room)
+    Ahorn.drawSprite(ctx, sprite, 0, 0)
+
+end
+
+end

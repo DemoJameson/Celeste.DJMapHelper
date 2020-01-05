@@ -10,15 +10,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static ParticleType P_Ambience;
         public static ParticleType P_Move;
         private readonly BloomPoint bloom;
-        private Player holding;
         private readonly VertexLight light;
-        private int nodeIndex;
         private readonly Vector2[] nodes;
         private readonly SoundSource relocateSfx;
         private readonly Sprite sprite;
         private readonly Image stretch;
-        private bool travelling;
         private readonly Wiggler wiggler;
+        private Player holding;
+        private int nodeIndex;
+        private bool travelling;
 
         public BadelineBoostDown(Vector2[] nodes)
             : base(nodes[0]) {

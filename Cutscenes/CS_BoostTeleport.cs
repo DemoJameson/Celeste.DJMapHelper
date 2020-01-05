@@ -7,22 +7,22 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Cutscenes {
     public class CS_BoostTeleport : CutsceneEntity {
-        private BirdNPC bird;
-        private Vector2 birdScreenPosition;
         private readonly BadelineBoostTeleport boost;
-        private Vector2 cameraOffset;
-        private Vector2 cameraWaveOffset;
-        private float fadeToWhite;
         private readonly string goldenColorGrade;
         private readonly string goldenRoom;
-        private bool hasGolden;
-        private bool hasKey;
         private readonly string keyColorGrade;
         private readonly bool keyFirst;
         private readonly string keyRoom;
         private readonly string normalColorGrade;
         private readonly string normalRoom;
         private readonly Player player;
+        private BirdNPC bird;
+        private Vector2 birdScreenPosition;
+        private Vector2 cameraOffset;
+        private Vector2 cameraWaveOffset;
+        private float fadeToWhite;
+        private bool hasGolden;
+        private bool hasKey;
         private AscendManager.Streaks streaks;
         private float timer;
         private Coroutine wave;

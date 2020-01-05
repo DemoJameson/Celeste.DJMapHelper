@@ -119,6 +119,9 @@ namespace Celeste.Mod.DJMapHelper {
                 case "shield":
                     level.Add(new Shield(entityData, offset));
                     return true;
+                case "seekerBoss":
+                    level.Add(new SeekerBoss(entityData, offset));
+                    return true;
 
                 // Triggers
                 case "changeBossPatternTrigger":

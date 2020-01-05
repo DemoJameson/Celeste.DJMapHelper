@@ -22,6 +22,8 @@ namespace Celeste {
         private new static readonly Vector2 FlingSpeed = new Vector2(380f, -100f);
         private readonly EntityData entityData;
         private readonly SoundSource moveSfx;
+        private new readonly List<Vector2[]> NodeSegments;
+        private new readonly List<bool> SegmentsWaiting;
         private readonly Sprite sprite;
         private readonly Vector2 spriteOffset = new Vector2(0f, 8f);
         private readonly Color trailColor = Calc.HexToColor("639bff");
@@ -31,9 +33,7 @@ namespace Celeste {
         private float flingAccel;
         private Vector2 flingSpeed;
         private Vector2 flingTargetSpeed;
-        private new readonly List<Vector2[]> NodeSegments;
         private int segmentIndex;
-        private new readonly List<bool> SegmentsWaiting;
         private States state;
 
         public FlingBirdReversed(Vector2[] nodes, bool skippAble) : base(nodes, skippAble) {

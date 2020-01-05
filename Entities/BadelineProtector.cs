@@ -76,9 +76,17 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     }
 
             if (badeline.Visible)
-                foreach (FinalBossShot entity in Scene.Tracker.GetEntities<FinalBossShot>())
+                foreach (SeekerBossShot entity in Scene.Tracker.GetEntities<SeekerBossShot>())
                     if (CollideCheck(entity)) {
                         entity.RemoveSelf();
+                        respawnTimer = RespwanTime;
+                        Vanish();
+                        break;
+                    }
+
+            if (badeline.Visible)
+                foreach (SeekerBoss entity in Scene.Tracker.GetEntities<SeekerBoss>())
+                    if (CollideCheck(entity)) {
                         respawnTimer = RespwanTime;
                         Vanish();
                         break;
