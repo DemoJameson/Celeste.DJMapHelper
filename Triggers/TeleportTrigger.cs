@@ -5,20 +5,20 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
     public class TeleportTrigger : Trigger {
-        private readonly string room;
-        private readonly bool bonfire;
-        private readonly int spawnPointX;
-        private readonly int spawnPointY;
-        private bool triggered;
-        private bool keepKey;
-
         public enum Dreams {
             Dreaming,
             Awake,
             NoChange
         }
 
+        private readonly bool bonfire;
+
         private readonly Dreams dreams;
+        private readonly string room;
+        private readonly int spawnPointX;
+        private readonly int spawnPointY;
+        private readonly bool keepKey;
+        private bool triggered;
 
         public TeleportTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             bonfire = data.Bool("bonfire");
@@ -32,9 +32,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            if (triggered) {
-                return;
-            }
+            if (triggered) return;
 
             triggered = true;
 

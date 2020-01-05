@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
@@ -9,11 +8,12 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
     public class ChangeBossPatternTrigger : Trigger {
         public enum Modes {
             Contained,
-            All,
+            All
         }
 
-        private readonly Modes mode;
         private readonly bool dashless;
+
+        private readonly Modes mode;
         private readonly int patternIndex;
 
         public ChangeBossPatternTrigger(EntityData data, Vector2 offset) : base(data, offset) {
@@ -35,14 +35,13 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 return;
             }
 
-            List<FinalBoss> bosses = level.Tracker.GetEntities<FinalBoss>().Cast<FinalBoss>().ToList();
+            var bosses = level.Tracker.GetEntities<FinalBoss>().Cast<FinalBoss>().ToList();
 
-            foreach (FinalBoss finalBoss in bosses) {
-                if ( mode == Modes.All || CollideCheck(finalBoss)) {
+            foreach (FinalBoss finalBoss in bosses)
+                if (mode == Modes.All || CollideCheck(finalBoss)) {
                     finalBoss.SetPrivateFieldValue("patternIndex", patternIndex);
                     finalBoss.InvokePrivateMethod("StartAttacking");
                 }
-            }
         }
     }
 }

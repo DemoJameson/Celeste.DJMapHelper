@@ -25,14 +25,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             fallingBlocks.Sort((a, b) => (int) ((double) b.X - (double) a.X));
         }
 
-        private class ReverseComponent : Component {
-            public readonly FinalBossReversed FinalBossReversed;
-
-            public ReverseComponent(FinalBossReversed finalBossReversed) : base(true, true) {
-                FinalBossReversed = finalBossReversed;
-            }
-        }
-
         public static void OnLoad() {
             On.Celeste.FinalBoss.TriggerFallingBlocks += FinalBossOnTriggerFallingBlocks;
         }
@@ -43,18 +35,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static void FinalBossOnTriggerFallingBlocks(On.Celeste.FinalBoss.orig_TriggerFallingBlocks orig,
             FinalBoss self, float badelineX) {
-            var reverseComponent = self.Get<ReverseComponent>();
+            ReverseComponent reverseComponent = self.Get<ReverseComponent>();
             if (reverseComponent != null) {
-                List<Entity> fallingBlocks = reverseComponent.FinalBossReversed.fallingBlocks;
-                while (fallingBlocks.Count > 0 && fallingBlocks[0].Scene == null) {
-                    fallingBlocks.RemoveAt(0);
-                }
+                var fallingBlocks = reverseComponent.FinalBossReversed.fallingBlocks;
+                while (fallingBlocks.Count > 0 && fallingBlocks[0].Scene == null) fallingBlocks.RemoveAt(0);
 
-                int num = 0;
+                var num = 0;
                 while (fallingBlocks.Count > 0 && fallingBlocks[0].X > badelineX) {
-                    if (!(fallingBlocks[0] is FallingBlock fallingBlock)) {
-                        continue;
-                    }
+                    if (!(fallingBlocks[0] is FallingBlock fallingBlock)) continue;
 
                     fallingBlock.StartShaking();
                     fallingBlock.Triggered = true;
@@ -65,6 +53,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
             else {
                 orig(self, badelineX);
+            }
+        }
+
+        private class ReverseComponent : Component {
+            public readonly FinalBossReversed FinalBossReversed;
+
+            public ReverseComponent(FinalBossReversed finalBossReversed) : base(true, true) {
+                FinalBossReversed = finalBossReversed;
             }
         }
     }

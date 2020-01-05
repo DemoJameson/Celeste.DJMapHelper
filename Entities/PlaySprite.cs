@@ -3,11 +3,11 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     public class PlaySprite : Entity {
-        private string SpriteName;
-        private string SpriteId;
-        private bool flipX;
-        private bool flipY;
-        private Sprite Sprite;
+        private readonly bool flipX;
+        private readonly bool flipY;
+        private readonly Sprite Sprite;
+        private readonly string SpriteId;
+        private readonly string SpriteName;
 
         public PlaySprite(EntityData data, Vector2 offset) : base(data.Position + offset) {
             SpriteName = data.Attr("SpriteName");

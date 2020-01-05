@@ -9,9 +9,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            if (!SaveData.Instance.Assists.Invincible) {
-                player.Die((player.Position - Position).SafeNormalize());
-            }
+            if (!SaveData.Instance.Assists.Invincible) player.Die((player.Position - Position).SafeNormalize());
         }
     }
 }

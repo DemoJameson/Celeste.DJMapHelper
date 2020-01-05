@@ -13,38 +13,30 @@ namespace Celeste.Mod.DJMapHelper.Extensions {
         }
 
         public static void SetExtendedDataValue(this object o, string name, object value) {
-            if (string.IsNullOrWhiteSpace(name)) {
-                throw new ArgumentException("Invalid name");
-            }
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid name");
 
             name = name.Trim();
 
-            IDictionary<string, object> values =
+            var values =
                 (IDictionary<string, object>) ExtendedData.GetValue(o, CreateDictionary);
 
-            if (value != null) {
+            if (value != null)
                 values[name] = value;
-            }
-            else {
+            else
                 values.Remove(name);
-            }
         }
 
         public static T GetExtendedDataValue<T>(this object o, string name) {
-            if (string.IsNullOrWhiteSpace(name)) {
-                throw new ArgumentException("Invalid name");
-            }
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid name");
 
             name = name.Trim();
 
-            IDictionary<string, object> values =
+            var values =
                 (IDictionary<string, object>) ExtendedData.GetValue(o, CreateDictionary);
 
-            if (values.ContainsKey(name)) {
-                return (T) values[name];
-            }
+            if (values.ContainsKey(name)) return (T) values[name];
 
-            return default(T);
+            return default;
         }
     }
 }

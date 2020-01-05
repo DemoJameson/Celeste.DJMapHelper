@@ -1,12 +1,11 @@
-using Microsoft.Xna.Framework;
 using Celeste.Mod.DJMapHelper.Cutscenes;
-using Monocle;
+using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     public class TalkToBadelineTrigger : Trigger {
-        private string dialogEntry;
-        private bool endLevel;
-        private bool rejoin;
+        private readonly string dialogEntry;
+        private readonly bool endLevel;
+        private readonly bool rejoin;
 
         public TalkToBadelineTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             dialogEntry = data.Attr("dialogId");
@@ -25,9 +24,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             }
 
             Session session = player.SceneAs<Level>().Session;
-            if (session.GetFlag(dialogEntry)) {
-                return;
-            }
+            if (session.GetFlag(dialogEntry)) return;
             session.SetFlag(dialogEntry);
             player.Scene.Add(new CS_TalkToBadeline(player, dialogEntry, endLevel, rejoin));
         }

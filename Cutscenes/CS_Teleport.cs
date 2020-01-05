@@ -6,16 +6,17 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Cutscenes {
     public class CS_Teleport : CutsceneEntity {
-        private readonly Player player;
-        private readonly bool sitFire;
-        private readonly string teleportRoom;
-        private readonly Vector2 spawnPoint;
-        private Bonfire bonfire;
-        private int maxDashes;
         private readonly TeleportTrigger.Dreams dreams;
         private readonly bool keepKey;
+        private readonly Player player;
+        private readonly bool sitFire;
+        private readonly Vector2 spawnPoint;
+        private readonly string teleportRoom;
+        private Bonfire bonfire;
+        private int maxDashes;
 
-        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint, TeleportTrigger.Dreams dreams, bool keepKey)
+        public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint,
+            TeleportTrigger.Dreams dreams, bool keepKey)
             : base(false) {
             this.player = player;
             this.sitFire = sitFire;
@@ -28,7 +29,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         public override void OnBegin(Level level) {
             maxDashes = level.Session.Inventory.Dashes;
             level.Session.Inventory.Dashes = 1;
-            
+
             bonfire = sitFire ? Scene.Tracker.GetEntity<Bonfire>() : null;
 
             Add(new Coroutine(Cutscene(level)));
@@ -46,7 +47,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.DummyAutoAnimate = false;
                 player.Sprite.Play("duck");
                 yield return 0.5f;
-                bool dreaming = level.Session.Dreaming;
+                var dreaming = level.Session.Dreaming;
                 level.Session.Dreaming = false;
                 bonfire.SetMode(Bonfire.Mode.Lit);
                 level.Session.Dreaming = dreaming;
@@ -77,21 +78,20 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 Leader.StoreStrawberries(player.Leader);
                 level.Remove(player);
                 level.UnloadLevel();
-                if(!keepKey) {
-                    level.Session.Keys.Clear();
-                }
+                if (!keepKey) level.Session.Keys.Clear();
 
-                switch (dreams)
-                {
+                switch (dreams) {
                     case TeleportTrigger.Dreams.Awake:
                         level.Session.Dreaming = false;
                         break;
                     case TeleportTrigger.Dreams.Dreaming:
                         level.Session.Dreaming = true;
                         break;
-                }  
+                }
+
                 level.Session.Level = teleportRoom;
-                level.Session.RespawnPoint = level.GetSpawnPoint(new Vector2(level.Bounds.Left, level.Bounds.Top) + spawnPoint);
+                level.Session.RespawnPoint =
+                    level.GetSpawnPoint(new Vector2(level.Bounds.Left, level.Bounds.Top) + spawnPoint);
                 level.Session.Inventory.Dashes = maxDashes;
                 level.LoadLevel(Player.IntroTypes.WakeUp);
                 Leader.RestoreStrawberries(level.Tracker.GetEntity<Player>().Leader);

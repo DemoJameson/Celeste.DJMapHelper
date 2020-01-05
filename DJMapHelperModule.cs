@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
@@ -9,9 +8,6 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class DJMapHelperModule : EverestModule {
-        public SpriteBank SpriteBank { get; set; }
-
-
         // Only one alive module instance can exist at any given time.
         // ReSharper disable once NotAccessedField.Global
         public static DJMapHelperModule Instance;
@@ -19,6 +15,8 @@ namespace Celeste.Mod.DJMapHelper {
         public DJMapHelperModule() {
             Instance = this;
         }
+
+        public SpriteBank SpriteBank { get; set; }
 
         // If you don't need to store any settings, => null
         public override Type SettingsType => typeof(DJMapHelperSettings);
@@ -33,7 +31,6 @@ namespace Celeste.Mod.DJMapHelper {
         public override void Load() {
             Everest.Events.Level.OnLoadEntity += LevelOnOnLoadEntity;
 
-            // BarrierUtils.OnLoad();
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
@@ -48,16 +45,13 @@ namespace Celeste.Mod.DJMapHelper {
         }
 
         public override void LoadContent(bool firstLoad) {
-            if (firstLoad) {
-                SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
-            }
+            if (firstLoad) SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
         }
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
             Everest.Events.Level.OnLoadEntity -= LevelOnOnLoadEntity;
-            
-            // BarrierUtils.OnUnLoad();
+
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
@@ -72,12 +66,11 @@ namespace Celeste.Mod.DJMapHelper {
         }
 
 
-        private static bool LevelOnOnLoadEntity(Level level, LevelData levelData, Vector2 offset, EntityData entityData) {
+        private static bool LevelOnOnLoadEntity(Level level, LevelData levelData, Vector2 offset,
+            EntityData entityData) {
             const string prefix = "DJMapHelper/";
-            string entityName = entityData.Name;
-            if (!entityName.StartsWith(prefix)) {
-                return false;
-            }
+            var entityName = entityData.Name;
+            if (!entityName.StartsWith(prefix)) return false;
 
             entityName = entityName.Remove(0, prefix.Length);
 

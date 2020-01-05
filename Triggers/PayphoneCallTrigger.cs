@@ -1,13 +1,11 @@
-using Microsoft.Xna.Framework;
 using Celeste.Mod.DJMapHelper.Cutscenes;
-using Monocle;
-namespace Celeste.Mod.DJMapHelper.Triggers
-{
-    public class PayphoneCallTrigger: Trigger 
-    {
-        private string dialogEntry;
-        private bool endLevel;
-        private bool answer;
+using Microsoft.Xna.Framework;
+
+namespace Celeste.Mod.DJMapHelper.Triggers {
+    public class PayphoneCallTrigger : Trigger {
+        private readonly bool answer;
+        private readonly string dialogEntry;
+        private readonly bool endLevel;
 
         public PayphoneCallTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             dialogEntry = data.Attr("dialogId");
@@ -21,9 +19,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers
             RemoveSelf();
 
             Session session = player.SceneAs<Level>().Session;
-            if (session.GetFlag(dialogEntry)) {
-                return;
-            }
+            if (session.GetFlag(dialogEntry)) return;
             session.SetFlag(dialogEntry);
             player.Scene.Add(new CS_PayphoneCall(player, dialogEntry, endLevel, answer));
         }

@@ -2,16 +2,16 @@ using System;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Monocle;
-namespace Celeste.Mod.DJMapHelper.Cutscenes
-{
-    public class CS_PayphoneCall: CutsceneEntity {
-        private readonly Player player;
+
+namespace Celeste.Mod.DJMapHelper.Cutscenes {
+    public class CS_PayphoneCall : CutsceneEntity {
+        private readonly bool answer;
         private readonly string dialogEntry;
         private readonly bool endLevel;
-        private readonly bool answer;
+        private readonly Player player;
         private Payphone payphone;
-        private SoundSource ringtone;
         private SoundSource phoneSfx;
+        private SoundSource ringtone;
         private Sprite sprite;
 
         public CS_PayphoneCall(Player player, string dialogEntry, bool endLevel, bool answer)
@@ -25,70 +25,69 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes
         public override void OnBegin(Level level) {
             payphone = Scene.Tracker.GetEntity<Payphone>();
             Add(new Coroutine(Cutscene(level)));
-            Add((Component) (ringtone = new SoundSource()));
-            Add((Component) (phoneSfx = new SoundSource()));
+            Add(ringtone = new SoundSource());
+            Add(phoneSfx = new SoundSource());
             Add(sprite = new Sprite(GFX.Game, "cutscenes/payphone/phone"));
-            sprite.Add("putdown","", 0.08f, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+            sprite.Add("putdown", "", 0.08f, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
             sprite.Justify = new Vector2(0.5f, 1f);
             sprite.Visible = false;
         }
 
         private IEnumerator Cutscene(Level level) {
-            if (answer)
-            {
+            if (answer) {
                 ringtone.Position = payphone.Position;
                 player.StateMachine.State = 11;
                 player.Dashes = 1;
-                yield return (object) 0.3f;
-                ringtone.Play("event:/game/02_old_site/sequence_phone_ring_loop", (string) null, 0.0f);
-                yield return (object) 1.2f;
-                if(player.X < payphone.X - 24f || player.X > payphone.X - 4f)
-                    yield return (object) player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
-                yield return (object) 1.5f;
+                yield return 0.3f;
+                ringtone.Play("event:/game/02_old_site/sequence_phone_ring_loop", null, 0.0f);
+                yield return 1.2f;
+                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f)
+                    yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                yield return 1.5f;
                 player.Facing = Facings.Left;
-                yield return (object) 1.5f;
+                yield return 1.5f;
                 player.Facing = Facings.Right;
-                yield return (object) 0.25f;
-                yield return (object) player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
-                yield return (object) 1.5f;
-                Add((Component) Alarm.Create(Alarm.AlarmMode.Oneshot, (Action) (() => ringtone.Param("end", 1f)), 0.43f, true));
+                yield return 0.25f;
+                yield return player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
+                yield return 1.5f;
+                Add(Alarm.Create(Alarm.AlarmMode.Oneshot, () => ringtone.Param("end", 1f), 0.43f, true));
                 player.Visible = false;
                 Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
-                yield return (object) payphone.Sprite.PlayRoutine("pickUp", false);
-                yield return (object) 1f;
+                yield return payphone.Sprite.PlayRoutine("pickUp", false);
+                yield return 1f;
             }
-            else
-            {
+            else {
                 player.StateMachine.State = 11;
                 player.Dashes = 1;
-                yield return (object) 0.3f;
-                if(player.X < payphone.X - 24f || player.X > payphone.X - 4f)
-                    yield return (object) player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
-                yield return (object) 1.5f;
+                yield return 0.3f;
+                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f)
+                    yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                yield return 1.5f;
                 player.Facing = Facings.Left;
-                yield return (object) 1.5f;
+                yield return 1.5f;
                 player.Facing = Facings.Right;
-                yield return (object) 0.25f;
-                yield return (object) player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
-                yield return (object) 0.2f;
-                yield return (object) 0.5f;
+                yield return 0.25f;
+                yield return player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
+                yield return 0.2f;
+                yield return 0.5f;
                 player.Visible = false;
                 Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
-                yield return (object) payphone.Sprite.PlayRoutine("pickUp", false);
-                yield return (object) 0.25f;
+                yield return payphone.Sprite.PlayRoutine("pickUp", false);
+                yield return 0.25f;
                 phoneSfx.Position = player.Position;
-                phoneSfx.Play("event:/game/02_old_site/sequence_phone_ringtone_loop", (string) null, 0.0f);
-                yield return (object) 6f;
+                phoneSfx.Play("event:/game/02_old_site/sequence_phone_ringtone_loop", null, 0.0f);
+                yield return 6f;
                 phoneSfx.Stop(true);
             }
+
             payphone.Sprite.Play("talkPhone", false, false);
-            yield return (object) Textbox.Say(dialogEntry);
-            yield return (object) 0.3f;
+            yield return Textbox.Say(dialogEntry);
+            yield return 0.3f;
             payphone.Sprite.Visible = false;
             sprite.Visible = true;
             Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
             Position = payphone.Position;
-            yield return sprite.PlayRoutine("putdown",false);
+            yield return sprite.PlayRoutine("putdown", false);
             EndCutscene(level);
         }
 

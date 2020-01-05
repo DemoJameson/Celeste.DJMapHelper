@@ -5,14 +5,6 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     public class TempleGateReversed : Solid {
-        private enum Types
-        {
-            CloseBehindPlayer,
-            CloseBehindPlayerAlways,
-            HoldingTheo,
-            CloseBehindPlayerAndTheo,
-        }
-        
         private const int OpenHeight = 0;
         private const float HoldingWaitTime = 0.2f;
         private const float HoldingOpenDistSq = 4096f;
@@ -23,12 +15,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly Shaker shaker;
         private readonly Sprite sprite;
         private readonly bool theoGate;
+        private readonly Types type;
         private float drawHeight;
         private float drawHeightMoveSpeed;
         private float holdingWaitTimer = 0.2f;
         private bool lockState;
         private bool open;
-        private readonly Types type;
 
         private TempleGateReversed(
             Vector2 position,
@@ -70,9 +62,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Add(new Coroutine(CloseBehindPlayerAndTheo()));
             }
             else if (type == Types.HoldingTheo) {
-                if (TheoIsNearby()) {
-                    StartOpen();
-                }
+                if (TheoIsNearby()) StartOpen();
             }
 
             drawHeight = Math.Max(4f, Height);
@@ -117,12 +107,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             while (true) {
                 Player player = templeGateReversed.Scene.Tracker.GetEntity<Player>();
                 if (templeGateReversed.lockState || player == null ||
-                    player.Right >= templeGateReversed.Left - MinDrawHeight) {
+                    player.Right >= templeGateReversed.Left - MinDrawHeight)
                     yield return null;
-                }
-                else {
+                else
                     break;
-                }
             }
 
             templeGateReversed.Close();
@@ -135,9 +123,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 if (player != null && player.Right < templeGateReversed.Left - MinDrawHeight) {
                     TheoCrystal theoCrystal = templeGateReversed.Scene.Tracker.GetEntity<TheoCrystal>();
                     if (!templeGateReversed.lockState && theoCrystal != null &&
-                        theoCrystal.Right < templeGateReversed.Left - MinDrawHeight) {
+                        theoCrystal.Right < templeGateReversed.Left - MinDrawHeight)
                         break;
-                    }
                 }
 
                 yield return null;
@@ -148,10 +135,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private bool TheoIsNearby() {
             TheoCrystal theoCrystal = Scene.Tracker.GetEntity<TheoCrystal>();
-            if (theoCrystal != null && theoCrystal.X >= X - 10.0) {
+            if (theoCrystal != null && theoCrystal.X >= X - 10.0)
                 return Vector2.DistanceSquared(holdingCheckFrom, theoCrystal.Center) <
                        (open ? HoldingCloseDistSq : HoldingOpenDistSq);
-            }
 
             return true;
         }
@@ -161,8 +147,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Collider.Height = height;
             }
             else {
-                float y = Y;
-                int height1 = (int) Collider.Height;
+                var y = Y;
+                var height1 = (int) Collider.Height;
                 if (Collider.Height < 64.0) {
                     Y -= 64f - Collider.Height;
                     Collider.Height = 64f;
@@ -191,7 +177,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
 
-            float target = Math.Max(4f, Height);
+            var target = Math.Max(4f, Height);
             if (drawHeight != target) {
                 lockState = true;
                 drawHeight = Calc.Approach(drawHeight, target, drawHeightMoveSpeed * Engine.DeltaTime);
@@ -206,6 +192,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Draw.Rect(X - 2f, Y - 8f, 14f, 10f, Color.Black);
             sprite.DrawSubrect(Vector2.Zero + vector2,
                 new Rectangle(0, (int) (sprite.Height - drawHeight), (int) sprite.Width, (int) drawHeight));
+        }
+
+        private enum Types {
+            CloseBehindPlayer,
+            CloseBehindPlayerAlways,
+            HoldingTheo,
+            CloseBehindPlayerAndTheo
         }
     }
 }

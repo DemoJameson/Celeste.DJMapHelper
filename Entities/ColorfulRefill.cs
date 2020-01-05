@@ -13,14 +13,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Black
         }
 
-        private readonly RefillColor color;
         private static readonly FieldInfo SpriteFieldInfo = typeof(Refill).GetPrivateField("sprite");
         private static readonly FieldInfo FlashFieldInfo = typeof(Refill).GetPrivateField("flash");
+
+        private readonly RefillColor color;
 
         public ColorfulRefill(Vector2 position, bool twoDashes, bool oneUse, RefillColor color) : base(position,
             twoDashes, oneUse) {
             this.color = color;
-            string str = "objects/DJMapHelper/";
+            var str = "objects/DJMapHelper/";
             switch (color) {
                 case RefillColor.Red:
                     str += "redRefill/";
@@ -64,13 +65,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             On.Celeste.Refill.OnPlayer -= RefillOnPlayer;
         }
 
-        private static void RefillOnPlayer(On.Celeste.Refill.orig_OnPlayer orig, Refill self, Player player)
-        {
-            if (self.GetType() == typeof(ColorfulRefill))
-            {
+        private static void RefillOnPlayer(On.Celeste.Refill.orig_OnPlayer orig, Refill self, Player player) {
+            if (self.GetType() == typeof(ColorfulRefill)) {
                 RefillColor color = ((ColorfulRefill) self).color;
-                switch (color)
-                {
+                switch (color) {
                     case RefillColor.Red:
                         On.Celeste.Player.UseRefill += PlayerUseRedRefill;
                         orig(self, player);
@@ -90,11 +88,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         throw new ArgumentOutOfRangeException(nameof(color), color, null);
                 }
             }
+
             orig(self, player);
         }
 
         private static bool PlayerUseRedRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
-            int num = self.MaxDashes;
+            var num = self.MaxDashes;
             if (self.Dashes < num) {
                 self.Dashes = num;
                 return true;
@@ -113,11 +112,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static bool PlayerUseBlackRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
-            int num = self.MaxDashes;
+            var num = self.MaxDashes;
             if (self.Dashes == 0 && self.Stamina <= 20.0) {
-                if (!SaveData.Instance.Assists.Invincible) {
-                    self.Die(new Vector2(0.0f, -1f));
-                }
+                if (!SaveData.Instance.Assists.Invincible) self.Die(new Vector2(0.0f, -1f));
                 return true;
             }
 
@@ -132,6 +129,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 self.Stamina = 0f;
                 return true;
             }
+
             return false;
         }
     }

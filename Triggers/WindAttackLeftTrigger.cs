@@ -11,9 +11,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            if (Scene.Entities.FindFirst<SnowballLeft>() == null) {
-                Scene.Add(new SnowballLeft());
-            }
+            if (Scene.Entities.FindFirst<SnowballLeft>() == null) Scene.Add(new SnowballLeft());
 
             RemoveSelf();
         }

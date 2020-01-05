@@ -5,12 +5,12 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Cutscenes {
     public class CS_TalkToBadeline : CutsceneEntity {
-        private readonly Player player;
-        private BadelineDummy badeline;
         private readonly string dialogEntry;
         private readonly bool endLevel;
-        private int maxDashes;
+        private readonly Player player;
         private readonly bool rejoin;
+        private BadelineDummy badeline;
+        private int maxDashes;
 
         public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin)
             : base(false) {
@@ -33,12 +33,9 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             yield return BadelineAppears();
             yield return 0.3f;
             yield return Textbox.Say(dialogEntry);
-            if (badeline != null && !rejoin) {
+            if (badeline != null && !rejoin)
                 yield return BadelineVanishes();
-            }
-            else if (badeline != null) {
-                yield return BadelineRejoin();
-            }
+            else if (badeline != null) yield return BadelineRejoin();
 
             EndCutscene(level);
         }
@@ -79,7 +76,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private IEnumerator BadelineRejoin() {
             Audio.Play("event:/new_content/char/badeline/maddy_join_quick", badeline.Position);
             Vector2 from = badeline.Position;
-            for (float p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 0.25f) {
+            for (var p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 0.25f) {
                 badeline.Position = Vector2.Lerp(from, player.Position, Ease.CubeIn(p));
                 yield return null;
             }

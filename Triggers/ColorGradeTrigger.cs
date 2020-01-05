@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 
-namespace Celeste.Mod.DJMapHelper.Triggers
-{
-    public class ColorGradeTrigger:Trigger
-    {
+namespace Celeste.Mod.DJMapHelper.Triggers {
+    public class ColorGradeTrigger : Trigger {
         private string colorGrade;
-        public ColorGradeTrigger(EntityData data, Vector2 offset) : base(data, offset)
-        {
+
+        public ColorGradeTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             colorGrade = data.Attr("ColorGrade", "none");
         }
 

@@ -25,13 +25,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static readonly Color BlueStarFlyColor = Calc.HexToColor("6DCFF6");
         public static readonly Color GreenStarFlyColor = Calc.HexToColor("66FF66");
         public static readonly Color RedStarFlyColor = Calc.HexToColor("F21E4F");
+        private readonly Color starFlyColor;
 
         private FeatherColor color;
-        private readonly Color starFlyColor;
-        private Color FlyPowerHairColor => StarFlyColorAddHsv(12, -0.09, -0.06);
-        private Color FlyPowerHairColor2 => StarFlyColorAddHsv(12, -0.09);
-        private Color RespawnColor => StarFlyColorAddHsv(-8, -0.28);
-        private Color RespawnColor2 => StarFlyColorAddHsv(11);
 
         // ReSharper disable once MemberCanBePrivate.Global
         public ColorfulFlyFeather(Vector2 position, bool shielded, bool singleUse, FeatherColor color) : base(position,
@@ -68,14 +64,19 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             data.Position + offset, data.Bool("shielded"), data.Bool("singleUse"),
             data.Enum(nameof(color), FeatherColor.Blue)) { }
 
+        private Color FlyPowerHairColor => StarFlyColorAddHsv(12, -0.09, -0.06);
+        private Color FlyPowerHairColor2 => StarFlyColorAddHsv(12, -0.09);
+        private Color RespawnColor => StarFlyColorAddHsv(-8, -0.28);
+        private Color RespawnColor2 => StarFlyColorAddHsv(11);
+
 
         private Color StarFlyColorAddHsv(int hue, double saturation = 0, double value = 0) {
-            ColorToHsv(starFlyColor, out double outHue, out double outSaturation, out double outValue);
+            ColorToHsv(starFlyColor, out var outHue, out var outSaturation, out var outValue);
 
             outHue += hue;
             outSaturation += saturation;
             outValue += value;
-            
+
             return ColorFromHsv(outHue, outSaturation, outValue);
         }
 
@@ -89,14 +90,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static Color ColorFromHsv(double hue, double saturation, double value) {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
+            var hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            var f = hue / 60 - Math.Floor(hue / 60);
 
             value = value * 255;
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - saturation));
-            int q = Convert.ToInt32(value * (1 - f * saturation));
-            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+            var v = Convert.ToInt32(value);
+            var p = Convert.ToInt32(value * (1 - saturation));
+            var q = Convert.ToInt32(value * (1 - f * saturation));
+            var t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
 
             switch (hi) {
                 case 0:
@@ -165,6 +166,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 P_Respawn.Color = OrigRespawnColor;
                 P_Respawn.Color2 = OrigRespawnColor2;
             }
+
             orig(self);
         }
     }
