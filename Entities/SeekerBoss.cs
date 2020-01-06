@@ -122,11 +122,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public SeekerBoss(EntityData data, Vector2 offset) : this(data.Position + offset) { }
 
-        public Vector2 BeamOrigin => Center + sprite.Position + new Vector2(0.0f, -14f);
+        public Vector2 BeamOrigin => Center + new Vector2(-2f, -1f);
 
-        public Vector2 ShotOrigin => Center + sprite.Position + new Vector2(6f * sprite.Scale.X, 2f);
-
-        public bool Regenerating => state.State == 1;
+        public Vector2 ShotOrigin => Center;
 
         public void Die() {
             Entity entity = new Entity(Position);
@@ -147,17 +145,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
 
             foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>()) {
-                if (protector != null) {
-                    BadelineDummy badeline = protector.Badeline;
-                    if (badeline.Visible) {
-                        badeline.Vanish();
-                    }
-                    else {
-                        badeline.RemoveSelf();
-                    }
-
-                    protector.RemoveSelf();
-                }
+                protector.RemoveSelf();
             }
 
             Audio.SetMusic(null);

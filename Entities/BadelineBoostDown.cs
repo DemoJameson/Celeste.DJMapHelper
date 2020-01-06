@@ -24,8 +24,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             : base(nodes[0]) {
             Depth = -1000000;
             this.nodes = nodes;
-            Collider = new Circle(16f, 0.0f, 0.0f);
-            Add(new PlayerCollider(OnPlayer, null, null));
+            Collider = new Circle(16f);
+            Add(new PlayerCollider(OnPlayer));
             Add(sprite = GFX.SpriteBank.Create("badelineBoost"));
             Add(stretch = new Image(GFX.Game["objects/badelineboost/stretch"]));
             stretch.Visible = false;
@@ -33,8 +33,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Add(light = new VertexLight(Color.White, 0.7f, 12, 20));
             Add(bloom = new BloomPoint(0.5f, 12f));
             Add(wiggler = Wiggler.Create(0.4f, 3f,
-                f => sprite.Scale = Vector2.One * (float) (1.0 + (double) wiggler.Value * 0.400000005960464), false,
-                false));
+                f => sprite.Scale = Vector2.One * (float) (1.0 + (double) wiggler.Value * 0.400000005960464)));
             Add(relocateSfx = new SoundSource());
         }
 
@@ -51,7 +50,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayer(Player player) {
-            Add(new Coroutine(BoostRoutine(player), true));
+            Add(new Coroutine(BoostRoutine(player)));
         }
 
         private IEnumerator BoostRoutine(Player player) {
@@ -110,11 +109,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             for (var p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 0.2f) {
                 Vector2 target = Vector2.Lerp(playerFrom, playerTo, p);
                 if (player.Scene != null) {
-                    player.MoveToX(target.X, null);
+                    player.MoveToX(target.X);
                 }
 
                 if (player.Scene != null) {
-                    player.MoveToY(target.Y, null);
+                    player.MoveToY(target.Y);
                 }
 
                 badeline.Position = Vector2.Lerp(badelineFrom, badelineTo, p);
@@ -129,7 +128,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (finalBoost) {
                 Vector2 center = new Vector2(Calc.Clamp(player.X - level.Camera.X, 120f, 200f),
                     Calc.Clamp(player.Y - level.Camera.Y, 60f, 120f));
-                Add(new Coroutine(level.ZoomTo(center, 1.5f, 0.18f), true));
+                Add(new Coroutine(level.ZoomTo(center, 1.5f, 0.18f)));
                 Engine.TimeRate = 0.5f;
                 center = new Vector2();
             }
@@ -137,10 +136,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Audio.Play("event:/char/badeline/booster_throw", Position);
             }
 
-            badeline.Sprite.Play("boost", false, false);
+            badeline.Sprite.Play("boost");
             yield return 0.1f;
             if (!player.Dead) {
-                player.MoveV(5f, null, null);
+                player.MoveV(5f);
             }
 
             yield return 0.1f;
@@ -150,9 +149,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
 
                 Scene.Remove(badeline);
-                (Scene as Level).Displacement.AddBurst(badeline.Position, 0.25f, 8f, 32f, 0.5f, null, null);
+                (Scene as Level).Displacement.AddBurst(badeline.Position, 0.25f, 8f, 32f, 0.5f);
             }, 0.15f, true));
-            (Scene as Level).Shake(0.3f);
+            (Scene as Level).Shake();
             holding = null;
             if (!finalBoost) {
                 player.BadelineBoostLaunch(CenterX);
@@ -171,7 +170,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         return;
                     }
 
-                    TrailManager.Add(this, Player.TwoDashesHairColor, 0.5f, false, false);
+                    TrailManager.Add(this, Player.TwoDashesHairColor, 0.5f, false);
                     level.ParticlesFG.Emit(BadelineBoost.P_Move, 1, Center, Vector2.One * 4f);
                 };
                 tween.OnComplete = t => {
@@ -187,10 +186,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     }
                 };
                 Add(tween);
-                relocateSfx.Play("event:/char/badeline/booster_relocate", null, 0.0f);
+                relocateSfx.Play("event:/char/badeline/booster_relocate");
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
-                level.DirectionalShake(-Vector2.UnitY, 0.3f);
-                level.Displacement.AddBurst(Center, 0.4f, 8f, 32f, 0.5f, null, null);
+                level.DirectionalShake(-Vector2.UnitY);
+                level.Displacement.AddBurst(Center, 0.4f, 8f, 32f, 0.5f);
                 tween = null;
             }
             else {
@@ -200,7 +199,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Long);
                 level.Flash(Color.White * 0.5f, true);
                 level.DirectionalShake(Vector2.UnitY, 0.6f);
-                level.Displacement.AddBurst(Center, 0.6f, 8f, 64f, 0.5f, null, null);
+                level.Displacement.AddBurst(Center, 0.6f, 8f, 64f, 0.5f);
                 level.ResetZoom();
                 player.StateMachine.State = 18;
                 Engine.TimeRate = 1f;
@@ -210,7 +209,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public void Wiggle() {
             wiggler.Start();
-            (Scene as Level).Displacement.AddBurst(Position, 0.3f, 4f, 16f, 0.25f, null, null);
+            (Scene as Level).Displacement.AddBurst(Position, 0.3f, 4f, 16f, 0.25f);
             Audio.Play("event:/game/general/crystalheart_pulse", Position);
         }
 
@@ -237,7 +236,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void Finish() {
-            SceneAs<Level>().Displacement.AddBurst(Center, 0.5f, 24f, 96f, 0.4f, null, null);
+            SceneAs<Level>().Displacement.AddBurst(Center, 0.5f, 24f, 96f, 0.4f);
             SceneAs<Level>().Particles.Emit(BadelineOldsite.P_Vanish, 12, Center, Vector2.One * 6f);
             SceneAs<Level>().CameraLockMode = Level.CameraLockModes.None;
             SceneAs<Level>().CameraOffset = new Vector2(0.0f, -16f);
@@ -262,7 +261,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
             else {
-                player.Sprite.Play("bigFall", false, false);
+                player.Sprite.Play("bigFall");
                 player.Speed.Y = 0.0f;
                 yield return null;
                 FallEffects.Show(true);
@@ -273,7 +272,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
                 FallEffects.Show(false);
-                player.Sprite.Play("bigFallRecover", false, false);
+                player.Sprite.Play("bigFallRecover");
                 yield return 1.2f;
                 player.StateMachine.State = 0;
             }

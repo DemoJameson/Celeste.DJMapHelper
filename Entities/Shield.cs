@@ -20,11 +20,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private Wiggler wiggler;
 
         public Shield(Vector2 position) : base(position) {
-            Collider = new Circle(10f, 0f, 0f);
-            Add(new PlayerCollider(OnPlayer, null, null));
+            Collider = new Circle(10f);
+            Add(new PlayerCollider(OnPlayer));
             Add(sprite = GFX.SpriteBank.Create("flyFeather"));
             Add(wiggler = Wiggler.Create(1f, 4f,
-                v => sprite.Scale = Vector2.One * (float) (1.0 + (double) v * 0.200000002980232), false, false));
+                v => sprite.Scale = Vector2.One * (float) (1.0 + (double) v * 0.200000002980232)));
             Add(bloom = new BloomPoint(0.5f, 20f));
             Add(light = new VertexLight(Color.White, 1f, 16, 48));
             Add(sine = new SineWave(0.6f, 0.0f).Randomize());
@@ -32,9 +32,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             outline.CenterOrigin();
             outline.Visible = false;
             sprite.Visible = false;
-            shieldRadiusWiggle = Wiggler.Create(0.5f, 4f, null, false, false);
+            shieldRadiusWiggle = Wiggler.Create(0.5f, 4f);
             Add(shieldRadiusWiggle);
-            moveWiggle = Wiggler.Create(0.8f, 2f, null, false, false);
+            moveWiggle = Wiggler.Create(0.8f, 2f);
             moveWiggle.StartZero = true;
             Add(moveWiggle);
             UpdateY();

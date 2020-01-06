@@ -54,7 +54,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public ColorfulRefill(EntityData data, Vector2 offset)
             : this(data.Position + offset, false,
-                data.Bool("oneUse", false),
+                data.Bool("oneUse"),
                 data.Enum(nameof(color), RefillColor.Red)) { }
 
         public static void OnLoad() {

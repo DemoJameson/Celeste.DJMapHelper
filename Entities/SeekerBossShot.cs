@@ -3,7 +3,7 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Pooled]
-    [Tracked(false)]
+    [Tracked()]
     public class SeekerBossShot : Entity {
         public enum ShotPatterns {
             Single,
@@ -34,7 +34,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public SeekerBossShot() : base(Vector2.Zero) {
             Add(sprite = GFX.SpriteBank.Create("badeline_projectile"));
             Collider = new Hitbox(4f, 4f, -2f, -2f);
-            Add(new PlayerCollider(OnPlayer, null, null));
+            Add(new PlayerCollider(OnPlayer));
             Depth = -1000000;
             Add(sine = new SineWave(1.4f, 0.0f));
         }
@@ -49,7 +49,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             appearTimer = 0.1f;
             sine.Reset();
             sineMult = 0.0f;
-            sprite.Play("charge", true, false);
+            sprite.Play("charge", true);
             InitSpeed();
             return this;
         }
@@ -65,7 +65,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             appearTimer = 0.1f;
             sine.Reset();
             sineMult = 0.0f;
-            sprite.Play("charge", true, false);
+            sprite.Play("charge", true);
             InitSpeed();
             return this;
         }
@@ -153,7 +153,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Destroy();
             }
             else {
-                player.Die((player.Center - Position).SafeNormalize(), false, true);
+                player.Die((player.Center - Position).SafeNormalize());
             }
         }
     }

@@ -4,7 +4,7 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Pooled]
-    [Tracked(false)]
+    [Tracked()]
     public class SeekerBossBeam : Entity {
         public const float ChargeTime = 1.4f;
         public const float FollowTime = 0.9f;
@@ -47,7 +47,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             chargeTimer = 1.4f;
             followTimer = 0.9f;
             activeTimer = 0.12f;
-            beamSprite.Play("charge", false, false);
+            beamSprite.Play("charge");
             sideFadeAlpha = 0.0f;
             beamAlpha = 0.0f;
             var num = (double) target.Y > (double) boss.Y + 16.0 ? -1 : 1;
@@ -82,7 +82,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                                 player.Center), player.Center, 200f * Engine.DeltaTime));
                 }
                 else if (beamSprite.CurrentAnimationID == "charge") {
-                    beamSprite.Play("lock", false, false);
+                    beamSprite.Play("lock");
                 }
 
                 if (chargeTimer <= 0.0) {
@@ -98,8 +98,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
                 sideFadeAlpha = Calc.Approach(sideFadeAlpha, 0.0f, Engine.DeltaTime * 8f);
                 if (beamSprite.CurrentAnimationID != "shoot") {
-                    beamSprite.Play("shoot", false, false);
-                    beamStartSprite.Play("shoot", true, false);
+                    beamSprite.Play("shoot");
+                    beamStartSprite.Play("shoot", true);
                 }
 
                 activeTimer -= Engine.DeltaTime;
@@ -122,19 +122,22 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             var direction2 = (-vector).Angle();
             var num = Vector2.Distance(closestTo, lineA) - 12f;
             Vector2 vector2_2 = Calc.ClosestPointOnLine(lineA, lineB, closestTo);
-            for (var index1 = 0; index1 < 200; index1 += 12)
-            for (var index2 = -1; index2 <= 1; index2 += 2) {
-                level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
-                    vector2_2 + vector2_1 * index1 + vector * 2f * index2 + Calc.Random.Range(min, max), direction1);
-                level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
-                    vector2_2 + vector2_1 * index1 - vector * 2f * index2 + Calc.Random.Range(min, max), direction2);
-                if (index1 != 0 && index1 < (double) num) {
+            for (var index1 = 0; index1 < 200; index1 += 12) {
+                for (var index2 = -1; index2 <= 1; index2 += 2) {
                     level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
-                        vector2_2 - vector2_1 * index1 + vector * 2f * index2 + Calc.Random.Range(min, max),
+                        vector2_2 + vector2_1 * index1 + vector * 2f * index2 + Calc.Random.Range(min, max),
                         direction1);
                     level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
-                        vector2_2 - vector2_1 * index1 - vector * 2f * index2 + Calc.Random.Range(min, max),
+                        vector2_2 + vector2_1 * index1 - vector * 2f * index2 + Calc.Random.Range(min, max),
                         direction2);
+                    if (index1 != 0 && index1 < (double) num) {
+                        level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
+                            vector2_2 - vector2_1 * index1 + vector * 2f * index2 + Calc.Random.Range(min, max),
+                            direction1);
+                        level.ParticlesFG.Emit(FinalBossBeam.P_Dissipate,
+                            vector2_2 - vector2_1 * index1 - vector * 2f * index2 + Calc.Random.Range(min, max),
+                            direction2);
+                    }
                 }
             }
         }
@@ -146,11 +149,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Player player =
                 (Scene.CollideFirst<Player>(from + vector2, to + vector2) ??
                  Scene.CollideFirst<Player>(from - vector2, to - vector2)) ?? Scene.CollideFirst<Player>(from, to);
-            if (player == null) {
-                return;
-            }
 
-            player.Die((player.Center - boss.BeamOrigin).SafeNormalize(), false, true);
+            player?.Die((player.Center - boss.BeamOrigin).SafeNormalize());
         }
 
         public override void Render() {
@@ -191,7 +191,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 color);
             Quad(ref v, beamOrigin, -vector2_2 - vector2_3, vector2_2 - vector2_3, vector2_2 - vector2_3 * 2f,
                 -vector2_2 - vector2_3 * 2f, color, color);
-            GFX.DrawVertices((Scene as Level).Camera.Matrix, fade, fade.Length, null, null);
+            GFX.DrawVertices((Scene as Level).Camera.Matrix, fade, fade.Length);
             GameplayRenderer.Begin();
         }
 

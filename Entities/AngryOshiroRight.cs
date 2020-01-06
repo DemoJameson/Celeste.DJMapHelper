@@ -54,26 +54,26 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public AngryOshiroRight(Vector2 position)
             : base(position) {
             Add(Sprite = GFX.SpriteBank.Create("oshiro_boss"));
-            Sprite.Play("idle", false, false);
+            Sprite.Play("idle");
             Add(lightning = GFX.SpriteBank.Create("oshiro_boss_lightning"));
             lightning.Visible = false;
             lightning.OnFinish = s => lightningVisible = false;
-            Collider = new Circle(14f, 0.0f, 0.0f);
+            Collider = new Circle(14f);
             Collider.Position = colliderTargetPosition = new Vector2(-3f, 4f);
             Add(sine = new SineWave(0.5f));
-            Add(bounceCollider = new PlayerCollider(OnPlayerBounce, new Hitbox(28f, 6f, -17f, -11f), null));
-            Add(new PlayerCollider(OnPlayer, null, null));
+            Add(bounceCollider = new PlayerCollider(OnPlayerBounce, new Hitbox(28f, 6f, -17f, -11f)));
+            Add(new PlayerCollider(OnPlayer));
             Depth = -12500;
             Visible = false;
             Add(light = new VertexLight(Color.White, 1f, 32, 64));
-            Add(shaker = new Shaker(false, null));
-            state = new StateMachine(10);
-            state.SetCallbacks(StChase, ChaseUpdate, ChaseCoroutine, ChaseBegin, null);
+            Add(shaker = new Shaker(false));
+            state = new StateMachine();
+            state.SetCallbacks(StChase, ChaseUpdate, ChaseCoroutine, ChaseBegin);
             state.SetCallbacks(StChargeUp, ChargeUpUpdate, ChargeUpCoroutine, null, ChargeUpEnd);
             state.SetCallbacks(StAttack, AttackUpdate, AttackCoroutine, AttackBegin, AttackEnd);
-            state.SetCallbacks(StDummy, null, null, null, null);
-            state.SetCallbacks(StWaiting, WaitingUpdate, null, null, null);
-            state.SetCallbacks(StHurt, HurtUpdate, null, HurtBegin, null);
+            state.SetCallbacks(StDummy, null);
+            state.SetCallbacks(StWaiting, WaitingUpdate);
+            state.SetCallbacks(StHurt, HurtUpdate, null, HurtBegin);
             Add(state);
             Add(new TransitionListener {
                 OnOutBegin = () => {
@@ -136,7 +136,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 return;
             }
 
-            player.Die((player.Center - Center).SafeNormalize(Vector2.UnitX), false, true);
+            player.Die((player.Center - Center).SafeNormalize(Vector2.UnitX));
         }
 
         private void OnPlayerBounce(Player player) {
@@ -148,8 +148,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Celeste.Freeze(0.2f);
             player.Bounce(Top + 2f);
             state.State = 5;
-            prechargeSfx.Stop(true);
-            chargeSfx.Stop(true);
+            prechargeSfx.Stop();
+            chargeSfx.Stop();
         }
 
         public override void Update() {
@@ -166,14 +166,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     Player player = Scene.Tracker.GetEntity<Player>();
                     Engine.TimeRate = player == null || player.Dead || (double) CenterX <= (double) player.CenterX - 4.0
                         ? 1f
-                        : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f, 1f), 1f,
-                            Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f, 0.0f, 1f));
+                        : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f), 1f,
+                            Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f));
                 }
                 else {
                     Engine.TimeRate = 1f;
                 }
 
-                Distort.GameRate = Calc.Approach(Distort.GameRate, Calc.Map(Engine.TimeRate, 0.5f, 1f, 0.0f, 1f),
+                Distort.GameRate = Calc.Approach(Distort.GameRate, Calc.Map(Engine.TimeRate, 0.5f, 1f),
                     Engine.DeltaTime * 8f);
                 Distort.Anxiety = Calc.Approach(Distort.Anxiety, targetAnxiety, anxietySpeed * Engine.DeltaTime);
             }
@@ -208,7 +208,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void ChaseBegin() {
-            Sprite.Play("idle", false, false);
+            Sprite.Play("idle");
         }
 
         private int ChaseUpdate() {
@@ -220,7 +220,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (doRespawnAnim && cameraXOffset <= 0.0) {
                 Collider.Position.X = 48f;
                 Visible = true;
-                Sprite.Play("respawn", false, false);
+                Sprite.Play("respawn");
                 doRespawnAnim = false;
                 if (Scene.Tracker.GetEntity<Player>() != null) {
                     Audio.Play("event:/char/oshiro/boss_reform", Position);
@@ -248,16 +248,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 attackIndex %= ChaseWaitTimes.Length;
             }
 
-            prechargeSfx.Play("event:/char/oshiro/boss_precharge", null, 0.0f);
-            Sprite.Play("charge", false, false);
+            prechargeSfx.Play("event:/char/oshiro/boss_precharge");
+            Sprite.Play("charge");
             yield return 0.7f;
             if (Scene.Tracker.GetEntity<Player>() != null) {
-                Alarm.Set(this, 0.216f, () => chargeSfx.Play("event:/char/oshiro/boss_charge", null, 0.0f),
-                    Alarm.AlarmMode.Oneshot);
+                Alarm.Set(this, 0.216f, () => chargeSfx.Play("event:/char/oshiro/boss_charge"));
                 state.State = 1;
             }
             else {
-                Sprite.Play("idle", false, false);
+                Sprite.Play("idle");
             }
         }
 
@@ -287,7 +286,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Distort.Anxiety = 0.3f;
             Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
             lightningVisible = true;
-            lightning.Play("once", true, false);
+            lightning.Play("once", true);
             yield return 0.3f;
             Player player = Scene.Tracker.GetEntity<Player>();
             state.State = player == null ? 0 : 2;
@@ -297,7 +296,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             attackSpeed = 0.0f;
             targetAnxiety = 0.3f;
             anxietySpeed = 4f;
-            level.DirectionalShake(Vector2.UnitX, 0.3f);
+            level.DirectionalShake(Vector2.UnitX);
         }
 
         private void AttackEnd() {
@@ -344,7 +343,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void HurtBegin() {
-            Sprite.Play("hurt", true, false);
+            Sprite.Play("hurt", true);
         }
 
         private int HurtUpdate() {

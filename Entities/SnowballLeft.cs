@@ -84,7 +84,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public override void Render() {
-            sprite.DrawOutline(1);
+            sprite.DrawOutline();
             base.Render();
         }
     }

@@ -80,7 +80,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             drawHeight = Height;
             shaker.ShakeFor(HoldingWaitTime, false);
             SetHeight(OpenHeight);
-            sprite.Play("open", false, false);
+            sprite.Play("open");
             open = true;
         }
 
@@ -100,7 +100,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             drawHeight = Math.Max(4f, Height);
             shaker.ShakeFor(HoldingWaitTime, false);
             SetHeight(closedHeight);
-            sprite.Play("hit", false, false);
+            sprite.Play("hit");
             open = false;
         }
 
@@ -175,7 +175,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 else if (!lockState) {
                     if (open && !TheoIsNearby()) {
                         Close();
-                        CollideFirst<Player>(Position + new Vector2(8f, 0.0f))?.Die(Vector2.Zero, false, true);
+                        CollideFirst<Player>(Position + new Vector2(8f, 0.0f))?.Die(Vector2.Zero);
                     }
                     else if (!open && TheoIsNearby()) {
                         Open();

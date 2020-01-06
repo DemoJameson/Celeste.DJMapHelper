@@ -13,7 +13,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sprite.Add("idle", "", 0.0f, new int[1]);
             sprite.Add("bounce", "", 0.07f, "idle", 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5);
             sprite.Add("disabled", "white", 0.07f);
-            sprite.Play("idle", false, false);
+            sprite.Play("idle");
             sprite.Origin.X = sprite.Width / 2f;
             sprite.Origin.Y = sprite.Height;
             if (orientation == Orientations.WallLeft) {
