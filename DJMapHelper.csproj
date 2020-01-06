@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\DJ_Map_Helper</OutputPath>
+    <OutputPath>..\..\Mods\DJ_Map_Helper</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,61 +26,61 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\DJ_Map_Helper</OutputPath>
+    <OutputPath>..\..\Mods\DJ_Map_Helper</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Celeste">
-      <HintPath>..\..\..\Celeste.exe</HintPath>
+      <HintPath>..\..\Celeste.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FNA">
-      <HintPath>..\..\..\FNA.dll</HintPath>
+      <HintPath>..\..\FNA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MMHOOK_Celeste">
-      <HintPath>..\..\..\MMHOOK_Celeste.dll</HintPath>
+      <HintPath>..\..\MMHOOK_Celeste.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="YamlDotNet">
-      <HintPath>..\..\..\YamlDotNet.dll</HintPath>
+      <HintPath>..\..\YamlDotNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\Mono.Cecil.dll</HintPath>
+      <HintPath>..\..\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\..\..\Mono.Cecil.Mdb.dll</HintPath>
+      <HintPath>..\..\Mono.Cecil.Mdb.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\..\Mono.Cecil.Pdb.dll</HintPath>
+      <HintPath>..\..\Mono.Cecil.Pdb.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\..\..\Mono.Cecil.Rocks.dll</HintPath>
+      <HintPath>..\..\Mono.Cecil.Rocks.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod">
-      <HintPath>..\..\..\MonoMod.exe</HintPath>
+      <HintPath>..\..\MonoMod.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>..\..\..\MonoMod.RuntimeDetour.dll</HintPath>
+      <HintPath>..\..\MonoMod.RuntimeDetour.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.RuntimeDetour.HookGen">
-      <HintPath>..\..\..\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
+      <HintPath>..\..\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MonoMod.Utils">
-      <HintPath>..\..\..\MonoMod.Utils.dll</HintPath>
+      <HintPath>..\..\MonoMod.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
