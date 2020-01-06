@@ -74,8 +74,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             speed = target == null
                 ? (targetPt - Center).SafeNormalize(100f)
                 : (target.Center - Center).SafeNormalize(100f);
-            if (angleOffset != 0.0)
+            if (angleOffset != 0.0) {
                 speed = speed.Rotate(angleOffset);
+            }
+
             perp = speed.Perpendicular().SafeNormalize();
             particleDir = (-speed).Angle();
         }
@@ -97,19 +99,25 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 appearTimer -= Engine.DeltaTime;
             }
             else {
-                if (cantKillTimer > 0.0)
+                if (cantKillTimer > 0.0) {
                     cantKillTimer -= Engine.DeltaTime;
+                }
+
                 anchor += speed * Engine.DeltaTime;
                 Position = anchor + perp * sineMult * sine.Value * 3f;
                 sineMult = Calc.Approach(sineMult, 1f, 2f * Engine.DeltaTime);
                 if (!dead) {
                     var flag = level.IsInCamera(Position, 8f);
-                    if (flag && !hasBeenInCamera)
+                    if (flag && !hasBeenInCamera) {
                         hasBeenInCamera = true;
-                    else if (!flag && hasBeenInCamera)
+                    }
+                    else if (!flag && hasBeenInCamera) {
                         Destroy();
-                    if (Scene.OnInterval(0.04f))
+                    }
+
+                    if (Scene.OnInterval(0.04f)) {
                         level.ParticlesFG.Emit(FinalBossShot.P_Trail, 1, Center, Vector2.One * 2f, particleDir);
+                    }
                 }
             }
         }
@@ -137,12 +145,16 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayer(Player player) {
-            if (dead)
+            if (dead) {
                 return;
-            if (cantKillTimer > 0.0)
+            }
+
+            if (cantKillTimer > 0.0) {
                 Destroy();
-            else
+            }
+            else {
                 player.Die((player.Center - Position).SafeNormalize(), false, true);
+            }
         }
     }
 }

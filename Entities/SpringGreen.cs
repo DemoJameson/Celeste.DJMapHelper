@@ -16,10 +16,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sprite.Play("idle", false, false);
             sprite.Origin.X = sprite.Width / 2f;
             sprite.Origin.Y = sprite.Height;
-            if (orientation == Orientations.WallLeft)
+            if (orientation == Orientations.WallLeft) {
                 sprite.Rotation = 1.570796f;
-            else if (orientation == Orientations.WallRight)
+            }
+            else if (orientation == Orientations.WallRight) {
                 sprite.Rotation = -1.570796f;
+            }
+
             SpriteFieldInfo?.SetValue(this, sprite);
             Remove(Get<Sprite>());
             Add(sprite);
@@ -38,8 +41,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static void SpringGreenOnCollide(On.Celeste.Spring.orig_OnCollide orig, Spring self, Player player) {
             if (self.GetType() == typeof(SpringGreen)) {
-                if (player.StateMachine.State == 9)
+                if (player.StateMachine.State == 9) {
                     return;
+                }
+
                 var origDashAttacking = player.DashAttacking;
                 var origSpeedX = player.Speed.X;
                 var origSpeedY = player.Speed.Y;
@@ -73,16 +78,24 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
                 else if (self.Orientation == Orientations.WallLeft) {
                     player.Speed.Y = origSpeedY - 140f;
-                    if (origSpeedX > 0.0f)
+                    if (origSpeedX > 0.0f) {
                         player.Speed.X = origSpeedX + 240f;
-                    else player.Speed.X = 240f;
+                    }
+                    else {
+                        player.Speed.X = 240f;
+                    }
+
                     varJumpSpeedFieldInfo?.SetValue(player, player.Speed.Y);
                 }
                 else {
                     player.Speed.Y = origSpeedY - 140f;
-                    if (origSpeedX < 0.0f)
+                    if (origSpeedX < 0.0f) {
                         player.Speed.X = origSpeedX - 240f;
-                    else player.Speed.X = -240f;
+                    }
+                    else {
+                        player.Speed.X = -240f;
+                    }
+
                     varJumpSpeedFieldInfo?.SetValue(player, player.Speed.Y);
                 }
             }

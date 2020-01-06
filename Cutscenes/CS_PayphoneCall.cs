@@ -41,8 +41,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 yield return 0.3f;
                 ringtone.Play("event:/game/02_old_site/sequence_phone_ring_loop", null, 0.0f);
                 yield return 1.2f;
-                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f)
+                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f) {
                     yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                }
+
                 yield return 1.5f;
                 player.Facing = Facings.Left;
                 yield return 1.5f;
@@ -60,8 +62,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.StateMachine.State = 11;
                 player.Dashes = 1;
                 yield return 0.3f;
-                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f)
+                if (player.X < payphone.X - 24f || player.X > payphone.X - 4f) {
                     yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                }
+
                 yield return 1.5f;
                 player.Facing = Facings.Left;
                 yield return 1.5f;

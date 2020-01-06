@@ -38,11 +38,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             ReverseComponent reverseComponent = self.Get<ReverseComponent>();
             if (reverseComponent != null) {
                 var fallingBlocks = reverseComponent.FinalBossReversed.fallingBlocks;
-                while (fallingBlocks.Count > 0 && fallingBlocks[0].Scene == null) fallingBlocks.RemoveAt(0);
+                while (fallingBlocks.Count > 0 && fallingBlocks[0].Scene == null) {
+                    fallingBlocks.RemoveAt(0);
+                }
 
                 var num = 0;
                 while (fallingBlocks.Count > 0 && fallingBlocks[0].X > badelineX) {
-                    if (!(fallingBlocks[0] is FallingBlock fallingBlock)) continue;
+                    if (!(fallingBlocks[0] is FallingBlock fallingBlock)) {
+                        continue;
+                    }
 
                     fallingBlock.StartShaking();
                     fallingBlock.Triggered = true;

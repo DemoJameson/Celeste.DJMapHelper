@@ -6,8 +6,9 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         [Command("metadata", "check metadata values")]
         private static void CmdMetadata() {
             Level scene = Engine.Scene as Level;
-            if (scene == null)
+            if (scene == null) {
                 return;
+            }
 
             Engine.Commands.Log("color grade (" + scene.Session.ColorGrade + ")");
             Engine.Commands.Log("base lighting (" + scene.BaseLightingAlpha + "), session lighting add(" +

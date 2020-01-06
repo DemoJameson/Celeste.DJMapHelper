@@ -78,7 +78,9 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 Leader.StoreStrawberries(player.Leader);
                 level.Remove(player);
                 level.UnloadLevel();
-                if (!keepKey) level.Session.Keys.Clear();
+                if (!keepKey) {
+                    level.Session.Keys.Clear();
+                }
 
                 switch (dreams) {
                     case TeleportTrigger.Dreams.Awake:

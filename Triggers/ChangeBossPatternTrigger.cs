@@ -37,11 +37,12 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
             var bosses = level.Tracker.GetEntities<FinalBoss>().Cast<FinalBoss>().ToList();
 
-            foreach (FinalBoss finalBoss in bosses)
+            foreach (FinalBoss finalBoss in bosses) {
                 if (mode == Modes.All || CollideCheck(finalBoss)) {
                     finalBoss.SetPrivateFieldValue("patternIndex", patternIndex);
                     finalBoss.InvokePrivateMethod("StartAttacking");
                 }
+            }
         }
     }
 }

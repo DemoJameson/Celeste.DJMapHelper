@@ -68,8 +68,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void OnPlayer(Player player) {
             player.PointBounce(Center);
-            if (Input.MoveX.Value == Math.Sign(player.Speed.X))
+            if (Input.MoveX.Value == Math.Sign(player.Speed.X)) {
                 player.Speed.X *= 1.2f;
+            }
+
             moveWiggle.Start();
             shieldRadiusWiggle.Start();
             moveWiggleDir = (Center - player.Center).SafeNormalize(Vector2.UnitY);

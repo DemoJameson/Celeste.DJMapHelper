@@ -32,7 +32,9 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            if (triggered) return;
+            if (triggered) {
+                return;
+            }
 
             triggered = true;
 

@@ -114,7 +114,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static bool PlayerUseBlackRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
             var num = self.MaxDashes;
             if (self.Dashes == 0 && self.Stamina <= 20.0) {
-                if (!SaveData.Instance.Assists.Invincible) self.Die(new Vector2(0.0f, -1f));
+                if (!SaveData.Instance.Assists.Invincible) {
+                    self.Die(new Vector2(0.0f, -1f));
+                }
+
                 return true;
             }
 

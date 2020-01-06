@@ -106,14 +106,17 @@ namespace Celeste {
         }
 
         private void baseUpdate() {
-            if (_baseUpdate == null) _baseUpdate = (Action) Activator.CreateInstance(typeof(Action), this, UpdatePtr);
+            if (_baseUpdate == null) {
+                _baseUpdate = (Action) Activator.CreateInstance(typeof(Action), this, UpdatePtr);
+            }
 
             _baseUpdate();
         }
 
         private void baseAwake(Scene scene) {
-            if (_baseAwake == null)
+            if (_baseAwake == null) {
                 _baseAwake = (Action<Scene>) Activator.CreateInstance(typeof(Action<Scene>), this, AwakePtr);
+            }
 
             _baseAwake(scene);
         }
@@ -121,18 +124,21 @@ namespace Celeste {
         public override void Awake(Scene scene) {
             baseAwake(scene);
             var birds = Scene.Entities.FindAll<FlingBirdReversed>();
-            for (var i = birds.Count - 1; i >= 0; i--)
-                if (birds[i].entityData.Level.Name != entityData.Level.Name)
+            for (var i = birds.Count - 1; i >= 0; i--) {
+                if (birds[i].entityData.Level.Name != entityData.Level.Name) {
                     birds.RemoveAt(i);
+                }
+            }
 
             // birds.Sort((a, b) => Math.Sign(a.X - b.X));
             birds.Sort((a, b) => Math.Sign(b.X - a.X));
-            if (birds[0] == this)
+            if (birds[0] == this) {
                 for (var j = 1; j < birds.Count; j++) {
                     NodeSegments.Add(birds[j].NodeSegments[0]);
                     SegmentsWaiting.Add(birds[j].SegmentsWaiting[0]);
                     birds[j].RemoveSelf();
                 }
+            }
 
             if (SegmentsWaiting[0]) {
                 sprite.Play("hoverStressed");
@@ -142,7 +148,9 @@ namespace Celeste {
 
             Player player = scene.Tracker.GetEntity<Player>();
             // if (player != null && player.X > X) {
-            if (player != null && player.X < X) RemoveSelf();
+            if (player != null && player.X < X) {
+                RemoveSelf();
+            }
         }
 
         private void Skip() {
@@ -165,8 +173,9 @@ namespace Celeste {
 
         public override void Update() {
             baseUpdate();
-            if (state != States.Wait)
+            if (state != States.Wait) {
                 sprite.Position = Calc.Approach(sprite.Position, spriteOffset, 32f * Engine.DeltaTime);
+            }
 
             switch (state) {
                 case States.Wait: {
@@ -192,8 +201,9 @@ namespace Celeste {
                     break;
                 }
                 case States.Fling:
-                    if (flingAccel > 0f)
+                    if (flingAccel > 0f) {
                         flingSpeed = Calc.Approach(flingSpeed, flingTargetSpeed, flingAccel * Engine.DeltaTime);
+                    }
 
                     // Position += flingSpeed * Engine.DeltaTime;
                     Position -= flingSpeed * Engine.DeltaTime;
@@ -224,7 +234,9 @@ namespace Celeste {
             Add(new Coroutine(level.ZoomTo(zoom, 1.1f, 0.2f)));
             Engine.TimeRate = 0.8f;
             Input.Rumble(RumbleStrength.Light, RumbleLength.Medium);
-            while (flingSpeed != Vector2.Zero) yield return null;
+            while (flingSpeed != Vector2.Zero) {
+                yield return null;
+            }
 
             sprite.Play("throw");
             // sprite.Scale.X = 1f;
@@ -279,10 +291,12 @@ namespace Celeste {
                 state = States.WaitForLightningClear;
             }
             else {
-                if (SegmentsWaiting[segmentIndex])
+                if (SegmentsWaiting[segmentIndex]) {
                     sprite.Play("hoverStressed");
-                else
+                }
+                else {
                     sprite.Play("hover");
+                }
 
                 // sprite.Scale.X = -1f;
                 sprite.Scale.X = 1f;

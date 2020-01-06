@@ -8,14 +8,19 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>())
+            foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>()) {
                 if (protector != null) {
-                    BadelineDummy badeline = protector.badeline;
-                    if (badeline.Visible)
+                    BadelineDummy badeline = protector.Badeline;
+                    if (badeline.Visible) {
                         badeline.Vanish();
-                    else badeline.RemoveSelf();
+                    }
+                    else {
+                        badeline.RemoveSelf();
+                    }
+
                     protector.RemoveSelf();
                 }
+            }
 
             RemoveSelf();
         }

@@ -31,8 +31,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public SeekerBossBeam() {
             Add(beamSprite = GFX.SpriteBank.Create("badeline_beam"));
             beamSprite.OnLastFrame = anim => {
-                if (!(anim == "shoot"))
+                if (!(anim == "shoot")) {
                     return;
+                }
+
                 Destroy();
             };
             Add(beamStartSprite = GFX.SpriteBank.Create("badeline_beam_start"));
@@ -49,8 +51,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sideFadeAlpha = 0.0f;
             beamAlpha = 0.0f;
             var num = (double) target.Y > (double) boss.Y + 16.0 ? -1 : 1;
-            if (target.X >= (double) boss.X)
+            if (target.X >= (double) boss.X) {
                 num *= -1;
+            }
+
             angle = Calc.Angle(boss.BeamOrigin, target.Center);
             Vector2 to =
                 Calc.ClosestPointOnLine(boss.BeamOrigin, boss.BeamOrigin + Calc.AngleToVector(angle, 2000f),
@@ -65,17 +69,22 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             beamAlpha = Calc.Approach(beamAlpha, 1f, 2f * Engine.DeltaTime);
             if (chargeTimer > 0.0) {
                 sideFadeAlpha = Calc.Approach(sideFadeAlpha, 1f, Engine.DeltaTime);
-                if (player == null || player.Dead)
+                if (player == null || player.Dead) {
                     return;
+                }
+
                 followTimer -= Engine.DeltaTime;
                 chargeTimer -= Engine.DeltaTime;
-                if (followTimer > 0.0 && player.Center != boss.BeamOrigin)
+                if (followTimer > 0.0 && player.Center != boss.BeamOrigin) {
                     angle = Calc.Angle(boss.BeamOrigin,
                         Calc.Approach(
                             Calc.ClosestPointOnLine(boss.BeamOrigin, boss.BeamOrigin + Calc.AngleToVector(angle, 2000f),
                                 player.Center), player.Center, 200f * Engine.DeltaTime));
-                else if (beamSprite.CurrentAnimationID == "charge")
+                }
+                else if (beamSprite.CurrentAnimationID == "charge") {
                     beamSprite.Play("lock", false, false);
+                }
+
                 if (chargeTimer <= 0.0) {
                     SceneAs<Level>().DirectionalShake(Calc.AngleToVector(angle, 1f), 0.15f);
                     Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
@@ -83,8 +92,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
             else {
-                if (activeTimer <= 0.0)
+                if (activeTimer <= 0.0) {
                     return;
+                }
+
                 sideFadeAlpha = Calc.Approach(sideFadeAlpha, 0.0f, Engine.DeltaTime * 8f);
                 if (beamSprite.CurrentAnimationID != "shoot") {
                     beamSprite.Play("shoot", false, false);
@@ -92,8 +103,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
 
                 activeTimer -= Engine.DeltaTime;
-                if (activeTimer > 0.0)
+                if (activeTimer > 0.0) {
                     PlayerCollideCheck();
+                }
             }
         }
 
@@ -134,8 +146,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Player player =
                 (Scene.CollideFirst<Player>(from + vector2, to + vector2) ??
                  Scene.CollideFirst<Player>(from - vector2, to - vector2)) ?? Scene.CollideFirst<Player>(from, to);
-            if (player == null)
+            if (player == null) {
                 return;
+            }
+
             player.Die((player.Center - boss.BeamOrigin).SafeNormalize(), false, true);
         }
 
@@ -146,8 +160,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             beamSprite.Color = Color.White * beamAlpha;
             beamStartSprite.Rotation = angle;
             beamStartSprite.Color = Color.White * beamAlpha;
-            if (beamSprite.CurrentAnimationID == "shoot")
+            if (beamSprite.CurrentAnimationID == "shoot") {
                 beamOrigin += Calc.AngleToVector(angle, 8f);
+            }
+
             for (var index = 0; index < 15; ++index) {
                 beamSprite.RenderPosition = beamOrigin;
                 beamSprite.Render();

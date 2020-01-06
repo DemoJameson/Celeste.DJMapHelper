@@ -25,7 +25,9 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             mode = data.Enum("mode", Modes.OnPlayerEnter);
             color = TryGetCrystalColor(data.Attr("color", "Default"));
 
-            if (mode == Modes.OnLevelStart) SaveColorToSession(color);
+            if (mode == Modes.OnLevelStart) {
+                SaveColorToSession(color);
+            }
         }
 
         public static void OnLoad() {
@@ -42,10 +44,12 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             CrystalStaticSpinner self, EntityData data, Vector2 offset, CrystalColor color) {
             var savedColor = GetColorFromSession();
 
-            if (savedColor != null)
+            if (savedColor != null) {
                 orig(self, data, offset, (CrystalColor) savedColor);
-            else
+            }
+            else {
                 orig(self, data, offset, color);
+            }
 
             self.SetExtendedDataValue("color", (CrystalColor?) color);
         }
@@ -84,7 +88,9 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
         public override void Awake(Scene scene) {
             base.Awake(scene);
-            if (mode == Modes.OnLevelStart) RemoveSelf();
+            if (mode == Modes.OnLevelStart) {
+                RemoveSelf();
+            }
         }
 
         public override void OnEnter(Player player) {
@@ -104,10 +110,11 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                         var origColor = entity.GetExtendedDataValue<CrystalColor?>("color");
                         Logger.Log("DJMapHelper", "origColor=" + origColor);
                         if (origColor != null) {
-                            if (origColor == ~CrystalColor.Blue)
+                            if (origColor == ~CrystalColor.Blue) {
                                 origColor = level.CoreMode != Session.CoreModes.Cold
                                     ? CrystalColor.Red
                                     : CrystalColor.Blue;
+                            }
 
                             entity.Add(new ChangeColorComponent(entity, (CrystalColor) origColor));
                         }
@@ -117,9 +124,12 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
         private static Session GetSession() {
             Session session = null;
-            if (Engine.Scene is LevelLoader levelLoader)
+            if (Engine.Scene is LevelLoader levelLoader) {
                 session = levelLoader.Level.Session;
-            else if (Engine.Scene is Level level) session = level.Session;
+            }
+            else if (Engine.Scene is Level level) {
+                session = level.Session;
+            }
 
             return session;
         }
@@ -127,21 +137,28 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private static void SaveColorToSession(CrystalColor? color) {
             Session session = GetSession();
 
-            if (color != null)
+            if (color != null) {
                 session?.SetFlag(PREFIX + color);
-            else
-                foreach (var name in Enum.GetNames(typeof(CrystalColor)))
+            }
+            else {
+                foreach (var name in Enum.GetNames(typeof(CrystalColor))) {
                     session?.SetFlag(PREFIX + name, false);
+                }
+            }
         }
 
         private static CrystalColor? GetColorFromSession() {
             Session session = GetSession();
 
-            if (session == null) return null;
+            if (session == null) {
+                return null;
+            }
 
             foreach (var name in Enum.GetNames(typeof(CrystalColor))) {
                 var existColor = session.GetFlag(PREFIX + name);
-                if (existColor) return TryGetCrystalColor(name);
+                if (existColor) {
+                    return TryGetCrystalColor(name);
+                }
             }
 
             return null;

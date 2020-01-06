@@ -33,9 +33,12 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             yield return BadelineAppears();
             yield return 0.3f;
             yield return Textbox.Say(dialogEntry);
-            if (badeline != null && !rejoin)
+            if (badeline != null && !rejoin) {
                 yield return BadelineVanishes();
-            else if (badeline != null) yield return BadelineRejoin();
+            }
+            else if (badeline != null) {
+                yield return BadelineRejoin();
+            }
 
             EndCutscene(level);
         }

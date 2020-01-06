@@ -77,14 +77,18 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Add(state);
             Add(new TransitionListener {
                 OnOutBegin = () => {
-                    if (X < level.Bounds.Right - Sprite.Width / 2.0)
+                    if (X < level.Bounds.Right - Sprite.Width / 2.0) {
                         Visible = false;
-                    else
+                    }
+                    else {
                         easeBackFromRightEdge = true;
+                    }
                 },
                 OnOut = f => {
                     lightning.Update();
-                    if (!easeBackFromRightEdge) return;
+                    if (!easeBackFromRightEdge) {
+                        return;
+                    }
 
                     X += 128f * Engine.RawDeltaTime;
                 }
@@ -101,8 +105,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private float TargetY {
             get {
                 Player entity = level.Tracker.GetEntity<Player>();
-                if (entity != null)
+                if (entity != null) {
                     return MathHelper.Clamp(entity.CenterY, level.Bounds.Top + 8, level.Bounds.Bottom - 8);
+                }
 
                 return Y;
             }
@@ -114,23 +119,30 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Added(scene);
             level = SceneAs<Level>();
             if (level.Session.GetFlag("oshiroEnding") ||
-                !level.Session.GetFlag("oshiro_resort_roof") && level.Session.Level.Equals("roof00"))
+                !level.Session.GetFlag("oshiro_resort_roof") && level.Session.Level.Equals("roof00")) {
                 RemoveSelf();
+            }
 
-            if (state.State != 3) state.State = 4;
+            if (state.State != 3) {
+                state.State = 4;
+            }
 
             Y = TargetY;
             cameraXOffset = 48f;
         }
 
         private void OnPlayer(Player player) {
-            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") return;
+            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") {
+                return;
+            }
 
             player.Die((player.Center - Center).SafeNormalize(Vector2.UnitX), false, true);
         }
 
         private void OnPlayerBounce(Player player) {
-            if (state.State != 2 || player.Bottom > Top + 6.0) return;
+            if (state.State != 2 || player.Bottom > Top + 6.0) {
+                return;
+            }
 
             Audio.Play("event:/game/general/thing_booped", Position);
             Celeste.Freeze(0.2f);
@@ -144,7 +156,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Update();
             Sprite.Scale.X = Calc.Approach(Sprite.Scale.X, -1f, 0.6f * Engine.DeltaTime);
             Sprite.Scale.Y = Calc.Approach(Sprite.Scale.Y, 1f, 0.6f * Engine.DeltaTime);
-            if (!doRespawnAnim) Visible = X < level.Bounds.Right + Width / 2.0;
+            if (!doRespawnAnim) {
+                Visible = X < level.Bounds.Right + Width / 2.0;
+            }
 
             yApproachSpeed = Calc.Approach(yApproachSpeed, 100f, 300f * Engine.DeltaTime);
             if (state.State != 3 && canControlTimeRate) {
@@ -208,15 +222,18 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Visible = true;
                 Sprite.Play("respawn", false, false);
                 doRespawnAnim = false;
-                if (Scene.Tracker.GetEntity<Player>() != null) Audio.Play("event:/char/oshiro/boss_reform", Position);
+                if (Scene.Tracker.GetEntity<Player>() != null) {
+                    Audio.Play("event:/char/oshiro/boss_reform", Position);
+                }
             }
 
             cameraXOffset = Calc.Approach(cameraXOffset, -20f, 80f * Engine.DeltaTime);
             X = level.Camera.Right + cameraXOffset;
             Collider.Position.X = Calc.Approach(Collider.Position.X, colliderTargetPosition.X, Engine.DeltaTime * 128f);
             Collidable = Visible;
-            if (level.Tracker.GetEntity<Player>() != null && Sprite.CurrentAnimationID != "respawn")
+            if (level.Tracker.GetEntity<Player>() != null && Sprite.CurrentAnimationID != "respawn") {
                 CenterY = Calc.Approach(CenterY, TargetY, yApproachSpeed * Engine.DeltaTime);
+            }
 
             return 0;
         }
@@ -245,15 +262,18 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private int ChargeUpUpdate() {
-            if (level.OnInterval(0.05f)) Sprite.Position = Calc.Random.ShakeVector();
+            if (level.OnInterval(0.05f)) {
+                Sprite.Position = Calc.Random.ShakeVector();
+            }
 
             cameraXOffset = Calc.Approach(cameraXOffset, 0.0f, 40f * Engine.DeltaTime);
             X = level.Camera.Right + cameraXOffset;
             Player entity = level.Tracker.GetEntity<Player>();
-            if (entity != null)
+            if (entity != null) {
                 CenterY = Calc.Approach(CenterY,
                     MathHelper.Clamp(entity.CenterY, level.Bounds.Top + 8, level.Bounds.Bottom - 8),
                     30f * Engine.DeltaTime);
+            }
 
             return 1;
         }
@@ -302,7 +322,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
 
             Input.Rumble(RumbleStrength.Light, RumbleLength.Short);
-            if (Scene.OnInterval(0.05f)) TrailManager.Add(this, Color.Red * 0.6f, 0.5f);
+            if (Scene.OnInterval(0.05f)) {
+                TrailManager.Add(this, Color.Red * 0.6f, 0.5f);
+            }
 
             return 2;
         }
@@ -328,7 +350,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private int HurtUpdate() {
             X -= 100f * Engine.DeltaTime;
             Y += 200f * Engine.DeltaTime;
-            if (Top <= (double) (level.Bounds.Bottom + 20)) return 5;
+            if (Top <= (double) (level.Bounds.Bottom + 20)) {
+                return 5;
+            }
 
             if (leaving) {
                 RemoveSelf();

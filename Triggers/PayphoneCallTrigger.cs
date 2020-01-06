@@ -19,7 +19,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             RemoveSelf();
 
             Session session = player.SceneAs<Level>().Session;
-            if (session.GetFlag(dialogEntry)) return;
+            if (session.GetFlag(dialogEntry)) {
+                return;
+            }
+
             session.SetFlag(dialogEntry);
             player.Scene.Add(new CS_PayphoneCall(player, dialogEntry, endLevel, answer));
         }

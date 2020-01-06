@@ -62,7 +62,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Add(new Coroutine(CloseBehindPlayerAndTheo()));
             }
             else if (type == Types.HoldingTheo) {
-                if (TheoIsNearby()) StartOpen();
+                if (TheoIsNearby()) {
+                    StartOpen();
+                }
             }
 
             drawHeight = Math.Max(4f, Height);
@@ -107,10 +109,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             while (true) {
                 Player player = templeGateReversed.Scene.Tracker.GetEntity<Player>();
                 if (templeGateReversed.lockState || player == null ||
-                    player.Right >= templeGateReversed.Left - MinDrawHeight)
+                    player.Right >= templeGateReversed.Left - MinDrawHeight) {
                     yield return null;
-                else
+                }
+                else {
                     break;
+                }
             }
 
             templeGateReversed.Close();
@@ -123,8 +127,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 if (player != null && player.Right < templeGateReversed.Left - MinDrawHeight) {
                     TheoCrystal theoCrystal = templeGateReversed.Scene.Tracker.GetEntity<TheoCrystal>();
                     if (!templeGateReversed.lockState && theoCrystal != null &&
-                        theoCrystal.Right < templeGateReversed.Left - MinDrawHeight)
+                        theoCrystal.Right < templeGateReversed.Left - MinDrawHeight) {
                         break;
+                    }
                 }
 
                 yield return null;
@@ -135,9 +140,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private bool TheoIsNearby() {
             TheoCrystal theoCrystal = Scene.Tracker.GetEntity<TheoCrystal>();
-            if (theoCrystal != null && theoCrystal.X >= X - 10.0)
+            if (theoCrystal != null && theoCrystal.X >= X - 10.0) {
                 return Vector2.DistanceSquared(holdingCheckFrom, theoCrystal.Center) <
                        (open ? HoldingCloseDistSq : HoldingOpenDistSq);
+            }
 
             return true;
         }

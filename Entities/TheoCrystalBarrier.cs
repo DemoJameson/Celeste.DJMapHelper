@@ -22,14 +22,19 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             : base(position, width, height, false) {
             Collidable = false;
             temp = new MTexture();
-            for (var index = 0; (double) index < (double) Width * (double) Height / 16.0; ++index)
+            for (var index = 0; (double) index < (double) Width * (double) Height / 16.0; ++index) {
                 particles.Add(new Vector2(Calc.Random.NextFloat(Width - 1f), Calc.Random.NextFloat(Height - 1f)));
+            }
 
             offX = position.X;
             offY = position.Y;
-            while (offX < 0.0) offX += 128f;
+            while (offX < 0.0) {
+                offX += 128f;
+            }
 
-            while (offY < 0.0) offY += 128f;
+            while (offY < 0.0) {
+                offY += 128f;
+            }
 
             Add(new DisplacementRenderHook(RenderDisplacement));
             Add(new HoldableCollider(OnTheoCrystal));
@@ -47,7 +52,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             offY += Engine.DeltaTime * 12f;
             if (flashing) {
                 flash = Calc.Approach(flash, 0.0f, Engine.DeltaTime * 5f);
-                if (flash <= 0.0) flashing = false;
+                if (flash <= 0.0) {
+                    flashing = false;
+                }
             }
 
             var length = speeds.Length;
@@ -66,9 +73,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             flashing = true;
             Scene.CollideInto(new Rectangle((int) X, (int) Y - 2, (int) Width, (int) Height + 4), adjacent);
             Scene.CollideInto(new Rectangle((int) X - 2, (int) Y, (int) Width + 4, (int) Height), adjacent);
-            foreach (TheoCrystalBarrier seekerBarrier in adjacent)
-                if (!seekerBarrier.flashing)
+            foreach (TheoCrystalBarrier seekerBarrier in adjacent) {
+                if (!seekerBarrier.flashing) {
                     seekerBarrier.OnReflect();
+                }
+            }
 
             adjacent.Clear();
         }
@@ -87,10 +96,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public override void Render() {
             Color backgroundColor = Calc.HexToColor("65ABFF");
             Draw.Rect(Collider, backgroundColor * 0.2f);
-            if (flash > 0.0) Draw.Rect(Collider, backgroundColor * flash);
+            if (flash > 0.0) {
+                Draw.Rect(Collider, backgroundColor * flash);
+            }
 
             Color color = Calc.HexToColor("66FF66") * 0.6f;
-            foreach (Vector2 particle in particles) Draw.Pixel.Draw(Position + particle, Vector2.Zero, color);
+            foreach (Vector2 particle in particles) {
+                Draw.Pixel.Draw(Position + particle, Vector2.Zero, color);
+            }
         }
 
         public static void OnLoad() {
@@ -123,7 +136,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static void CheckCollide(CollisionData data) {
-            if (data.Hit is TheoCrystalBarrier barrier) barrier.OnReflect();
+            if (data.Hit is TheoCrystalBarrier barrier) {
+                barrier.OnReflect();
+            }
         }
 
         private static void TheoCrystalOnUpdate(On.Celeste.TheoCrystal.orig_Update orig, TheoCrystal self) {
@@ -135,7 +150,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             var theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
-            if (self.Holding?.Entity is TheoCrystal) theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
+            if (self.Holding?.Entity is TheoCrystal) {
+                theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
+            }
 
             CollideCheckOutside(self, Vector2.UnitX);
             CollideCheckOutside(self, -Vector2.UnitX);
@@ -149,7 +166,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void CollideCheckOutside(Player player, Vector2 direction) {
             if (player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction) is TheoCrystalBarrier
                 barrier) {
-                if (direction.Abs().Y > 0) direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
+                if (direction.Abs().Y > 0) {
+                    direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
+                }
 
                 if (direction.Y > 0) {
                     player.PointBounce(player.Center + direction);
@@ -180,7 +199,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             var collide = self.CollideCheck<TheoCrystalBarrier>();
             theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
 
-            if (collide && pickup.Entity is TheoCrystal) return false;
+            if (collide && pickup.Entity is TheoCrystal) {
+                return false;
+            }
 
             return orig(self, pickup);
         }

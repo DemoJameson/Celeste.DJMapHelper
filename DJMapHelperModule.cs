@@ -45,7 +45,9 @@ namespace Celeste.Mod.DJMapHelper {
         }
 
         public override void LoadContent(bool firstLoad) {
-            if (firstLoad) SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
+            if (firstLoad) {
+                SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
+            }
         }
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
@@ -70,7 +72,9 @@ namespace Celeste.Mod.DJMapHelper {
             EntityData entityData) {
             const string prefix = "DJMapHelper/";
             var entityName = entityData.Name;
-            if (!entityName.StartsWith(prefix)) return false;
+            if (!entityName.StartsWith(prefix)) {
+                return false;
+            }
 
             entityName = entityName.Remove(0, prefix.Length);
 

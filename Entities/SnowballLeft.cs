@@ -59,7 +59,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayerBounce(Player player) {
-            if (CollideCheck(player)) return;
+            if (CollideCheck(player)) {
+                return;
+            }
 
             Celeste.Freeze(0.1f);
             player.Bounce(Top - 2f);
@@ -71,10 +73,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             base.Update();
             X += 200f * Engine.DeltaTime;
             Y = atY + 4f * sine.Value;
-            if (X <= level.Camera.Right + 60.0) return;
+            if (X <= level.Camera.Right + 60.0) {
+                return;
+            }
 
             resetTimer += Engine.DeltaTime;
-            if (resetTimer >= ResetTime) ResetPosition();
+            if (resetTimer >= ResetTime) {
+                ResetPosition();
+            }
         }
 
         public override void Render() {

@@ -25,18 +25,25 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         }
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
-            if (AlwaysOnGround && self is Player && DJMapHelperModule.Settings.EnableTowerViewer) return true;
+            if (AlwaysOnGround && self is Player && DJMapHelperModule.Settings.EnableTowerViewer) {
+                return true;
+            }
+
             return orig(self, downCheck);
         }
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             orig(self);
 
-            if (!DJMapHelperModule.Settings.EnableTowerViewer) return;
+            if (!DJMapHelperModule.Settings.EnableTowerViewer) {
+                return;
+            }
 
             Level level = self.SceneAs<Level>();
 
-            if (self.Dead || level.Paused || self.StateMachine.State == Player.StDummy) return;
+            if (self.Dead || level.Paused || self.StateMachine.State == Player.StDummy) {
+                return;
+            }
 
             MInput.KeyboardData keyboard = MInput.Keyboard;
 

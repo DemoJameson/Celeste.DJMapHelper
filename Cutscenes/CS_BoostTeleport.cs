@@ -99,8 +99,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 yield return null;
             }
 
-            while (bird != null)
+            while (bird != null) {
                 yield return null;
+            }
+
             FadeWipe wipe = new FadeWipe(Level, false, null);
             wipe.Duration = 4f;
             ScreenWipe.WipeColor = Color.White;
@@ -113,8 +115,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 yield return null;
             }
 
-            while (wipe.Percent < 1.0)
+            while (wipe.Percent < 1.0) {
                 yield return null;
+            }
+
             EndCutscene(Level, true);
         }
 
@@ -157,8 +161,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             Level.OnEndOfFrame += (Action) (() => {
                 Level.TeleportTo(player, nextLevelName, nextLevelIntro, new Vector2?());
                 if (nextColorGrade != "") {
-                    if (nextColorGrade == "none")
+                    if (nextColorGrade == "none") {
                         nextColorGrade = null;
+                    }
+
                     level.SnapColorGrade(nextColorGrade);
                 }
             });

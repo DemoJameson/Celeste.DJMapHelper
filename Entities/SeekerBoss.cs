@@ -4,45 +4,17 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monocle;
 
+// ReSharper disable PossibleInvalidCastExceptionInForeachLoop
+// ReSharper disable IteratorNeverReturns
+
 namespace Celeste.Mod.DJMapHelper.Entities {
-    [Tracked(false)]
+    [Tracked]
     public class SeekerBoss : Actor {
-        private const int size = 12;
-        private const int bounceWidth = 16;
-        private const int bounceHeight = 4;
-        private const float Accel = 600f;
-        private const float WallCollideStunThreshold = 100f;
-        private const float StunXSpeed = 100f;
-        private const float BounceSpeed = 200f;
-        private const float SightDistSq = 25600f;
-        private const float ExplodeRadius = 40f;
-        private const float FarDistSq = 12544f;
-        private const float IdleAccel = 200f;
-        private const float IdleSpeed = 50f;
-        private const float SpottedTargetSpeed = 60f;
-        private const float SpottedFarSpeed = 90f;
-        private const float SpottedMaxYDist = 24f;
-        private const float AttackMinXDist = 16f;
-        private const float AttackWindUpSpeed = -60f;
-        private const float AttackWindUpTime = 0.3f;
-        private const float AttackStartSpeed = 180f;
-        private const float AttackTargetSpeed = 260f;
-        private const float AttackAccel = 300f;
-        private const float DirectionDotThreshold = 0.4f;
-        private const int AttackTargetUpShift = 2;
-        private const float AttackMaxRotateRadians = 0.6108652f;
-        private const float StunnedAccel = 150f;
-        private const float StunTime = 0.8f;
-        private const float SkiddingAccel = 200f;
-        private const float StrongSkiddingAccel = 400f;
-
-        private const float StrongSkiddingTime = 0.08f;
-
         //我只需要两个状态，闲暇和复活
-        private const int stateIdle = 0;
-        private const int stateRegenerate = 1;
+        private const int StateIdle = 0;
+        private const int StateRegenerate = 1;
+
         private const int FinalPattern = 6;
-        public static readonly Color TrailColor = Calc.HexToColor("99e550");
         private readonly Coroutine attackCoroutine;
         private readonly Hitbox attackHitbox;
         private readonly SoundSource boopedSfx;
@@ -59,6 +31,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly SineWave idleSineX;
         private readonly SineWave idleSineY;
         private readonly SoundSource laserSfx;
+
+        private readonly VertexLight light;
         private readonly Hitbox physicsHitbox;
         private readonly Circle pushRadius;
         private readonly SoundSource reviveSfx;
@@ -66,29 +40,24 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly Shaker shaker;
 
         //新的变量
-        private readonly Vector2 spinnerps1;
-        private readonly Vector2 spinnerps2;
-        private readonly Vector2 spinnerps3;
-        private readonly Vector2 spinnerps4;
-        private readonly Vector2 spinnerps5;
-        private readonly Vector2 spinnerps6;
+        private readonly Vector2 spinnerPosition1;
+        private readonly Vector2 spinnerPosition2;
+        private readonly Vector2 spinnerPosition3;
+        private readonly Vector2 spinnerPosition4;
+        private readonly Vector2 spinnerPosition5;
+        private readonly Vector2 spinnerPosition6;
         private readonly Sprite sprite;
-        private readonly StateMachine State;
-        private readonly Vector2 switchps1;
-        private readonly Vector2 switchps2;
-        private readonly Vector2 switchps3;
-        private readonly Vector2 switchps4;
-        private SoundSource aggroSfx;
+        private readonly StateMachine state;
+        private readonly Vector2 switchPosition1;
+        private readonly Vector2 switchPosition2;
+        private readonly Vector2 switchPosition3;
+        private readonly Vector2 switchPosition4;
         private int facing = 1;
         private float gliderRespawnTime;
         private bool gotProtected;
-        private Vector2 lastPosition;
-        public VertexLight Light;
         private string nextSprite;
-        private List<Vector2> path;
         private int pattern;
-        private Random random;
-        public Vector2 Speed;
+        private Vector2 speed;
         private int spriteFacing = 1;
         private float switchAppearTime;
 
@@ -97,26 +66,27 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Collider = physicsHitbox = new Hitbox(6f, 6f, -3f, -3f);
             attackHitbox = new Hitbox(12f, 8f, -6f, -2f);
             bounceHitbox = new Hitbox(16f, 6f, -8f, -8f);
-            pushRadius = new Circle(40f, 0.0f, 0.0f);
-            Add(new PlayerCollider(OnAttackPlayer, attackHitbox, null));
-            Add(new PlayerCollider(OnBouncePlayer, bounceHitbox, null));
-            Add(shaker = new Shaker(false, null));
-            Add(State = new StateMachine(10));
-            State.SetCallbacks(0, IdleUpdate, null, null, null);
-            State.SetCallbacks(1, RegenerateUpdate, RegenerateCoroutine, RegenerateBegin, RegenerateEnd);
+            pushRadius = new Circle(40f);
+            Add(new PlayerCollider(OnAttackPlayer, attackHitbox));
+            Add(new PlayerCollider(OnBouncePlayer, bounceHitbox));
+            Add(shaker = new Shaker(false));
+            Add(state = new StateMachine());
+            state.SetCallbacks(StateIdle, IdleUpdate);
+            state.SetCallbacks(StateRegenerate, RegenerateUpdate, RegenerateCoroutine, RegenerateBegin, RegenerateEnd);
             Add(idleSineX = new SineWave(0.5f, 0.0f));
             Add(idleSineY = new SineWave(0.7f, 0.0f));
-            Add(Light = new VertexLight(Color.White, 1f, 32, 64));
+            Add(light = new VertexLight(Color.White, 1f, 32, 64));
             Add(new MirrorReflection());
-            path = new List<Vector2>();
             IgnoreJumpThrus = true;
             Add(sprite = GFX.SpriteBank.Create("seeker"));
             sprite.OnLastFrame = f => {
-                if (!flipAnimations.Contains(f) || spriteFacing == facing)
+                if (!flipAnimations.Contains(f) || spriteFacing == facing) {
                     return;
+                }
+
                 spriteFacing = facing;
                 if (nextSprite != null) {
-                    sprite.Play(nextSprite, false, false);
+                    sprite.Play(nextSprite);
                     nextSprite = null;
                 }
             };
@@ -124,22 +94,21 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 nextSprite = null;
                 sprite.OnLastFrame(last);
             };
-            scaleWiggler = Wiggler.Create(0.8f, 2f, null, false, false);
+            scaleWiggler = Wiggler.Create(0.8f, 2f);
             Add(scaleWiggler);
             Add(boopedSfx = new SoundSource());
-            Add(aggroSfx = new SoundSource());
             Add(reviveSfx = new SoundSource());
             //原码到此
-            spinnerps1 = position + new Vector2(0, 16);
-            spinnerps2 = position + new Vector2(0, -16);
-            spinnerps3 = position + new Vector2(16, 8);
-            spinnerps4 = position + new Vector2(16, -8);
-            spinnerps5 = position + new Vector2(-16, 8);
-            spinnerps6 = position + new Vector2(-16, -8);
-            switchps1 = position + new Vector2(-128, -64);
-            switchps2 = position + new Vector2(-88, 64);
-            switchps3 = position + new Vector2(128, -64);
-            switchps4 = position + new Vector2(88, 64);
+            spinnerPosition1 = position + new Vector2(0, 16);
+            spinnerPosition2 = position + new Vector2(0, -16);
+            spinnerPosition3 = position + new Vector2(16, 8);
+            spinnerPosition4 = position + new Vector2(16, -8);
+            spinnerPosition5 = position + new Vector2(-16, 8);
+            spinnerPosition6 = position + new Vector2(-16, -8);
+            switchPosition1 = position + new Vector2(-128, -64);
+            switchPosition2 = position + new Vector2(-88, 64);
+            switchPosition3 = position + new Vector2(128, -64);
+            switchPosition4 = position + new Vector2(88, 64);
             gliderPosition = position + new Vector2(40, -32);
             Add(chargeSfx = new SoundSource());
             Add(laserSfx = new SoundSource());
@@ -157,7 +126,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public Vector2 ShotOrigin => Center + sprite.Position + new Vector2(6f * sprite.Scale.X, 2f);
 
-        public bool Regenerating => State.State == 1;
+        public bool Regenerating => state.State == 1;
 
         public void Die() {
             Entity entity = new Entity(Position);
@@ -169,26 +138,35 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Audio.Play("event:/game/05_mirror_temple/seeker_death", Position);
 
             //死亡的后续代码
-            foreach (InvisibleBarrier barrier in Scene.Tracker.GetEntities<InvisibleBarrier>())
+            foreach (InvisibleBarrier barrier in Scene.Tracker.GetEntities<InvisibleBarrier>()) {
                 barrier.RemoveSelf();
-            foreach (TempleGate gate in Scene.Tracker.GetEntities<TempleGate>())
+            }
+
+            foreach (TempleGate gate in Scene.Tracker.GetEntities<TempleGate>()) {
                 gate.Open();
-            foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>())
+            }
+
+            foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>()) {
                 if (protector != null) {
-                    BadelineDummy badeline = protector.badeline;
-                    if (badeline.Visible)
+                    BadelineDummy badeline = protector.Badeline;
+                    if (badeline.Visible) {
                         badeline.Vanish();
-                    else badeline.RemoveSelf();
+                    }
+                    else {
+                        badeline.RemoveSelf();
+                    }
+
                     protector.RemoveSelf();
                 }
+            }
 
-            Audio.SetMusic(null, true, true);
+            Audio.SetMusic(null);
             RemoveSelf();
         }
 
         public override void Added(Scene scene) {
             base.Added(scene);
-            random = new Random(SceneAs<Level>().Session.LevelData.LoadSeed);
+
             //需要生成保护刺
             GenerateSpinner();
             GenerateCoin();
@@ -197,13 +175,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public override void Awake(Scene scene) {
             base.Awake(scene);
             Player entity = Scene.Tracker.GetEntity<Player>();
-            if (entity == null || X == (double) entity.X)
+            if (entity == null || Math.Abs(X - (double) entity.X) < 0.01) {
                 SnapFacing(1f);
-            else
+            }
+            else {
                 SnapFacing(Math.Sign(entity.X - X));
+            }
 
             //检查钥匙
-            Add(new Coroutine(CheckTouchSwitches(), true));
+            Add(new Coroutine(CheckTouchSwitches()));
         }
 
         public override bool IsRiding(JumpThru jumpThru) {
@@ -215,7 +195,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnAttackPlayer(Player player) {
-            player.Die((player.Center - Position).SafeNormalize(), false, true);
+            player.Die((player.Center - Position).SafeNormalize());
         }
 
         private void OnBouncePlayer(Player player) {
@@ -238,7 +218,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private void GotBouncedOn(Entity entity) {
             Celeste.Freeze(0.15f);
             if (pattern != FinalPattern) {
-                State.State = 1;
+                state.State = 1;
                 sprite.Scale = new Vector2(1.4f, 0.6f);
                 attackCoroutine.Active = false;
                 ChangeWind(WindController.Patterns.None);
@@ -251,34 +231,40 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public override void Update() {
-            Light.Alpha = Calc.Approach(Light.Alpha, 1f, Engine.DeltaTime * 2f);
+            light.Alpha = Calc.Approach(light.Alpha, 1f, Engine.DeltaTime * 2f);
             sprite.Scale.X = Calc.Approach(sprite.Scale.X, 1f, 2f * Engine.DeltaTime);
             sprite.Scale.Y = Calc.Approach(sprite.Scale.Y, 1f, 2f * Engine.DeltaTime);
             base.Update();
-            lastPosition = Position;
-            MoveH(Speed.X * Engine.DeltaTime, null, null);
-            MoveV(Speed.Y * Engine.DeltaTime, null, null);
+
+            MoveH(speed.X * Engine.DeltaTime);
+            MoveV(speed.Y * Engine.DeltaTime);
             bounceHitbox.Width = 12f;
             bounceHitbox.Position.X = -6f;
         }
 
         private void TurnFacing(float dir, string gotoSprite = null) {
-            if (dir != 0.0)
+            if (Math.Abs(dir) > 0.01) {
                 facing = Math.Sign(dir);
+            }
+
             if (spriteFacing != facing) {
-                sprite.Play("flipEyes", false, false);
+                sprite.Play("flipEyes");
                 nextSprite = gotoSprite;
             }
             else {
-                if (gotoSprite == null)
+                if (gotoSprite == null) {
                     return;
-                sprite.Play(gotoSprite, false, false);
+                }
+
+                sprite.Play(gotoSprite);
             }
         }
 
         private void SnapFacing(float dir) {
-            if (dir == 0.0)
+            if (Math.Abs(dir) < 0.01) {
                 return;
+            }
+
             spriteFacing = facing = Math.Sign(dir);
         }
 
@@ -287,7 +273,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Position = Position + shaker.Value;
             Vector2 scale = this.sprite.Scale;
             Sprite sprite = this.sprite;
-            sprite.Scale = sprite.Scale * (float) (1.0 - 0.300000011920929 * scaleWiggler.Value);
+            sprite.Scale = sprite.Scale * (float) (1.0 - 0.3 * scaleWiggler.Value);
             this.sprite.Scale.X *= spriteFacing;
             base.Render();
             Position = position;
@@ -307,16 +293,22 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Vector2 target = Vector2.Zero;
             target.X = idleSineX.Value * 6f;
             target.Y = idleSineY.Value * 6f;
-            Speed = Calc.Approach(Speed, target, 200f * Engine.DeltaTime);
-            if (Speed.LengthSquared() > 400.0)
-                TurnFacing(Speed.X, null);
-            if (spriteFacing == facing)
-                sprite.Play("idle", false, false);
+            speed = Calc.Approach(speed, target, 200f * Engine.DeltaTime);
+            if (speed.LengthSquared() > 400.0) {
+                TurnFacing(speed.X);
+            }
+
+            if (spriteFacing == facing) {
+                sprite.Play("idle");
+            }
+
             //往这里开始插攻击代码
             //是否生成水母
             if (gliderRespawnTime > 0.0) {
                 gliderRespawnTime -= Engine.DeltaTime;
-                if (gliderRespawnTime <= 0.0) GenerateGlider();
+                if (gliderRespawnTime <= 0.0) {
+                    GenerateGlider();
+                }
             }
             else if (Scene.Entities.FindFirst<Glider>() == null) {
                 gliderRespawnTime = 7f;
@@ -325,7 +317,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             //是否放钥匙
             if (switchAppearTime > 0.0f) {
                 switchAppearTime -= Engine.DeltaTime;
-                if (switchAppearTime <= 0.0) GenerateCoin();
+                if (switchAppearTime <= 0.0) {
+                    GenerateCoin();
+                }
             }
 
             return 0;
@@ -333,20 +327,26 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void RegenerateBegin() {
             Audio.Play("event:/game/general/thing_booped", Position);
-            boopedSfx.Play("event:/game/05_mirror_temple/seeker_booped", null, 0.0f);
-            sprite.Play("takeHit", false, false);
+            boopedSfx.Play("event:/game/05_mirror_temple/seeker_booped");
+            sprite.Play("takeHit");
             Collidable = false;
-            State.Locked = true;
-            Light.StartRadius = 16f;
-            Light.EndRadius = 32f;
+            state.Locked = true;
+            light.StartRadius = 16f;
+            light.EndRadius = 32f;
 
             //消除障碍
-            foreach (TouchSwitch entity in Scene.Tracker.GetEntities<TouchSwitch>())
+            foreach (TouchSwitch entity in Scene.Tracker.GetEntities<TouchSwitch>()) {
                 entity.RemoveSelf();
-            foreach (SeekerBossShot entity in Scene.Tracker.GetEntities<SeekerBossShot>())
+            }
+
+            foreach (SeekerBossShot entity in Scene.Tracker.GetEntities<SeekerBossShot>()) {
                 entity.Destroy();
-            foreach (SeekerBossBeam entity in Scene.Tracker.GetEntities<SeekerBossBeam>())
+            }
+
+            foreach (SeekerBossBeam entity in Scene.Tracker.GetEntities<SeekerBossBeam>()) {
                 entity.Destroy();
+            }
+
             foreach (Seeker seeker in Scene.Tracker.GetEntities<Seeker>()) {
                 Entity entity = new Entity(seeker.Position);
                 entity.Add(new DeathEffect(Color.HotPink, seeker.Center - seeker.Position) {
@@ -360,10 +360,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void RegenerateEnd() {
-            reviveSfx.Play("event:/game/05_mirror_temple/seeker_revive", null, 0.0f);
+            reviveSfx.Play("event:/game/05_mirror_temple/seeker_revive");
             Collidable = true;
-            Light.StartRadius = 32f;
-            Light.EndRadius = 64f;
+            light.StartRadius = 32f;
+            light.EndRadius = 64f;
 
             //这里写复活代码
             pattern = pattern + 1;
@@ -379,15 +379,17 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 case 3:
                     attackCoroutine.Replace(Attack3Sequence());
                     Scene.Add(new Seeker(Position + new Vector2(40f, 0f),
-                        new Vector2[1] {Position + new Vector2(64f, 0)}));
+                        new[] {Position + new Vector2(64f, 0)}));
                     Scene.Add(new Seeker(Position + new Vector2(-40f, 0f),
-                        new Vector2[1] {Position + new Vector2(-64f, 0)}));
+                        new[] {Position + new Vector2(-64f, 0)}));
                     break;
                 case 4:
                     attackCoroutine.Replace(Attack4Sequence());
                     Player player = Scene.Tracker.GetEntity<Player>();
-                    if (player != null)
+                    if (player != null) {
                         player.Visible = false;
+                    }
+
                     ChangeWind(WindController.Patterns.Up);
                     break;
                 case 5:
@@ -406,8 +408,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private int RegenerateUpdate() {
-            Speed.X = Calc.Approach(Speed.X, 0.0f, 150f * Engine.DeltaTime);
-            Speed = Calc.Approach(Speed, Vector2.Zero, 150f * Engine.DeltaTime);
+            speed.X = Calc.Approach(speed.X, 0.0f, 150f * Engine.DeltaTime);
+            speed = Calc.Approach(speed, Vector2.Zero, 150f * Engine.DeltaTime);
             return 1;
         }
 
@@ -415,33 +417,32 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             yield return 1f;
             shaker.On = true;
             yield return 0.2f;
-            sprite.Play("pulse", false, false);
+            sprite.Play("pulse");
             yield return 0.5f;
-            sprite.Play("recover", false, false);
+            sprite.Play("recover");
             RecoverBlast.Spawn(Position);
             yield return 0.15f;
             Collider = pushRadius;
             Player player = CollideFirst<Player>();
-            if (player != null && !Scene.CollideCheck<Solid>(Position, player.Center))
+            if (player != null && !Scene.CollideCheck<Solid>(Position, player.Center)) {
                 player.ExplodeLaunch(Position, true, false);
+            }
+
             Collider = physicsHitbox;
             Level level = SceneAs<Level>();
-            level.Displacement.AddBurst(Position, 0.4f, 12f, 36f, 0.5f, null, null);
-            level.Displacement.AddBurst(Position, 0.4f, 24f, 48f, 0.5f, null, null);
-            level.Displacement.AddBurst(Position, 0.4f, 36f, 60f, 0.5f, null, null);
+            level.Displacement.AddBurst(Position, 0.4f, 12f, 36f, 0.5f);
+            level.Displacement.AddBurst(Position, 0.4f, 24f, 48f, 0.5f);
+            level.Displacement.AddBurst(Position, 0.4f, 36f, 60f, 0.5f);
             for (var i = 0.0f; (double) i < 6.28318548202515; i += 0.1745329f) {
                 Vector2 at = Center + Calc.AngleToVector(
                                  i + Calc.Random.Range(-1f * (float) Math.PI / 90f, (float) Math.PI / 90f),
                                  Calc.Random.Range(12, 18));
                 level.Particles.Emit(Seeker.P_Regen, at, i);
-                at = new Vector2();
             }
 
-            player = null;
-            level = null;
             shaker.On = false;
-            State.Locked = false;
-            State.State = 0;
+            state.Locked = false;
+            state.State = 0;
         }
 
         private IEnumerator Attack0Sequence() {
@@ -451,7 +452,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private IEnumerator Attack1Sequence() {
             yield return 0.3f;
             while (true) {
-                Shoot(0.0f);
+                Shoot();
                 yield return 0.4f;
                 StartShootCharge();
                 yield return 0.4f;
@@ -474,7 +475,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private IEnumerator Attack4Sequence() {
             yield return 0.3f;
             while (true) {
-                Shoot(0.0f);
+                Shoot();
                 yield return 1.5f;
                 StartShootCharge();
                 yield return 1.5f;
@@ -488,7 +489,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 yield return 0.4f;
                 StartShootCharge();
                 yield return 0.3f;
-                Shoot(0.0f);
+                Shoot();
                 yield return 0.5f;
             }
         }
@@ -502,29 +503,37 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void GenerateSpinner() {
-            Scene.Add(new CrystalStaticSpinner(spinnerps1, false, CrystalColor.Red));
-            Scene.Add(new CrystalStaticSpinner(spinnerps2, false, CrystalColor.Red));
-            Scene.Add(new CrystalStaticSpinner(spinnerps3, false, CrystalColor.Red));
-            Scene.Add(new CrystalStaticSpinner(spinnerps4, false, CrystalColor.Red));
-            Scene.Add(new CrystalStaticSpinner(spinnerps5, false, CrystalColor.Red));
-            Scene.Add(new CrystalStaticSpinner(spinnerps6, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition1, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition2, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition3, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition4, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition5, false, CrystalColor.Red));
+            Scene.Add(new CrystalStaticSpinner(spinnerPosition6, false, CrystalColor.Red));
             gotProtected = true;
         }
 
         private void DestroySpinner() {
-            foreach (CrystalStaticSpinner entity in Scene.Tracker.GetEntities<CrystalStaticSpinner>())
-                if (entity.Position == spinnerps1)
+            foreach (CrystalStaticSpinner entity in Scene.Tracker.GetEntities<CrystalStaticSpinner>()) {
+                if (entity.Position == spinnerPosition1) {
                     entity.Destroy();
-                else if (entity.Position == spinnerps2)
+                }
+                else if (entity.Position == spinnerPosition2) {
                     entity.Destroy();
-                else if (entity.Position == spinnerps3)
+                }
+                else if (entity.Position == spinnerPosition3) {
                     entity.Destroy();
-                else if (entity.Position == spinnerps4)
+                }
+                else if (entity.Position == spinnerPosition4) {
                     entity.Destroy();
-                else if (entity.Position == spinnerps5)
+                }
+                else if (entity.Position == spinnerPosition5) {
                     entity.Destroy();
-                else if (entity.Position == spinnerps6)
+                }
+                else if (entity.Position == spinnerPosition6) {
                     entity.Destroy();
+                }
+            }
+
             gotProtected = false;
         }
 
@@ -535,65 +544,69 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void GenerateCoin() {
             Audio.Play("event:/new_content/char/badeline/booster_first_appear", Position);
-            Scene.Add(new TouchSwitch(switchps1));
-            Scene.Add(new TouchSwitch(switchps2));
-            Scene.Add(new TouchSwitch(switchps3));
-            Scene.Add(new TouchSwitch(switchps4));
+            Scene.Add(new TouchSwitch(switchPosition1));
+            Scene.Add(new TouchSwitch(switchPosition2));
+            Scene.Add(new TouchSwitch(switchPosition3));
+            Scene.Add(new TouchSwitch(switchPosition4));
         }
 
         private void ChangeWind(WindController.Patterns wind) {
             WindController first = Scene.Entities.FindFirst<WindController>();
-            if (first == null)
+            if (first == null) {
                 Scene.Add(new WindController(wind));
-            else
+            }
+            else {
                 first.SetPattern(wind);
+            }
         }
 
         private IEnumerator CheckTouchSwitches() {
-            while (true)
+            while (true) {
                 if (!gotProtected) {
                     yield return null;
                 }
                 else {
-                    while (!Switch.Check(Scene))
+                    while (!Switch.Check(Scene)) {
                         yield return null;
+                    }
+
                     yield return 0.5f;
                     DestroySpinner();
                 }
+            }
         }
 
         private void StartShootCharge() {
-            chargeSfx.Play("event:/char/badeline/boss_bullet", null, 0.0f);
+            chargeSfx.Play("event:/char/badeline/boss_bullet");
         }
 
         private void Shoot(float angleOffset = 0.0f) {
-            if (!chargeSfx.Playing)
+            if (!chargeSfx.Playing) {
                 chargeSfx.Play("event:/char/badeline/boss_bullet", "end", 1f);
-            else
+            }
+            else {
                 chargeSfx.Param("end", 1f);
+            }
+
             Player entity = Scene.Tracker.GetEntity<Player>();
-            if (entity == null)
+            if (entity == null) {
                 return;
+            }
+
             Scene.Add(Engine.Pooler.Create<SeekerBossShot>().Init(this, entity, angleOffset));
         }
 
-        private void ShootAt(Vector2 at) {
-            if (!chargeSfx.Playing)
-                chargeSfx.Play("event:/char/badeline/boss_bullet", "end", 1f);
-            else
-                chargeSfx.Param("end", 1f);
-            Scene.Add(Engine.Pooler.Create<SeekerBossShot>().Init(this, at));
-        }
-
         private IEnumerator Beam() {
-            laserSfx.Play("event:/char/badeline/boss_laser_charge", null, 0.0f);
+            laserSfx.Play("event:/char/badeline/boss_laser_charge");
             yield return 0.1f;
             Player player = Scene.Tracker.GetEntity<Player>();
-            if (player != null)
+            if (player != null) {
                 Scene.Add(Engine.Pooler.Create<SeekerBossBeam>().Init(this, player));
+            }
+
             yield return 0.9f;
             yield return 0.5f;
-            laserSfx.Stop(true);
+            laserSfx.Stop();
             Audio.Play("event:/char/badeline/boss_laser_fire", Position);
         }
 
@@ -609,7 +622,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     sprite.OnLastFrame = a => RemoveSelf();
                 }
 
-                sprite.Play("shockwave", true, false);
+                sprite.Play("shockwave", true);
             }
 
             public static void Spawn(Vector2 position) {

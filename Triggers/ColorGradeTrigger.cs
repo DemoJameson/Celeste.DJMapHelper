@@ -11,7 +11,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         public override void OnEnter(Player player) {
             base.OnEnter(player);
 
-            if (colorGrade == "none") colorGrade = null;
+            if (colorGrade == "none") {
+                colorGrade = null;
+            }
+
             (Scene as Level)?.SnapColorGrade(colorGrade);
         }
     }

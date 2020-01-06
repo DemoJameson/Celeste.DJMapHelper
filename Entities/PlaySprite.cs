@@ -15,9 +15,17 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             flipX = data.Bool("flipX");
             flipY = data.Bool("filpY");
             Add(Sprite = GFX.SpriteBank.Create(SpriteName));
-            if (SpriteId != "") Sprite.Play(SpriteId);
-            if (flipX) Sprite.Scale.X *= -1;
-            if (flipY) Sprite.Scale.Y *= -1;
+            if (SpriteId != "") {
+                Sprite.Play(SpriteId);
+            }
+
+            if (flipX) {
+                Sprite.Scale.X *= -1;
+            }
+
+            if (flipY) {
+                Sprite.Scale.Y *= -1;
+            }
         }
     }
 }
