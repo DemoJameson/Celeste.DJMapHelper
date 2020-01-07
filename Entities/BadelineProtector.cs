@@ -63,11 +63,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void ResetPosition() {
             if (clockwise) {
-                rotationPercent -= Engine.DeltaTime / 1.8f;
+                rotationPercent -= Engine.DeltaTime / rotationTime;
                 ++rotationPercent;
             }
             else {
-                rotationPercent += Engine.DeltaTime / 1.8f;
+                rotationPercent += Engine.DeltaTime / rotationTime;
             }
 
             rotationPercent %= 1f;
@@ -82,6 +82,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public override void Update() {
             base.Update();
+
+            if (player.Dead) {
+                RemoveSelf();
+            }
 
             ResetPosition();
 
@@ -168,7 +172,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void RemoveBadeline(BadelineDummy badeline) {
-            respawnTimer = respwanTime;
             Disappear(badeline);
             badelines.Remove(badeline);
         }

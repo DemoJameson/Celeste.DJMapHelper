@@ -44,7 +44,7 @@ namespace Celeste.Mod.DJMapHelper.Extensions {
                 return (T) values[name];
             }
 
-            return default;
+            return default(T);
         }
     }
 }
