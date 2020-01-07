@@ -172,6 +172,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void RemoveBadeline(BadelineDummy badeline) {
+            if (respawnTimer <= 0) {
+                respawnTimer = respwanTime;
+            }
             Disappear(badeline);
             badelines.Remove(badeline);
         }
