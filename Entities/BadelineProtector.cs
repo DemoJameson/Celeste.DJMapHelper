@@ -146,12 +146,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Collider = new Hitbox(8f, 9f, -4f, -11f)
             };
             badeline.Add(new Coroutine(Appear(badeline, silent)));
-            badelines.Add(badeline);
-            ResetPosition();
             Scene.Add(badeline);
         }
 
         private IEnumerator Appear(BadelineDummy badeline, bool silent = false) {
+            badelines.Add(badeline);
+            ResetPosition();
+
             if (!silent) {
                 Audio.Play("event:/char/badeline/appear", badeline.Position);
             }
