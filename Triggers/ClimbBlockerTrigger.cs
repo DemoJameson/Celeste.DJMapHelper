@@ -5,12 +5,31 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
     public class ClimbBlockerTrigger : Trigger {
+        private const string BlockWallJumpKey = "DJMapHelper/ClimbBlockerTrigger_BlockWallJump";
+        private const string BlockClimbKey = "DJMapHelper/ClimbBlockerTrigger_BlockClimb";
+
         private readonly bool climb;
         private readonly bool wallJump;
+        private readonly Modes mode;
+
+        enum Modes {
+            Contained,
+            Persistent
+        }
 
         public ClimbBlockerTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             wallJump = data.Bool("wallJump");
             climb = data.Bool("climb");
+            mode = data.Enum<Modes>("mode");
+        }
+
+        public override void OnEnter(Player player) {
+            if (mode == Modes.Persistent) {
+                Session session = player.SceneAs<Level>().Session;
+                session.SetFlag(BlockWallJumpKey, !wallJump);
+                session.SetFlag(BlockClimbKey, !climb);
+                RemoveSelf();
+            }
         }
 
         public static void OnLoad() {
@@ -26,7 +45,13 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private static void PlayerOnClimbJump(On.Celeste.Player.orig_ClimbJump orig, Player self) {
             var triggers =
                 self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
-            var wallJump = triggers.All(trigger => trigger.wallJump);
+            bool wallJump;
+            if (triggers.Count > 0) {
+                wallJump = triggers.All(trigger => trigger.wallJump);
+            } else {
+                Session session = self.SceneAs<Level>().Session;
+                wallJump = !session.GetFlag(BlockWallJumpKey);
+            }
             if (wallJump) {
                 orig(self);
             }
@@ -36,8 +61,18 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             int dir) {
             var triggers =
                 self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
-            var wallJump = triggers.All(trigger => trigger.wallJump);
-            var climb = triggers.All(trigger => trigger.climb);
+            
+            bool wallJump;
+            bool climb;
+            
+            Session session = self.SceneAs<Level>().Session;
+            if (triggers.Count > 0) {
+                wallJump = triggers.All(trigger => trigger.wallJump);
+                climb = triggers.All(trigger => trigger.climb);
+            } else {
+                wallJump = !session.GetFlag(BlockWallJumpKey);
+                climb = !session.GetFlag(BlockClimbKey);
+            }
 
             if (wallJump && climb) {
                 return orig(self, dir);

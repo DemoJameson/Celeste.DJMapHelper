@@ -108,7 +108,6 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                         }
 
                         var origColor = entity.GetExtendedDataValue<CrystalColor?>("color");
-                        Logger.Log("DJMapHelper", "origColor=" + origColor);
                         if (origColor != null) {
                             if (origColor == ~CrystalColor.Blue) {
                                 origColor = level.CoreMode != Session.CoreModes.Cold
