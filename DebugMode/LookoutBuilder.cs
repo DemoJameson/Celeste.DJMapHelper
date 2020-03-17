@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,8 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.DebugMode {
     // Ctrl+Q: Add tower viewer.
     public static class LookoutBuilder {
+        private static bool? SavedInvincible;
+
         private static readonly MethodInfo InteractMethod =
             typeof(Lookout).GetMethod("Interact", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -35,6 +38,15 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             orig(self);
 
+            if (self.SceneAs<Level>().Tracker.GetEntities<Lookout>()
+                    .All(entity => entity.Get<LookoutComponent>() == null) &&
+                AlwaysOnGround && SavedInvincible != null
+            ) {
+                SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
+                SavedInvincible = null;
+                AlwaysOnGround = false;
+            }
+
             if (!DJMapHelperModule.Settings.EnableTowerViewer) {
                 return;
             }
@@ -48,7 +60,9 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             MInput.KeyboardData keyboard = MInput.Keyboard;
 
             if (keyboard.Pressed(Keys.Q) && (keyboard.Check(Keys.LeftControl) || keyboard.Check(Keys.RightControl))) {
-                Lookout lookout = new Lookout(new EntityData {Position = self.Position}, Vector2.Zero);
+                Lookout lookout = new Lookout(new EntityData {Position = self.Position}, Vector2.Zero) {
+                    new LookoutComponent()
+                };
                 lookout.Add(new Coroutine(Look(lookout, self)));
                 level.Add(lookout);
             }
@@ -58,10 +72,10 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             yield return null;
             AlwaysOnGround = true;
             InteractMethod?.Invoke(lookout, new object[] {player});
-            var invincible = SaveData.Instance.Assists.Invincible;
+            SavedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
 
-            var interacting = (bool) InteractingField?.GetValue(lookout);
+            bool interacting = (bool) InteractingField?.GetValue(lookout);
             while (!interacting) {
                 player.Position = lookout.Position;
                 interacting = (bool) InteractingField?.GetValue(lookout);
@@ -74,9 +88,17 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 yield return null;
             }
 
-            SaveData.Instance.Assists.Invincible = invincible;
+            if (SavedInvincible != null) {
+                SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
+                SavedInvincible = null;
+            }
+
             AlwaysOnGround = false;
             lookout.RemoveSelf();
+        }
+
+        private class LookoutComponent : Component {
+            public LookoutComponent() : base(false, false) { }
         }
     }
 }
