@@ -26,7 +26,10 @@
 # Font (Face, Base Size)
 # Use BMFONT to generate the .fnt and image files
 	FONT=Renogare,64
-	
+
+# ================================== General ==================================
+MODNAME_DJMAPHELPER= DJ Map Helper
+
 # ================================== TeleportTrigger ==================================
 DJ_MAP_HELPER_TELEPORT_TRIGGER_NAME_EMPTY=
     [MADELINE left upset]
@@ -39,4 +42,4 @@ DJ_MAP_HELPER_TALK_TO_BADELINE_TRIGGER_DIALOG_ID_EMPTY=
     The dialog ID must not be empty.
 
 # ================================== LookoutBuilder ==================================
-DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Ctrl+Q Add Tower Viewer
+DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Ctrl+Q Spawn Watchtower
