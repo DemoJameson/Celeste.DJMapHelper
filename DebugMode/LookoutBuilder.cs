@@ -10,14 +10,12 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.DebugMode {
     // Ctrl+Q: Add tower viewer.
     public static class LookoutBuilder {
-        private const string ColliderBackup = "ColliderBackup";
         private static bool? SavedInvincible;
 
         private static readonly MethodInfo InteractMethod =
             typeof(Lookout).GetMethod("Interact", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private static readonly FieldInfo InteractingField = typeof(Lookout).GetPrivateField("interacting");
-        private static bool AlwaysOnGround;
 
         public static void OnLoad() {
             On.Celeste.Player.Update += PlayerOnUpdate;
@@ -30,7 +28,8 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         }
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
-            if (AlwaysOnGround && self is Player && DJMapHelperModule.Settings.EnableTowerViewer) {
+            if (self is Player && DJMapHelperModule.Settings.EnableTowerViewer && self.SceneAs<Level>().Tracker.GetEntities<Lookout>()
+                .Any(entity => entity.Get<LookoutComponent>() != null)) {
                 return true;
             }
 
@@ -39,21 +38,20 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             orig(self);
+            
+            Level level = self.SceneAs<Level>();
 
-            if (self.SceneAs<Level>().Tracker.GetEntities<Lookout>()
+            if (level.Tracker.GetEntities<Lookout>()
                     .All(entity => entity.Get<LookoutComponent>() == null) &&
-                AlwaysOnGround && SavedInvincible != null
+                SavedInvincible != null
             ) {
                 SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
                 SavedInvincible = null;
-                AlwaysOnGround = false;
             }
 
             if (!DJMapHelperModule.Settings.EnableTowerViewer) {
                 return;
             }
-
-            Level level = self.SceneAs<Level>();
 
             if (self.Dead || level.Paused || self.StateMachine.State == Player.StDummy) {
                 return;
@@ -67,22 +65,15 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 };
                 lookout.Add(new Coroutine(Look(lookout, self)));
                 level.Add(lookout);
+                level.Tracker.GetEntitiesCopy<LookoutBlocker>().ForEach(entity => level.Remove(entity));
             }
         }
-
+        
         private static IEnumerator Look(Lookout lookout, Player player) {
             yield return null;
-            AlwaysOnGround = true;
             InteractMethod?.Invoke(lookout, new object[] {player});
             SavedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
-
-            Level level = lookout.SceneAs<Level>();
-            List<Entity> lookoutBlockers = level.Tracker.GetEntities<LookoutBlocker>();
-            lookoutBlockers.ForEach(entity => {
-                entity.SetExtendedDataValue(ColliderBackup, entity.Collider);
-                entity.Collider = new Hitbox(0, 0);
-            });
 
             bool interacting = (bool) InteractingField?.GetValue(lookout);
             while (!interacting) {
@@ -102,12 +93,6 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 SavedInvincible = null;
             }
 
-            lookoutBlockers.ForEach(entity => {
-                Collider collider = entity.GetExtendedDataValue<Collider>(ColliderBackup);
-                entity.Collider = new Hitbox(collider.Width, collider.Height);
-            });
-
-            AlwaysOnGround = false;
             lookout.RemoveSelf();
         }
 
