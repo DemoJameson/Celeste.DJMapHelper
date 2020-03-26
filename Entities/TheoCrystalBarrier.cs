@@ -142,14 +142,19 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static void TheoCrystalOnUpdate(On.Celeste.TheoCrystal.orig_Update orig, TheoCrystal self) {
-            var theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
+            if (self.GetType() != typeof(TheoCrystal)) {
+                orig(self);
+                return;
+            }
+            
+            List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
             theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
             orig(self);
             theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
         }
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
-            var theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
+            List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
             if (self.Holding?.Entity is TheoCrystal) {
                 theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
             }
@@ -199,7 +204,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             var collide = self.CollideCheck<TheoCrystalBarrier>();
             theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
 
-            if (collide && pickup.Entity is TheoCrystal) {
+            if (collide && pickup.Entity.GetType() == typeof(TheoCrystal)) {
                 return false;
             }
 
