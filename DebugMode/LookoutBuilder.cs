@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
@@ -9,6 +10,7 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.DebugMode {
     // Ctrl+Q: Add tower viewer.
     public static class LookoutBuilder {
+        private const string ColliderBackup = "ColliderBackup";
         private static bool? SavedInvincible;
 
         private static readonly MethodInfo InteractMethod =
@@ -75,6 +77,13 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             SavedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
 
+            Level level = lookout.SceneAs<Level>();
+            List<Entity> lookoutBlockers = level.Tracker.GetEntities<LookoutBlocker>();
+            lookoutBlockers.ForEach(entity => {
+                entity.SetExtendedDataValue(ColliderBackup, entity.Collider);
+                entity.Collider = new Hitbox(0, 0);
+            });
+
             bool interacting = (bool) InteractingField?.GetValue(lookout);
             while (!interacting) {
                 player.Position = lookout.Position;
@@ -92,6 +101,11 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
                 SavedInvincible = null;
             }
+
+            lookoutBlockers.ForEach(entity => {
+                Collider collider = entity.GetExtendedDataValue<Collider>(ColliderBackup);
+                entity.Collider = new Hitbox(collider.Width, collider.Height);
+            });
 
             AlwaysOnGround = false;
             lookout.RemoveSelf();
