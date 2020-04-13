@@ -22,10 +22,14 @@
         - blue: only +stamina
         - red: only +dash
     - FinalBossReversed - Badeline boss which won't lock camera.
+    - Fling Bird Reversed - Fling madeline to the left.
     - Start Level Spawn Point - Used in cases where the start room has multiple spawn points. Search for a spawn point near this entity when the chapter begins.
+    - Oshiro Boss Right - Oshiro Boss from right to left. 
     - Play Sprite Entity - Play the sprite in Sprites.xml (Madeline's hair is not yet supported).
     - Temple Gate Reversed - Used for going from right to left.
     - Theo Crystal Barrier - Like Seeker Barrier except for theo.  
+    - Badeline Protect Trigger - Summon Badeline to protect you.
+    - Change Boss Pattern Trigger - Change Badeline Boss's attack pattern.
     - Climb Blocker Trigger - When the player is in the trigger completely banning interaction with walls means you can't wall jump and climb
     - Color Grade Trigger - Change the color grade.
     - Kill Box Trigger - Die instantly when enters.
