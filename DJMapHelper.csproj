@@ -111,6 +111,7 @@
     <Compile Include="DebugMode\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
     <Compile Include="DJMapHelperModule.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

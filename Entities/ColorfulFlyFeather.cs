@@ -15,6 +15,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");
+        private static readonly FieldInfo FlyFeatherSpriteFieldInfo = typeof(FlyFeather).GetPrivateField("sprite");
 
         public static readonly Color OrigStarFlyColor = Calc.HexToColor("FFD65C");
         private static readonly Color OrigFlyPowerHairColor = Calc.HexToColor("F2EB6D");
@@ -25,9 +26,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static readonly Color BlueStarFlyColor = Calc.HexToColor("6DCFF6");
         public static readonly Color GreenStarFlyColor = Calc.HexToColor("66FF66");
         public static readonly Color RedStarFlyColor = Calc.HexToColor("F21E4F");
+        
         private readonly Color starFlyColor;
-
         private FeatherColor color;
+
+        private Color FlyPowerHairColor => StarFlyColorAddHsv(12, -0.09, -0.06);
+        private Color FlyPowerHairColor2 => StarFlyColorAddHsv(12, -0.09);
+        private Color RespawnColor => StarFlyColorAddHsv(-8, -0.28);
+        private Color RespawnColor2 => StarFlyColorAddHsv(11);
 
         // ReSharper disable once MemberCanBePrivate.Global
         public ColorfulFlyFeather(Vector2 position, bool shielded, bool singleUse, FeatherColor color) : base(position,
@@ -54,8 +60,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
 
             // change sprite;
-            typeof(FlyFeather).GetField("sprite", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.SetValue(this, sprite);
+            FlyFeatherSpriteFieldInfo?.SetValue(this, sprite);
             Remove(Get<Sprite>());
             Add(sprite);
         }
@@ -64,55 +69,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             data.Position + offset, data.Bool("shielded"), data.Bool("singleUse"),
             data.Enum(nameof(color), FeatherColor.Blue)) { }
 
-        private Color FlyPowerHairColor => StarFlyColorAddHsv(12, -0.09, -0.06);
-        private Color FlyPowerHairColor2 => StarFlyColorAddHsv(12, -0.09);
-        private Color RespawnColor => StarFlyColorAddHsv(-8, -0.28);
-        private Color RespawnColor2 => StarFlyColorAddHsv(11);
 
 
         private Color StarFlyColorAddHsv(int hue, double saturation = 0, double value = 0) {
-            ColorToHsv(starFlyColor, out var outHue, out var outSaturation, out var outValue);
-
-            outHue += hue;
-            outSaturation += saturation;
-            outValue += value;
-
-            return ColorFromHsv(outHue, outSaturation, outValue);
-        }
-
-        private static void ColorToHsv(Color color, out double hue, out double saturation, out double value) {
-            int max = Math.Max(color.R, Math.Max(color.G, color.B));
-            int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
-            hue = System.Drawing.Color.FromArgb(color.R, color.G, color.B).GetHue();
-            saturation = max == 0 ? 0 : 1d - 1d * min / max;
-            value = max / 255d;
-        }
-
-        private static Color ColorFromHsv(double hue, double saturation, double value) {
-            var hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            var f = hue / 60 - Math.Floor(hue / 60);
-
-            value = value * 255;
-            var v = Convert.ToInt32(value);
-            var p = Convert.ToInt32(value * (1 - saturation));
-            var q = Convert.ToInt32(value * (1 - f * saturation));
-            var t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
-
-            switch (hi) {
-                case 0:
-                    return new Color(v, t, p);
-                case 1:
-                    return new Color(q, v, p);
-                case 2:
-                    return new Color(p, v, t);
-                case 3:
-                    return new Color(p, q, v);
-                case 4:
-                    return new Color(t, p, v);
-                default:
-                    return new Color(v, p, q);
-            }
+            return starFlyColor.AddHsv(hue, saturation, value);
         }
 
         public static void OnLoad() {
