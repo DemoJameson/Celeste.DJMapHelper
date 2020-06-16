@@ -17,11 +17,13 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
 
         public static void OnLoad() {
             On.Celeste.Player.Update += PlayerOnUpdate;
+            On.Celeste.Player.Die += PlayerOnDie;
             On.Celeste.Actor.OnGround_int += ActorOnOnGroundInt;
         }
 
         public static void OnUnload() {
             On.Celeste.Player.Update -= PlayerOnUpdate;
+            On.Celeste.Player.Die -= PlayerOnDie;
             On.Celeste.Actor.OnGround_int -= ActorOnOnGroundInt;
         }
 
@@ -33,6 +35,18 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             }
 
             return orig(self, downCheck);
+        }
+
+        private static PlayerDeadBody PlayerOnDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction,
+            bool evenIfInvincible, bool registerDeathInStats) {
+            PlayerDeadBody playerDeadBody = orig(self, direction, evenIfInvincible, registerDeathInStats);
+            
+            if (savedInvincible != null) {
+                SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
+                savedInvincible = null;
+            } 
+
+            return playerDeadBody;
         }
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
