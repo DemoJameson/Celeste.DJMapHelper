@@ -12,9 +12,7 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
     public static class LookoutBuilder {
         private static bool? savedInvincible;
 
-        private static readonly MethodInfo InteractMethod =
-            typeof(Lookout).GetMethod("Interact", BindingFlags.Instance | BindingFlags.NonPublic);
-
+        private static readonly MethodInfo InteractMethod = typeof(Lookout).GetPrivateMethod("Interact");
         private static readonly FieldInfo InteractingField = typeof(Lookout).GetPrivateField("interacting");
 
         public static void OnLoad() {

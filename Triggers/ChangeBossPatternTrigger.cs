@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -6,13 +7,15 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
     public class ChangeBossPatternTrigger : Trigger {
+        private static readonly FieldInfo PatternIndexFieldInfo = typeof(FinalBoss).GetPrivateField("patternIndex");
+        private static readonly MethodInfo StartAttackingMethodInfo = typeof(FinalBoss).GetPrivateMethod("StartAttacking");
+
         public enum Modes {
             Contained,
             All
         }
 
         private readonly bool dashless;
-
         private readonly Modes mode;
         private readonly int patternIndex;
 
@@ -39,8 +42,8 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
             foreach (FinalBoss finalBoss in bosses) {
                 if (mode == Modes.All || CollideCheck(finalBoss)) {
-                    finalBoss.SetPrivateFieldValue("patternIndex", patternIndex);
-                    finalBoss.InvokePrivateMethod("StartAttacking");
+                    PatternIndexFieldInfo?.SetValue(finalBoss, patternIndex);
+                    StartAttackingMethodInfo?.Invoke(finalBoss, null);
                 }
             }
         }
