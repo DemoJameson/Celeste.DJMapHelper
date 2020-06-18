@@ -30,7 +30,6 @@ namespace Celeste.Mod.DJMapHelper {
         // Load runs before Celeste itself has initialized properly.
         public override void Load() {
             Everest.Events.Level.OnLoadEntity += LevelOnOnLoadEntity;
-           On.Celeste.PlayerDeadBody.End += (orig, self) => orig(self);
 
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
