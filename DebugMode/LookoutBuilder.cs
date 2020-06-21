@@ -41,7 +41,7 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             bool evenIfInvincible, bool registerDeathInStats) {
             PlayerDeadBody playerDeadBody = orig(self, direction, evenIfInvincible, registerDeathInStats);
             
-            if (savedInvincible != null) {
+            if (savedInvincible != null && playerDeadBody != null) {
                 SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
                 savedInvincible = null;
             } 
