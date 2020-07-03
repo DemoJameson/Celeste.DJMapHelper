@@ -3,6 +3,7 @@ using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Monocle;
+using MonoMod.Utils;
 
 // ReSharper disable MemberCanBePrivate.Global
 namespace Celeste.Mod.DJMapHelper.Entities {
@@ -59,59 +60,62 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnLoad() {
             On.Celeste.Refill.OnPlayer += RefillOnPlayer;
+            On.Celeste.Player.UseRefill += PlayerUseRefill;
         }
 
         public static void OnUnload() {
             On.Celeste.Refill.OnPlayer -= RefillOnPlayer;
+            On.Celeste.Player.UseRefill -= PlayerUseRefill;
         }
 
         private static void RefillOnPlayer(On.Celeste.Refill.orig_OnPlayer orig, Refill self, Player player) {
             if (self.GetType() == typeof(ColorfulRefill)) {
-                RefillColor color = ((ColorfulRefill) self).color;
-                switch (color) {
-                    case RefillColor.Red:
-                        On.Celeste.Player.UseRefill += PlayerUseRedRefill;
-                        orig(self, player);
-                        On.Celeste.Player.UseRefill -= PlayerUseRedRefill;
-                        return;
-                    case RefillColor.Blue:
-                        On.Celeste.Player.UseRefill += PlayerUseBlueRefill;
-                        orig(self, player);
-                        On.Celeste.Player.UseRefill -= PlayerUseBlueRefill;
-                        return;
-                    case RefillColor.Black:
-                        On.Celeste.Player.UseRefill += PlayerUseBlackRefill;
-                        orig(self, player);
-                        On.Celeste.Player.UseRefill -= PlayerUseBlackRefill;
-                        return;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(color), color, null);
-                }
+                new DynData<Player>(player)["DJMapHelper_RefillColor"] = ((ColorfulRefill) self).color;
             }
 
             orig(self, player);
         }
 
-        private static bool PlayerUseRedRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
-            var num = self.MaxDashes;
-            if (self.Dashes < num) {
-                self.Dashes = num;
-                return true;
-            }
+        private static bool PlayerUseRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
+            DynData<Player> selfData = new DynData<Player>(self);
+            if (selfData.Data.ContainsKey("DJMapHelper_RefillColor") && selfData["DJMapHelper_RefillColor"] != null) {
+                bool result;
 
-            return false;
+                switch (selfData.Get<RefillColor>("DJMapHelper_RefillColor")) {
+                    case RefillColor.Red:
+                        result = PlayerUseRedRefill(self);
+                        break;
+                    case RefillColor.Blue:
+                        result = PlayerUseBlueRefill(self);
+                        break;
+                    case RefillColor.Black:
+                        result = PlayerUseBlackRefill(self);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(color), selfData.Get<RefillColor>("DJMapHelper_RefillColor"), null);
+                }
+
+                selfData["DJMapHelper_RefillColor"] = null;
+                return result;
+            } else {
+                return orig(self, twoDashes);
+            }
         }
 
-        private static bool PlayerUseBlueRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
+        private static bool PlayerUseRedRefill(Player self) {
+            return self.RefillDash();
+        }
+
+        private static bool PlayerUseBlueRefill(Player self) {
             if (self.Stamina <= 20.0) {
-                self.Stamina = 110f;
+                self.RefillStamina();
                 return true;
             }
 
             return false;
         }
 
-        private static bool PlayerUseBlackRefill(On.Celeste.Player.orig_UseRefill orig, Player self, bool twoDashes) {
+        private static bool PlayerUseBlackRefill(Player self) {
             var num = self.MaxDashes;
             if (self.Dashes == 0 && self.Stamina <= 20.0) {
                 if (!SaveData.Instance.Assists.Invincible) {
