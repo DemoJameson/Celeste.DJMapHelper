@@ -1,5 +1,5 @@
 - Name: DJMapHelper
-  Version: 1.8.9
+  Version: 1.8.11
   DLL: DJMapHelper.dll
   Dependencies:
     - Name: Everest
