@@ -1,9 +1,11 @@
 using Celeste.Mod.DJMapHelper.Entities;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
+    [CustomEntity("DJMapHelper/windAttackTriggerLeft")]
     public class WindAttackLeftTrigger : Trigger {
         public WindAttackLeftTrigger(EntityData data, Vector2 offset)
             : base(data, offset) { }

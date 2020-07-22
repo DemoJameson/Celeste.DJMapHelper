@@ -1,11 +1,13 @@
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
+    [CustomEntity("DJMapHelper/changeBossPatternTrigger")]
     public class ChangeBossPatternTrigger : Trigger {
         private static readonly FieldInfo PatternIndexFieldInfo = typeof(FinalBoss).GetPrivateField("patternIndex");
         private static readonly MethodInfo StartAttackingMethodInfo = typeof(FinalBoss).GetPrivateMethod("StartAttacking");

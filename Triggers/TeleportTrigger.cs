@@ -1,9 +1,11 @@
 using Celeste.Mod.DJMapHelper.Cutscenes;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
+    [CustomEntity("DJMapHelper/teleportTrigger")]
     public class TeleportTrigger : Trigger {
         public enum Dreams {
             Dreaming,

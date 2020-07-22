@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/templeGateReversed")]
     public class TempleGateReversed : Solid {
         private const int OpenHeight = 0;
         private const float HoldingWaitTime = 0.2f;

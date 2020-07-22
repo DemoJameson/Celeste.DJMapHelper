@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using Monocle;
@@ -10,6 +11,7 @@ using MonoMod.Cil;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
+    [CustomEntity("DJMapHelper/featherBarrier")]
     public class FeatherBarrier : Solid {
         private static readonly FieldInfo StarFlyTimerFieldInfo = typeof(Player).GetPrivateField("starFlyTimer");
         private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");

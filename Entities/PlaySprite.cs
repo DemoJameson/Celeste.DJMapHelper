@@ -1,30 +1,28 @@
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/playSprite")]
     public class PlaySprite : Entity {
-        private readonly bool flipX;
-        private readonly bool flipY;
-        private readonly Sprite Sprite;
-        private readonly string SpriteId;
-        private readonly string SpriteName;
-
         public PlaySprite(EntityData data, Vector2 offset) : base(data.Position + offset) {
-            SpriteName = data.Attr("SpriteName");
-            SpriteId = data.Attr("SpriteId");
-            flipX = data.Bool("flipX");
-            flipY = data.Bool("filpY");
-            Add(Sprite = GFX.SpriteBank.Create(SpriteName));
-            if (SpriteId != "") {
-                Sprite.Play(SpriteId);
+            string spriteName = data.Attr("SpriteName");
+            string spriteId = data.Attr("SpriteId");
+            bool flipX = data.Bool("flipX");
+            bool flipY = data.Bool("filpY");
+            
+            Sprite sprite;
+            Add(sprite = GFX.SpriteBank.Create(spriteName));
+            if (spriteId != "") {
+                sprite.Play(spriteId);
             }
 
             if (flipX) {
-                Sprite.Scale.X *= -1;
+                sprite.Scale.X *= -1;
             }
 
             if (flipY) {
-                Sprite.Scale.Y *= -1;
+                sprite.Scale.Y *= -1;
             }
         }
     }

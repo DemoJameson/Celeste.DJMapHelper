@@ -1,7 +1,9 @@
 using System;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
+    [CustomEntity("DJMapHelper/maxDashesTrigger")]
     public class MaxDashesTrigger : Trigger {
         private static bool? NoRefills;
 

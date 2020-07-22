@@ -1,7 +1,9 @@
 using Celeste.Mod.DJMapHelper.Cutscenes;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
+    [CustomEntity("DJMapHelper/payphoneCallTrigger")]
     public class PayphoneCallTrigger : Trigger {
         private readonly bool answer;
         private readonly string dialogEntry;

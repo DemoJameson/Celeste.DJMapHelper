@@ -1,12 +1,14 @@
 using System;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Utils;
 
 // ReSharper disable MemberCanBePrivate.Global
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/colorfulRefill")]
     public class ColorfulRefill : Refill {
         public enum RefillColor {
             Red,

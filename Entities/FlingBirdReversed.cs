@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Celeste.Mod;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -11,7 +11,8 @@ using Monocle;
 using MonoMod.Cil;
 using MonoMod.Utils;
 
-namespace Celeste {
+namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/flingBirdReversed")]
     public class FlingBirdReversed : FlingBird {
         private static readonly FieldInfo FlingBirdFieldInfo = typeof(Player).GetPrivateField("flingBird");
         private static readonly FieldInfo ForceMoveXFieldInfo = typeof(Player).GetPrivateField("forceMoveX");

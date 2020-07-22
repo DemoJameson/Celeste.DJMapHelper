@@ -1,9 +1,11 @@
 using System.Linq;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [Tracked]
+    [CustomEntity("DJMapHelper/climbBlockerTrigger")]
     public class ClimbBlockerTrigger : Trigger {
         private const string BlockWallJumpKey = "DJMapHelper/ClimbBlockerTrigger_BlockWallJump";
         private const string BlockClimbKey = "DJMapHelper/ClimbBlockerTrigger_BlockClimb";

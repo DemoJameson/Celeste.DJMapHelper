@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using Celeste.Mod.DJMapHelper.Cutscenes;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 using EventInstance = FMOD.Studio.EventInstance;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/badelineBoostTeleport")]
     public class BadelineBoostTeleport : Entity {
         private const float MoveSpeed = 320f;
         private readonly BloomPoint bloom;

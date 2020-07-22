@@ -1,9 +1,11 @@
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/springGreen")]
     public class SpringGreen : Spring {
         private static readonly FieldInfo SpriteFieldInfo = typeof(Spring).GetPrivateField("sprite");
 

@@ -2,10 +2,12 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
+    [CustomEntity("DJMapHelper/changeSpinnerColorTrigger")]
     public class ChangeSpinnerColorTrigger : Trigger {
         private const string PREFIX = "DJMapHelper/changeSpinnerColorTrigger_";
 

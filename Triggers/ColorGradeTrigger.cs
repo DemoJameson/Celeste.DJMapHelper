@@ -1,6 +1,8 @@
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
+    [CustomEntity("DJMapHelper/colorGradeTrigger")]
     public class ColorGradeTrigger : Trigger {
         private string colorGrade;
 

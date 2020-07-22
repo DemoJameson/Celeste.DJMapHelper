@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
+    [CustomEntity("DJMapHelper/oshiroBossRight")]
     public class AngryOshiroRight : Entity {
         private const int StChase = 0;
         private const int StChargeUp = 1;

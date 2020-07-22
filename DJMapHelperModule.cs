@@ -29,8 +29,6 @@ namespace Celeste.Mod.DJMapHelper {
         // Set up any hooks, event handlers and your mod in general here.
         // Load runs before Celeste itself has initialized properly.
         public override void Load() {
-            Everest.Events.Level.OnLoadEntity += LevelOnOnLoadEntity;
-
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
@@ -52,8 +50,6 @@ namespace Celeste.Mod.DJMapHelper {
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
-            Everest.Events.Level.OnLoadEntity -= LevelOnOnLoadEntity;
-
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
@@ -65,107 +61,6 @@ namespace Celeste.Mod.DJMapHelper {
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
             BadelineBoostDown.OnUnLoad();
-        }
-
-        private static bool LevelOnOnLoadEntity(Level level, LevelData levelData, Vector2 offset,
-            EntityData entityData) {
-            const string prefix = "DJMapHelper/";
-            var entityName = entityData.Name;
-            if (!entityName.StartsWith(prefix)) {
-                return false;
-            }
-
-            entityName = entityName.Remove(0, prefix.Length);
-
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (entityName) {
-                // Entities
-                case "colorfulFlyFeather":
-                    level.Add(new ColorfulFlyFeather(entityData, offset));
-                    return true;
-                case "colorfulRefill":
-                    level.Add(new ColorfulRefill(entityData, offset));
-                    return true;
-                case "featherBarrier":
-                    level.Add(new FeatherBarrier(entityData, offset));
-                    return true;
-                case "flingBirdReversed":
-                    level.Add(new FlingBirdReversed(entityData, offset));
-                    return true;
-                case "templeGateReversed":
-                    level.Add(new TempleGateReversed(entityData, offset));
-                    return true;
-                case "finalBossReversed":
-                    level.Add(new FinalBossReversed(entityData, offset));
-                    return true;
-                case "startPoint":
-                    level.Add(new StartPoint(entityData, offset));
-                    return true;
-                case "theoCrystalBarrier":
-                    level.Add(new TheoCrystalBarrier(entityData, offset));
-                    return true;
-                case "oshiroBossRight":
-                    level.Add(new AngryOshiroRight(entityData, offset));
-                    return true;
-                case "playSprite":
-                    level.Add(new PlaySprite(entityData, offset));
-                    return true;
-                case "springGreen":
-                    level.Add(new SpringGreen(entityData, offset));
-                    return true;
-                case "badelineBoostDown":
-                    level.Add(new BadelineBoostDown(entityData, offset));
-                    return true;
-                case "badelineBoostTeleport":
-                    level.Add(new BadelineBoostTeleport(entityData, offset));
-                    return true;
-                case "shield":
-                    level.Add(new Shield(entityData, offset));
-                    return true;
-                case "seekerBoss":
-                    level.Add(new SeekerBoss(entityData, offset));
-                    return true;
-
-                // Triggers
-                case "changeBossPatternTrigger":
-                    level.Add(new ChangeBossPatternTrigger(entityData, offset));
-                    return true;
-                case "changeSpinnerColorTrigger":
-                    level.Add(new ChangeSpinnerColorTrigger(entityData, offset));
-                    return true;
-                case "climbBlockerTrigger":
-                    level.Add(new ClimbBlockerTrigger(entityData, offset));
-                    return true;
-                case "colorGradeTrigger":
-                    level.Add(new ColorGradeTrigger(entityData, offset));
-                    return true;
-                case "killBoxTrigger":
-                    level.Add(new KillBoxTrigger(entityData, offset));
-                    return true;
-                case "maxDashesTrigger":
-                    level.Add(new MaxDashesTrigger(entityData, offset));
-                    return true;
-                case "talkToBadelineTrigger":
-                    level.Add(new TalkToBadelineTrigger(entityData, offset));
-                    return true;
-                case "teleportTrigger":
-                    level.Add(new TeleportTrigger(entityData, offset));
-                    return true;
-                case "windAttackTriggerLeft":
-                    level.Add(new WindAttackLeftTrigger(entityData, offset));
-                    return true;
-                case "badelineProtectTrigger":
-                    level.Add(new BadelineProtectTrigger(entityData, offset));
-                    return true;
-                case "stopProtectTrigger":
-                    level.Add(new StopProtectTrigger(entityData, offset));
-                    return true;
-                case "payphoneCallTrigger":
-                    level.Add(new PayphoneCallTrigger(entityData, offset));
-                    return true;
-            }
-
-            return false;
         }
     }
 }

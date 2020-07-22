@@ -1,7 +1,9 @@
 using Celeste.Mod.DJMapHelper.Cutscenes;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper.Triggers {
+    [CustomEntity("DJMapHelper/talkToBadelineTrigger")]
     public class TalkToBadelineTrigger : Trigger {
         private readonly string dialogEntry;
         private readonly bool endLevel;

@@ -1,13 +1,11 @@
 using System;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/shield")]
     public class Shield : Entity {
-        public static ParticleType P_Collect;
-        public static ParticleType P_Boost;
-        public static ParticleType P_Flying;
-        public static ParticleType P_Respawn;
         private readonly BloomPoint bloom;
         private readonly VertexLight light;
         private readonly Wiggler moveWiggle;
@@ -17,14 +15,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly Sprite sprite;
         private Level level;
         private Vector2 moveWiggleDir;
-        private Wiggler wiggler;
 
         public Shield(Vector2 position) : base(position) {
             Collider = new Circle(10f);
             Add(new PlayerCollider(OnPlayer));
             Add(sprite = GFX.SpriteBank.Create("flyFeather"));
-            Add(wiggler = Wiggler.Create(1f, 4f,
-                v => sprite.Scale = Vector2.One * (float) (1.0 + (double) v * 0.200000002980232)));
+            Add(Wiggler.Create(1f, 4f,
+                v => sprite.Scale = Vector2.One * (float) (1.0 + (double) v * 0.2)));
             Add(bloom = new BloomPoint(0.5f, 20f));
             Add(light = new VertexLight(Color.White, 1f, 16, 48));
             Add(sine = new SineWave(0.6f, 0.0f).Randomize());

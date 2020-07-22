@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
@@ -9,6 +10,7 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
+    [CustomEntity("DJMapHelper/seekerBoss")]
     public class SeekerBoss : Actor {
         //我只需要两个状态，闲暇和复活
         private const int StateIdle = 0;

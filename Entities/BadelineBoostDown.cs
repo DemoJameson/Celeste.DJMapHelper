@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    [CustomEntity("DJMapHelper/badelineBoostDown")]
     public class BadelineBoostDown : Entity {
         private const float MoveSpeed = 320f;
-        public static ParticleType P_Ambience;
-        public static ParticleType P_Move;
         private readonly BloomPoint bloom;
         private readonly VertexLight light;
         private readonly Vector2[] nodes;
@@ -61,7 +61,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sprite.Position = Vector2.Zero;
             Collidable = false;
             var finalBoost = nodeIndex >= nodes.Length;
-            Level level = Scene as Level;
+            Level level = SceneAs<Level>();
             Stopwatch sw = new Stopwatch();
             sw.Start();
             if (!finalBoost) {
@@ -118,19 +118,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
                 badeline.Position = Vector2.Lerp(badelineFrom, badelineTo, p);
                 yield return null;
-                target = new Vector2();
             }
 
-            playerFrom = new Vector2();
-            playerTo = new Vector2();
-            badelineFrom = new Vector2();
-            badelineTo = new Vector2();
             if (finalBoost) {
                 Vector2 center = new Vector2(Calc.Clamp(player.X - level.Camera.X, 120f, 200f),
                     Calc.Clamp(player.Y - level.Camera.Y, 60f, 120f));
                 Add(new Coroutine(level.ZoomTo(center, 1.5f, 0.18f)));
                 Engine.TimeRate = 0.5f;
-                center = new Vector2();
             }
             else {
                 Audio.Play("event:/char/badeline/booster_throw", Position);
@@ -149,15 +143,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
 
                 Scene.Remove(badeline);
-                (Scene as Level).Displacement.AddBurst(badeline.Position, 0.25f, 8f, 32f, 0.5f);
+                (Scene as Level)?.Displacement.AddBurst(badeline.Position, 0.25f, 8f, 32f, 0.5f);
             }, 0.15f, true));
-            (Scene as Level).Shake();
+            (Scene as Level)?.Shake();
             holding = null;
             if (!finalBoost) {
                 player.BadelineBoostLaunch(CenterX);
                 Vector2 from = Position;
                 Vector2 to = nodes[nodeIndex];
-                var time = Vector2.Distance(from, to) / 320f;
+                var time = Vector2.Distance(from, to) / MoveSpeed;
                 time = Math.Min(3f, time);
                 stretch.Visible = true;
                 stretch.Rotation = (to - from).Angle();
@@ -174,7 +168,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     level.ParticlesFG.Emit(BadelineBoost.P_Move, 1, Center, Vector2.One * 4f);
                 };
                 tween.OnComplete = t => {
-                    if (X >= (double) level.Bounds.Right) {
+                    if (level != null && X >= (double) level.Bounds.Right) {
                         RemoveSelf();
                     }
                     else {
@@ -190,7 +184,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
                 level.DirectionalShake(-Vector2.UnitY);
                 level.Displacement.AddBurst(Center, 0.4f, 8f, 32f, 0.5f);
-                tween = null;
             }
             else {
                 Console.WriteLine("TIME: " + sw.ElapsedMilliseconds);
@@ -205,12 +198,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Engine.TimeRate = 1f;
                 Finish();
             }
-        }
-
-        public void Wiggle() {
-            wiggler.Start();
-            (Scene as Level).Displacement.AddBurst(Position, 0.3f, 4f, 16f, 0.25f);
-            Audio.Play("event:/game/general/crystalheart_pulse", Position);
         }
 
         public override void Update() {
@@ -253,8 +240,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static IEnumerator BadelineBoostDownFall(On.Celeste.Player.orig_ReflectionFallCoroutine orig,
             Player player) {
-            Level scene = player.Scene as Level;
-            if (scene.Session.Area.GetLevelSet() == "Celeste") {
+            
+            if (player.SceneAs<Level>().Session.Area.GetLevelSet() == "Celeste") {
                 IEnumerator enumerator = orig(player);
                 while (enumerator.MoveNext()) {
                     yield return enumerator.Current;
@@ -265,7 +252,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 player.Speed.Y = 0.0f;
                 yield return null;
                 FallEffects.Show(true);
-                player.Speed.Y = 320f;
+                player.Speed.Y = MoveSpeed;
                 while (!player.CollideCheck<Water>()) {
                     yield return null;
                 }

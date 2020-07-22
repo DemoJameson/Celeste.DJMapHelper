@@ -1,11 +1,13 @@
 using System;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
+    [CustomEntity("DJMapHelper/colorfulFlyFeather")]
     public class ColorfulFlyFeather : FlyFeather {
         public enum FeatherColor {
             Blue,

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using Monocle;
@@ -8,6 +9,7 @@ using MonoMod.Cil;
 
 namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
+    [CustomEntity("DJMapHelper/theoCrystalBarrier")]
     public class TheoCrystalBarrier : Solid {
         private readonly List<TheoCrystalBarrier> adjacent = new List<TheoCrystalBarrier>();
         private readonly List<Vector2> particles = new List<Vector2>();
