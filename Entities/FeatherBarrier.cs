@@ -147,14 +147,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void AddCollideCheck(ILContext il) {
             ILCursor cursor = new ILCursor(il);
             while (cursor.TryGotoNext(instruction => instruction.OpCode == OpCodes.Ret)) {
-                var className = cursor.Method.Parameters[0].ParameterType.Name;
-                Logger.Log("DJMapHelper/FeatherBarrier",
-                    $"Adding code to make feather barrier light at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
                 cursor.Emit(OpCodes.Ldarg_0);
                 cursor.Emit(OpCodes.Ldarg_1);
                 cursor.EmitDelegate<Action<Player, CollisionData>>(CheckCollide);
                 cursor.GotoNext();
             }
+            Logger.Log("DJMapHelper/FeatherBarrier",
+                $"Injecting code to make feather barrier light in IL for {cursor.Method.Name}");
         }
 
         private static void CheckCollide(Player player, CollisionData data) {

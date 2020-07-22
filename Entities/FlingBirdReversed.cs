@@ -84,9 +84,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                                                             (instr.Operand as MethodReference)?.GetID() ==
                                                             "System.Collections.Generic.List`1<T> Monocle.EntityList::FindAll<Celeste.FlingBird>()")
             ) {
-                var className = cursor.Method.Parameters[0].ParameterType.Name;
                 Logger.Log("DJMapHelper/FlingBirdReversed",
-                    $"Adding code to avoid touching orig flingbird at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
+                    $"Injecting code to avoid touching orig flingbird at index {cursor.Index} in IL for {cursor.Method.Name}");
 
                 cursor.EmitDelegate<Func<List<FlingBird>, List<FlingBird>>>(RemoveFlingBirdReversedFrom);
             }

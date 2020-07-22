@@ -128,13 +128,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void AddCollideCheck(ILContext il) {
             ILCursor cursor = new ILCursor(il);
             while (cursor.TryGotoNext(instruction => instruction.OpCode == OpCodes.Ret)) {
-                var className = cursor.Method.Parameters[0].ParameterType.Name;
-                Logger.Log("DJMapHelper/TheoCrystalBarrier",
-                    $"Adding code to make theo crystal barrier light at index {cursor.Index} in CIL code for {className}.{cursor.Method.Name}");
                 cursor.Emit(OpCodes.Ldarg_1);
                 cursor.EmitDelegate<Action<CollisionData>>(CheckCollide);
                 cursor.GotoNext();
             }
+            Logger.Log("DJMapHelper/TheoCrystalBarrier",
+                $"Injecting code to make theo crystal barrier light in IL for {cursor.Method.Name}");
         }
 
         private static void CheckCollide(CollisionData data) {
@@ -148,7 +147,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 orig(self);
                 return;
             }
-            
+
             List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
             theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
             orig(self);
@@ -179,8 +178,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
                 if (direction.Y > 0) {
                     player.PointBounce(player.Center + direction);
-                }
-                else {
+                } else {
                     On.Celeste.Player.RefillStamina += DisabledRefillStamina;
                     On.Celeste.Player.RefillDash += DisabledRefillDash;
                     player.PointBounce(player.Center + direction);
