@@ -28,7 +28,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             spawnPointX = data.Int("spawnPointX");
             spawnPointY = data.Int("spawnPointY");
             dreams = data.Enum("Dreaming", Dreams.NoChange);
-            keepKey = data.Bool("KeepKey", false);
+            keepKey = data.Bool("KeepKey", true);
         }
 
         public override void OnEnter(Player player) {
