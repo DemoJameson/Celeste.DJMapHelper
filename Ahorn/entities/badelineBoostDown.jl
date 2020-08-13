@@ -1,4 +1,4 @@
-module BadelineBoostDown
+module DJMapHelperBadelineBoostDown
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/badelineBoostDown" DownBadelineBoost(x::Integer, y::Integer, nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[])

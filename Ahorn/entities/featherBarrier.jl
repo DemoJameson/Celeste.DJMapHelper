@@ -1,4 +1,4 @@
-module FeatherBarrier
+module DJMapHelperFeatherBarrier
 
 using ..Ahorn, Maple
 

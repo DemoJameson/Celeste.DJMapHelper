@@ -1,4 +1,4 @@
-module AngryOshiroRight
+module DJMapHelperAngryOshiroRight
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/oshiroBossRight" OshiroRight(x::Integer, y::Integer)

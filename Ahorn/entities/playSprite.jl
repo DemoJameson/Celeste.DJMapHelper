@@ -1,4 +1,4 @@
-module PlaySprite
+module DJMapHelperPlaySprite
 
 using ..Ahorn, Maple
 

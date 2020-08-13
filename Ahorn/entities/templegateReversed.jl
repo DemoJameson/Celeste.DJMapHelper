@@ -1,4 +1,4 @@
-module TempleGateReversed
+module DJMapHelperTempleGateReversed
 
 using ..Ahorn, Maple
 

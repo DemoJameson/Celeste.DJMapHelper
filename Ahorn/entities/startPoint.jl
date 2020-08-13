@@ -1,4 +1,4 @@
-module StartPoint
+module DJMapHelperStartPoint
 
 using ..Ahorn, Maple
 

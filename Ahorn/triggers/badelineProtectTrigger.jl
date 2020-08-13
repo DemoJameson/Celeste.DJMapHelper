@@ -1,4 +1,4 @@
-module BadelineProtectTrigger
+module DJMapHelperBadelineProtectTrigger
 
 using ..Ahorn, Maple
 

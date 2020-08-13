@@ -1,4 +1,4 @@
-module ChangeSpinnerColorTrigger
+module DJMapHelperChangeSpinnerColorTrigger
 
 using ..Ahorn, Maple
 

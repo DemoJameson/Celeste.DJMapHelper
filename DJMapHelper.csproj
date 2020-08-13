@@ -123,6 +123,7 @@
     <Compile Include="Triggers\ColorGradeTrigger.cs" />
     <Compile Include="Triggers\KillBoxTrigger.cs" />
     <Compile Include="Triggers\MaxDashesTrigger.cs" />
+    <Compile Include="Triggers\OshiroRightTrigger.cs" />
     <Compile Include="Triggers\PayphoneCallTrigger.cs" />
     <Compile Include="Triggers\StopProtectTrigger.cs" />
     <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
@@ -147,6 +148,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Ahorn\triggers\oshiroRightTrigger.jl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

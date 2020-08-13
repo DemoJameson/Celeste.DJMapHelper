@@ -1,4 +1,4 @@
-module ColorfulFlyFeather
+module DJMapHelperColorfulFlyFeather
 
 using ..Ahorn, Maple
 

@@ -1,4 +1,4 @@
-module ColorGradeTrigger
+module DJMapHelperColorGradeTrigger
 
 using ..Ahorn, Maple
 

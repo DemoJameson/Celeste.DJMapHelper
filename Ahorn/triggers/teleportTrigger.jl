@@ -1,4 +1,4 @@
-module TeleportTrigger
+module DJMapHelperTeleportTrigger
 
 using ..Ahorn, Maple
 

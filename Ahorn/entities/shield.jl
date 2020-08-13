@@ -1,4 +1,4 @@
-module Shield
+module DJMapHelperShield
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/shield" Sheild(x::Integer, y::Integer)

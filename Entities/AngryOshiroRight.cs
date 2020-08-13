@@ -53,8 +53,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private float targetAnxiety;
         private float yApproachSpeed = 100f;
 
-        public AngryOshiroRight(Vector2 position)
-            : base(position) {
+        public AngryOshiroRight(Vector2 position) : base(position) {
             Add(Sprite = GFX.SpriteBank.Create("oshiro_boss"));
             Sprite.Play("idle");
             Add(lightning = GFX.SpriteBank.Create("oshiro_boss_lightning"));
@@ -81,8 +80,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 OnOutBegin = () => {
                     if (X < level.Bounds.Right - Sprite.Width / 2.0) {
                         Visible = false;
-                    }
-                    else {
+                    } else {
                         easeBackFromRightEdge = true;
                     }
                 },
@@ -170,16 +168,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         ? 1f
                         : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f), 1f,
                             Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f));
-                }
-                else {
+                } else {
                     Engine.TimeRate = 1f;
                 }
 
                 Distort.GameRate = Calc.Approach(Distort.GameRate, Calc.Map(Engine.TimeRate, 0.5f, 1f),
                     Engine.DeltaTime * 8f);
                 Distort.Anxiety = Calc.Approach(Distort.Anxiety, targetAnxiety, anxietySpeed * Engine.DeltaTime);
-            }
-            else {
+            } else {
                 Distort.GameRate = 1f;
                 Distort.Anxiety = 0.0f;
             }
@@ -243,8 +239,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private IEnumerator ChaseCoroutine() {
             if ((uint) level.Session.Area.Mode > 0U) {
                 yield return 1f;
-            }
-            else {
+            } else {
                 yield return ChaseWaitTimes[attackIndex];
                 ++attackIndex;
                 attackIndex %= ChaseWaitTimes.Length;
@@ -256,8 +251,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (Scene.Tracker.GetEntity<Player>() != null) {
                 Alarm.Set(this, 0.216f, () => chargeSfx.Play("event:/char/oshiro/boss_charge"));
                 state.State = 1;
-            }
-            else {
+            } else {
                 Sprite.Play("idle");
             }
         }

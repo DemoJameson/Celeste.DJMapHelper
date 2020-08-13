@@ -1,4 +1,4 @@
-module StopProtectTrigger
+module DJMapHelperStopProtectTrigger
 
 using ..Ahorn, Maple
 

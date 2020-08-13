@@ -1,4 +1,4 @@
-module FlingBirdReversed
+module DJMapHelperFlingBirdReversed
 
 using ..Ahorn, Maple
 

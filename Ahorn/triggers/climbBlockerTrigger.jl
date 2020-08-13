@@ -1,4 +1,4 @@
-module ClimbBlockerTrigger
+module DJMapHelperClimbBlockerTrigger
 
 using ..Ahorn, Maple
 

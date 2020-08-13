@@ -1,4 +1,4 @@
-module SeekerBoss
+module DJMapHelperSeekerBoss
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/seekerBoss" seekerboss(x::Integer, y::Integer)

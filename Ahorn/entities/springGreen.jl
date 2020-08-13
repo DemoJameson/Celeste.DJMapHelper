@@ -1,4 +1,4 @@
-module SpringGreen
+module DJMapHelperSpringGreen
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/springGreen" springGreen(x::Integer, y::Integer, orientation::String="Floor")

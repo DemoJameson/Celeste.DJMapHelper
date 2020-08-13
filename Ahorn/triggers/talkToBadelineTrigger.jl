@@ -1,4 +1,4 @@
-module TalkToBadelineTrigger
+module DJMapHelperTalkToBadelineTrigger
 
 using ..Ahorn, Maple
 

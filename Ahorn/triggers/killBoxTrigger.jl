@@ -1,4 +1,4 @@
-module KillBoxTrigger
+module DJMapHelperKillBoxTrigger
 
 using ..Ahorn, Maple
 

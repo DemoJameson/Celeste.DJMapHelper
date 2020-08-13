@@ -1,4 +1,4 @@
-module BadelineBoostTeleport
+module DJMapHelperBadelineBoostTeleport
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/badelineBoostTeleport" TeleportBadelineBoost(x::Integer, y::Integer, Room::String="", ColorGrade::String="", KeyRoom::String="", KeyColorGrade::String="", GoldenRoom::String="", GoldenColorGrade::String="", nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[], KeyFirst::Bool=false)

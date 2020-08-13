@@ -1,4 +1,4 @@
-module ChangeBossPatternTrigger
+module DJMapHelperChangeBossPatternTrigger
 
 using ..Ahorn, Maple
 

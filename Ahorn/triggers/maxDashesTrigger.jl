@@ -1,4 +1,4 @@
-module MaxDashesTrigger
+module DJMapHelperMaxDashesTrigger
 
 using ..Ahorn, Maple
 

@@ -1,4 +1,4 @@
-module FinalBossReversed
+module DJMapHelperFinalBossReversed
 
 using ..Ahorn, Maple
 

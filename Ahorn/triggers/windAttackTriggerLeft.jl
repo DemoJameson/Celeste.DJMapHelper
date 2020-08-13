@@ -1,4 +1,4 @@
-module WindAttackTriggerLeft
+module DJMapHelperWindAttackTriggerLeft
 
 using ..Ahorn, Maple
 

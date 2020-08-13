@@ -1,4 +1,4 @@
-module TheoCrystalBarrier
+module DJMapHelperTheoCrystalBarrier
 
 using ..Ahorn, Maple
 

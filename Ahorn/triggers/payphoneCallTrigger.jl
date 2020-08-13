@@ -1,4 +1,4 @@
-module PayphoneCallTrigger
+module DJMapHelperPayphoneCallTrigger
 
 using ..Ahorn, Maple
 
