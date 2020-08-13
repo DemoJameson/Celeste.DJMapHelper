@@ -10,7 +10,11 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
     [CustomEntity("DJMapHelper/changeBossPatternTrigger")]
     public class ChangeBossPatternTrigger : Trigger {
         private static readonly FieldInfo PatternIndexFieldInfo = typeof(FinalBoss).GetPrivateField("patternIndex");
+        private static readonly FieldInfo NormalHairFieldInfo = typeof(FinalBoss).GetPrivateField("normalHair");
+        private static readonly FieldInfo NodesFieldInfo = typeof(FinalBoss).GetPrivateField("nodes");
+        private static readonly FieldInfo AttackCoroutineFieldInfo = typeof(FinalBoss).GetPrivateField("attackCoroutine");
         private static readonly MethodInfo StartAttackingMethodInfo = typeof(FinalBoss).GetPrivateMethod("StartAttacking");
+        private static readonly MethodInfo CreateBossSpriteMethodInfo = typeof(FinalBoss).GetPrivateMethod("CreateBossSprite");
 
         public enum Modes {
             Contained,
@@ -44,9 +48,43 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
             foreach (FinalBoss finalBoss in bosses) {
                 if (mode == Modes.All || CollideCheck(finalBoss)) {
-                    PatternIndexFieldInfo?.SetValue(finalBoss, patternIndex);
-                    StartAttackingMethodInfo?.Invoke(finalBoss, null);
+                    if(patternIndex == (int) PatternIndexFieldInfo.GetValue(finalBoss)) continue;
+                    if (((Vector2[]) NodesFieldInfo.GetValue(finalBoss)).Length == 0) continue;
+
+                    TrySwitchSprite(finalBoss);
+                    PatternIndexFieldInfo.SetValue(finalBoss, patternIndex);
+                    if (patternIndex == 0) {
+                        (AttackCoroutineFieldInfo.GetValue(finalBoss) as Coroutine)?.Cancel();
+                    } else {
+                        StartAttackingMethodInfo.Invoke(finalBoss, null);
+                    }
                 }
+            }
+        }
+
+        private void TrySwitchSprite(FinalBoss finalBoss) {
+            if (patternIndex == 0) {
+                PlayerSprite normalSprite = new PlayerSprite(PlayerSpriteMode.Badeline) {Scale = {X = -1f}};
+                normalSprite.Play("laugh");
+
+                PlayerHair normalHair = new PlayerHair(normalSprite) {
+                    Color = BadelineOldsite.HairColor, Border = Color.Black, Facing = Facings.Left
+                };
+
+                finalBoss.NormalSprite = normalSprite;
+                NormalHairFieldInfo.SetValue(finalBoss, normalHair);
+
+                finalBoss.Add(normalHair);
+                finalBoss.Add(normalSprite);
+
+                if (finalBoss.Sprite != null) {
+                    normalSprite.Position = finalBoss.Sprite.Position;
+                    finalBoss.Remove(finalBoss.Sprite);
+                    // 许多方法需要 Sprite 所以不设置为 null
+                    // finalBoss.Sprite = null;
+                }
+            } else {
+                CreateBossSpriteMethodInfo?.Invoke(finalBoss, null);
             }
         }
     }
