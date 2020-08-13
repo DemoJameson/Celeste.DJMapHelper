@@ -2,9 +2,9 @@
 using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
-using Microsoft.Xna.Framework;
 using Monocle;
 
+// TODO: 添加 Ahorn 插件的语言文件（Tooltip）
 namespace Celeste.Mod.DJMapHelper {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class DJMapHelperModule : EverestModule {
@@ -29,6 +29,9 @@ namespace Celeste.Mod.DJMapHelper {
         // Set up any hooks, event handlers and your mod in general here.
         // Load runs before Celeste itself has initialized properly.
         public override void Load() {
+            BadelineBoostDown.OnLoad();
+            ChangeBossPatternTrigger.OnLoad();
+            ChangeSpinnerColorTrigger.OnLoad();
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
             ClimbBlockerTrigger.OnLoad();
@@ -36,10 +39,8 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnLoad();
             FlingBirdReversed.OnLoad();
             LookoutBuilder.OnLoad();
-            ChangeSpinnerColorTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
-            BadelineBoostDown.OnLoad();
         }
 
         public override void LoadContent(bool firstLoad) {
@@ -50,6 +51,9 @@ namespace Celeste.Mod.DJMapHelper {
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
+            BadelineBoostDown.OnUnLoad();
+            ChangeBossPatternTrigger.OnUnload();
+            ChangeSpinnerColorTrigger.OnUnload();
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
             ClimbBlockerTrigger.OnUnLoad();
@@ -57,10 +61,8 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnUnload();
             FlingBirdReversed.OnUnLoad();
             LookoutBuilder.OnUnload();
-            ChangeSpinnerColorTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
-            BadelineBoostDown.OnUnLoad();
         }
     }
 }

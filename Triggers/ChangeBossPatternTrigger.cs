@@ -48,7 +48,7 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
             foreach (FinalBoss finalBoss in bosses) {
                 if (mode == Modes.All || CollideCheck(finalBoss)) {
-                    if(patternIndex == (int) PatternIndexFieldInfo.GetValue(finalBoss)) continue;
+                    if (patternIndex == (int) PatternIndexFieldInfo.GetValue(finalBoss)) continue;
                     if (((Vector2[]) NodesFieldInfo.GetValue(finalBoss)).Length == 0) continue;
 
                     TrySwitchSprite(finalBoss);
@@ -80,12 +80,35 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 if (finalBoss.Sprite != null) {
                     normalSprite.Position = finalBoss.Sprite.Position;
                     finalBoss.Remove(finalBoss.Sprite);
-                    // 许多方法需要 Sprite 所以不设置为 null
+                    if (finalBoss.Get<SpriteRemovedComponent>() == null) {
+                        finalBoss.Add(new SpriteRemovedComponent());
+                    }
+                    // 许多方法需要 Sprite 所以暂时设置为 null，等到 OnPlayer 之时才设置为 null
                     // finalBoss.Sprite = null;
                 }
             } else {
                 CreateBossSpriteMethodInfo?.Invoke(finalBoss, null);
             }
+        }
+
+        public class SpriteRemovedComponent : Component {
+            public SpriteRemovedComponent() : base(false, false) { }
+        }
+
+        public static void OnLoad() {
+            On.Celeste.FinalBoss.OnPlayer += FinalBossOnOnPlayer;
+        }
+
+        public static void OnUnload() {
+            On.Celeste.FinalBoss.OnPlayer -= FinalBossOnOnPlayer;
+        }
+
+        private static void FinalBossOnOnPlayer(On.Celeste.FinalBoss.orig_OnPlayer orig, FinalBoss self, Player player) {
+            if (self.Get<SpriteRemovedComponent>() is Component component) {
+                self.Sprite = null;
+                self.Remove(component);
+            }
+            orig(self, player);
         }
     }
 }
