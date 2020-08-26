@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Sprites>
+
+    <DJMapHelper_blueFlyFeather path="objects/DJMapHelper/blueFlyFeather/" start="loop">
+        <Justify x="0.5" y="0.5"/>
+        <Anim id="loop" path="idle" delay="0.06" frames="0-20" goto="flash"/>
+        <Anim id="flash" path="flash" delay="0.06" frames="0-20" goto="loop"/>
+    </DJMapHelper_blueFlyFeather>
+
+    <DJMapHelper_greenFlyFeather path="objects/DJMapHelper/greenFlyFeather/" start="loop">
+        <Justify x="0.5" y="0.5"/>
+        <Anim id="loop" path="idle" delay="0.06" frames="0-20" goto="flash"/>
+        <Anim id="flash" path="flash" delay="0.06" frames="0-20" goto="loop"/>
+    </DJMapHelper_greenFlyFeather>
+
+    <DJMapHelper_redFlyFeather path="objects/DJMapHelper/redFlyFeather/" start="loop">
+        <Justify x="0.5" y="0.5"/>
+        <Anim id="loop" path="idle" delay="0.06" frames="0-20" goto="flash"/>
+        <Anim id="flash" path="flash" delay="0.06" frames="0-20" goto="loop"/>
+    </DJMapHelper_redFlyFeather>
+
+</Sprites>

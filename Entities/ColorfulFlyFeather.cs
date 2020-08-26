@@ -17,7 +17,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");
-        private static readonly FieldInfo FlyFeatherSpriteFieldInfo = typeof(FlyFeather).GetPrivateField("sprite");
 
         public static readonly Color OrigStarFlyColor = Calc.HexToColor("FFD65C");
         private static readonly Color OrigFlyPowerHairColor = Calc.HexToColor("F2EB6D");
@@ -28,50 +27,44 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static readonly Color BlueStarFlyColor = Calc.HexToColor("6DCFF6");
         public static readonly Color GreenStarFlyColor = Calc.HexToColor("66FF66");
         public static readonly Color RedStarFlyColor = Calc.HexToColor("F21E4F");
-        
+
         private readonly Color starFlyColor;
         private FeatherColor color;
 
-        private Color FlyPowerHairColor => StarFlyColorAddHsv(12, -0.09, -0.06);
-        private Color FlyPowerHairColor2 => StarFlyColorAddHsv(12, -0.09);
-        private Color RespawnColor => StarFlyColorAddHsv(-8, -0.28);
-        private Color RespawnColor2 => StarFlyColorAddHsv(11);
+        private Lazy<Color> FlyPowerHairColor => new Lazy<Color>(() => StarFlyColorAddHsv(12, -0.09, -0.06));
+        private Lazy<Color> FlyPowerHairColor2 => new Lazy<Color>(() => StarFlyColorAddHsv(12, -0.09));
+        private Lazy<Color> RespawnColor => new Lazy<Color>(() => StarFlyColorAddHsv(-8, -0.28));
+        private Lazy<Color> RespawnColor2 => new Lazy<Color>(() => StarFlyColorAddHsv(11));
 
         // ReSharper disable once MemberCanBePrivate.Global
         public ColorfulFlyFeather(Vector2 position, bool shielded, bool singleUse, FeatherColor color) : base(position,
             shielded, singleUse) {
-            Sprite sprite;
+            Sprite sprite = Get<Sprite>();
             this.color = color;
 
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (color) {
                 case FeatherColor.Blue:
-                    sprite = DJMapHelperModule.Instance.SpriteBank.Create("blueFlyFeather");
+                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
                     starFlyColor = BlueStarFlyColor;
                     break;
                 case FeatherColor.Green:
-                    sprite = DJMapHelperModule.Instance.SpriteBank.Create("greenFlyFeather");
+                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_greenFlyFeather");
                     starFlyColor = GreenStarFlyColor;
                     break;
                 case FeatherColor.Red:
-                    sprite = DJMapHelperModule.Instance.SpriteBank.Create("redFlyFeather");
+                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_redFlyFeather");
                     starFlyColor = RedStarFlyColor;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(color), color, null);
             }
-
-            // change sprite;
-            FlyFeatherSpriteFieldInfo?.SetValue(this, sprite);
-            Remove(Get<Sprite>());
-            Add(sprite);
         }
 
+        // ReSharper disable once UnusedMember.Global
         public ColorfulFlyFeather(EntityData data, Vector2 offset) : this(
             data.Position + offset, data.Bool("shielded"), data.Bool("singleUse"),
             data.Enum(nameof(color), FeatherColor.Blue)) { }
-
-
 
         private Color StarFlyColorAddHsv(int hue, double saturation = 0, double value = 0) {
             return starFlyColor.AddHsv(hue, saturation, value);
@@ -94,14 +87,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 ColorfulFlyFeather colorfulFlyFeather = (ColorfulFlyFeather) self;
                 starFlyColor = colorfulFlyFeather.starFlyColor;
 
-                P_Collect.Color = colorfulFlyFeather.FlyPowerHairColor;
-                P_Collect.Color2 = colorfulFlyFeather.FlyPowerHairColor2;
-                P_Boost.Color = colorfulFlyFeather.FlyPowerHairColor;
-                P_Boost.Color2 = colorfulFlyFeather.FlyPowerHairColor2;
-                P_Flying.Color = colorfulFlyFeather.FlyPowerHairColor;
-                P_Flying.Color2 = colorfulFlyFeather.FlyPowerHairColor2;
-            }
-            else {
+                P_Collect.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                P_Collect.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+                P_Boost.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                P_Boost.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+                P_Flying.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                P_Flying.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+            } else {
                 starFlyColor = OrigStarFlyColor;
 
                 P_Collect.Color = OrigFlyPowerHairColor;
@@ -121,10 +113,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (self.GetType() == typeof(ColorfulFlyFeather)) {
                 ColorfulFlyFeather colorfulFlyFeather = (ColorfulFlyFeather) self;
 
-                P_Respawn.Color = colorfulFlyFeather.RespawnColor;
-                P_Respawn.Color2 = colorfulFlyFeather.RespawnColor2;
-            }
-            else {
+                P_Respawn.Color = colorfulFlyFeather.RespawnColor.Value;
+                P_Respawn.Color2 = colorfulFlyFeather.RespawnColor2.Value;
+            } else {
                 P_Respawn.Color = OrigRespawnColor;
                 P_Respawn.Color2 = OrigRespawnColor2;
             }

@@ -16,8 +16,6 @@ namespace Celeste.Mod.DJMapHelper {
             Instance = this;
         }
 
-        public SpriteBank SpriteBank { get; set; }
-
         // If you don't need to store any settings, => null
         public override Type SettingsType => typeof(DJMapHelperSettings);
         public static DJMapHelperSettings Settings => (DJMapHelperSettings) Instance._Settings;
@@ -41,12 +39,6 @@ namespace Celeste.Mod.DJMapHelper {
             LookoutBuilder.OnLoad();
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
-        }
-
-        public override void LoadContent(bool firstLoad) {
-            if (firstLoad) {
-                SpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
-            }
         }
 
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
