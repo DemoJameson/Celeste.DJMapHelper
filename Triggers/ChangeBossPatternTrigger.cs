@@ -16,7 +16,8 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private static readonly MethodInfo StartAttackingMethodInfo = typeof(FinalBoss).GetPrivateMethod("StartAttacking");
         private static readonly MethodInfo CreateBossSpriteMethodInfo = typeof(FinalBoss).GetPrivateMethod("CreateBossSprite");
 
-        public enum Modes {
+        private enum Modes {
+            // ReSharper disable once UnusedMember.Local
             Contained,
             All
         }
@@ -24,11 +25,13 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private readonly bool dashless;
         private readonly Modes mode;
         private readonly int patternIndex;
+        private readonly bool onlyOnce;
 
         public ChangeBossPatternTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             mode = data.Enum("mode", Modes.All);
             dashless = data.Bool("dashless");
             patternIndex = data.Int("patternIndex", 1);
+            onlyOnce = data.Bool("onlyOnce");
         }
 
         public override void OnEnter(Player player) {
@@ -60,6 +63,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                     }
                 }
             }
+
+            if (onlyOnce) {
+                RemoveSelf();
+            }
         }
 
         private void TrySwitchSprite(FinalBoss finalBoss) {
@@ -86,13 +93,9 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                     // 许多方法需要 Sprite 所以暂时设置为 null，等到 OnPlayer 之时才设置为 null
                     // finalBoss.Sprite = null;
                 }
-            } else {
+            } else if (finalBoss.NormalSprite != null) {
                 CreateBossSpriteMethodInfo?.Invoke(finalBoss, null);
             }
-        }
-
-        public class SpriteRemovedComponent : Component {
-            public SpriteRemovedComponent() : base(false, false) { }
         }
 
         public static void OnLoad() {
@@ -109,6 +112,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 self.Remove(component);
             }
             orig(self, player);
+        }
+
+        private class SpriteRemovedComponent : Component {
+            public SpriteRemovedComponent() : base(false, false) { }
         }
     }
 }

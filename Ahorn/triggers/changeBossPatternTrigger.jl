@@ -2,7 +2,7 @@ module DJMapHelperChangeBossPatternTrigger
 
 using ..Ahorn, Maple
 
-@mapdef Trigger "DJMapHelper/changeBossPatternTrigger" ChangeBossPattern(x::Integer, y::Integer, width::Integer=16, height::Integer=16, mode::String="All", patternIndex::Integer=1, dashless::Bool=false)
+@mapdef Trigger "DJMapHelper/changeBossPatternTrigger" ChangeBossPattern(x::Integer, y::Integer, width::Integer=16, height::Integer=16, mode::String="All", patternIndex::Integer=1, dashless::Bool=false, onlyOnce::Bool=false)
 const modes = String[
     "All",
     "Contained"
