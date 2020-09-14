@@ -2,7 +2,6 @@
 using Celeste.Mod.DJMapHelper.DebugMode;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
-using Monocle;
 
 // TODO: 添加 Ahorn 插件的语言文件（Tooltip）
 namespace Celeste.Mod.DJMapHelper {
@@ -10,7 +9,7 @@ namespace Celeste.Mod.DJMapHelper {
     public class DJMapHelperModule : EverestModule {
         // Only one alive module instance can exist at any given time.
         // ReSharper disable once NotAccessedField.Global
-        public static DJMapHelperModule Instance;
+        public static DJMapHelperModule Instance { get; private set; }
 
         public DJMapHelperModule() {
             Instance = this;
@@ -18,7 +17,9 @@ namespace Celeste.Mod.DJMapHelper {
 
         // If you don't need to store any settings, => null
         public override Type SettingsType => typeof(DJMapHelperSettings);
+        public override Type SessionType => typeof(DJMapHelperSession);
         public static DJMapHelperSettings Settings => (DJMapHelperSettings) Instance._Settings;
+        public static DJMapHelperSession Session => (DJMapHelperSession) Instance._Session;
 
         // If you don't need to store any save data, => null
         public override Type SaveDataType => null;

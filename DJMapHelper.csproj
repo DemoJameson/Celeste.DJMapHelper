@@ -90,6 +90,7 @@
     <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
     <Compile Include="DebugMode\LookoutBuilder.cs" />
+    <Compile Include="DJMapHelperSession.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\BadelineBoostDown.cs" />
     <Compile Include="Entities\BadelineBoostTeleport.cs" />

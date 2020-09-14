@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework;
 namespace Celeste.Mod.DJMapHelper.Triggers {
     [CustomEntity("DJMapHelper/maxDashesTrigger")]
     public class MaxDashesTrigger : Trigger {
-        private static bool? NoRefills;
-
         private readonly DashesNum dashesNum;
 
         public MaxDashesTrigger(EntityData data, Vector2 offset) : base(data, offset) {
@@ -20,8 +18,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 case DashesNum.Zero:
                     session.Inventory.Dashes = 0;
 
-                    if (NoRefills == null) {
-                        NoRefills = session.Inventory.NoRefills;
+                    if (DJMapHelperModule.Session.LastNoRefills == null) {
+                        DJMapHelperModule.Session.LastNoRefills = session.Inventory.NoRefills;
+                        DJMapHelperModule.Session.LastOverrideHairColor = player.OverrideHairColor;
+                        player.OverrideHairColor = player.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline ? Player.UsedBadelineHairColor : Player.UsedHairColor;
                     }
 
                     session.Inventory.NoRefills = true;
@@ -33,18 +33,22 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                         player.Dashes = 1;
                     }
 
-                    if (NoRefills != null) {
-                        session.Inventory.NoRefills = (bool) NoRefills;
-                        NoRefills = null;
+                    if (DJMapHelperModule.Session.LastNoRefills != null) {
+                        session.Inventory.NoRefills = (bool) DJMapHelperModule.Session.LastNoRefills;
+                        player.OverrideHairColor = DJMapHelperModule.Session.LastOverrideHairColor;
+                        DJMapHelperModule.Session.LastNoRefills = null;
+                        DJMapHelperModule.Session.LastOverrideHairColor = null;
                     }
 
                     break;
                 case DashesNum.Two:
                     session.Inventory.Dashes = 2;
 
-                    if (NoRefills != null) {
-                        session.Inventory.NoRefills = (bool) NoRefills;
-                        NoRefills = null;
+                    if (DJMapHelperModule.Session.LastNoRefills != null) {
+                        session.Inventory.NoRefills = (bool) DJMapHelperModule.Session.LastNoRefills;
+                        player.OverrideHairColor = DJMapHelperModule.Session.LastOverrideHairColor;
+                        DJMapHelperModule.Session.LastNoRefills = null;
+                        DJMapHelperModule.Session.LastOverrideHairColor = null;
                     }
 
                     break;
