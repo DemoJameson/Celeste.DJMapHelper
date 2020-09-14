@@ -132,6 +132,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public static void OnLoad() {
+            On.Celeste.Player.WindMove += PlayerOnWindMove;
             On.Celeste.Player.Update += PlayerOnUpdate;
             // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
             IL.Celeste.Player.OnCollideH += AddCollideCheck;
@@ -139,6 +140,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public static void OnUnload() {
+            On.Celeste.Player.WindMove -= PlayerOnWindMove;
             On.Celeste.Player.Update -= PlayerOnUpdate;
             IL.Celeste.Player.OnCollideH -= AddCollideCheck;
             IL.Celeste.Player.OnCollideV -= AddCollideCheck;
@@ -167,11 +169,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
         }
 
-        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+        private static void PlayerOnWindMove(On.Celeste.Player.orig_WindMove orig, Player self, Vector2 move) {
             var featherBarriers =
                 self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
+            var flyColor = (Color) StarFlyColorFieldInfo.GetValue(self);
             foreach (FeatherBarrier featherBarrier in featherBarriers) {
-                if ((Color) StarFlyColorFieldInfo.GetValue(self) != featherBarrier.barrieColor ||
+                if (flyColor != featherBarrier.barrieColor ||
                     self.StateMachine.State != Player.StStarFly) {
                     featherBarrier.Collidable = true;
                 }
@@ -187,9 +190,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
 
+            orig(self, move);
+        }
+
+        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             orig(self);
 
-            foreach (FeatherBarrier featherBarrier in featherBarriers) {
+            var featherBarriers = self.Scene.Tracker.GetEntities<FeatherBarrier>().ToList();
+            foreach (Entity featherBarrier in featherBarriers) {
                 featherBarrier.Collidable = false;
             }
         }
