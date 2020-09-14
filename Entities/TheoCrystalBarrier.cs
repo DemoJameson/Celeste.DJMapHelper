@@ -110,6 +110,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnLoad() {
             On.Celeste.TheoCrystal.Update += TheoCrystalOnUpdate;
+            On.Celeste.Player.WindMove += PlayerOnWindMove;
             On.Celeste.Player.Update += PlayerOnUpdate;
             On.Celeste.Player.Pickup += PlayerOnPickup;
             // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
@@ -119,6 +120,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public static void OnUnload() {
             On.Celeste.TheoCrystal.Update -= TheoCrystalOnUpdate;
+            On.Celeste.Player.WindMove -= PlayerOnWindMove;
             On.Celeste.Player.Update -= PlayerOnUpdate;
             On.Celeste.Player.Pickup -= PlayerOnPickup;
             IL.Celeste.Player.OnCollideH -= AddCollideCheck;
@@ -132,6 +134,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 cursor.EmitDelegate<Action<CollisionData>>(CheckCollide);
                 cursor.GotoNext();
             }
+
             Logger.Log("DJMapHelper/TheoCrystalBarrier",
                 $"Injecting code to make theo crystal barrier light in IL for {cursor.Method.Name}");
         }
@@ -154,42 +157,84 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
         }
 
-        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+        private static void PlayerOnWindMove(On.Celeste.Player.orig_WindMove orig, Player self, Vector2 move) {
+            orig(self, move);
+
             List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
             if (self.Holding?.Entity is TheoCrystal) {
                 theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
+
+                if (CollideCheckOutside(self, Vector2.UnitX)) {
+                    return;
+                }
+
+                if (CollideCheckOutside(self, -Vector2.UnitX)) {
+                    return;
+                }
+
+                if (CollideCheckOutside(self, Vector2.UnitY)) {
+                    return;
+                }
+
+                CollideCheckOutside(self, -Vector2.UnitY);
             }
-
-            CollideCheckOutside(self, Vector2.UnitX);
-            CollideCheckOutside(self, -Vector2.UnitX);
-            CollideCheckOutside(self, Vector2.UnitY * 3);
-            CollideCheckOutside(self, -Vector2.UnitY);
-
-            orig(self);
-            theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
         }
 
-        private static void CollideCheckOutside(Player player, Vector2 direction) {
-            if (player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction) is TheoCrystalBarrier
-                barrier) {
-                if (direction.Abs().Y > 0) {
-                    direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
-                }
+        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+            orig(self);
+            self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ForEach(entity => entity.Collidable = false);
+        }
 
-                if (direction.Y > 0) {
-                    player.PointBounce(player.Center + direction);
+        private static bool CollideCheckOutside(Player player, Vector2 direction) {
+            TheoCrystalBarrier barrier = player.CollideFirstOutside<TheoCrystalBarrier>(player.Position + direction);
+            if (barrier == null) {
+                barrier = player.CollideFirst<TheoCrystalBarrier>();
+                if (barrier == null) return false;
+                var left = player.Right - barrier.Left;
+                if (left < 0) left = float.MaxValue;
+
+                var right = barrier.Right - player.Left;
+                if (right < 0) right = float.MaxValue;
+
+                var top = player.Bottom - barrier.Top;
+                if (top < 0) top = float.MaxValue;
+
+                var bottom = barrier.Bottom - player.Top;
+                if (bottom < 0) bottom = float.MaxValue;
+
+                var min = Math.Min(left, right);
+                min = Math.Min(min, top);
+                min = Math.Min(min, bottom);
+
+                if (Math.Abs(min - left) < 0.01f) {
+                    direction = Vector2.UnitX;
+                } else if (Math.Abs(min - right) < 0.01f) {
+                    direction = -Vector2.UnitX;
+                } else if (Math.Abs(min - top) < 0.01f) {
+                    direction = Vector2.UnitY * 3;
                 } else {
-                    On.Celeste.Player.RefillStamina += DisabledRefillStamina;
-                    On.Celeste.Player.RefillDash += DisabledRefillDash;
-                    player.PointBounce(player.Center + direction);
-                    On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
-                    On.Celeste.Player.RefillDash -= DisabledRefillDash;
+                    direction = -Vector2.UnitY;
                 }
-
-                Audio.Play("event:/game/general/crystalheart_bounce", player.Center + direction);
-                Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
-                barrier.OnReflect();
             }
+
+            if (direction.Abs().Y > 0) {
+                direction = 10 * direction - Vector2.UnitX * (int) player.Facing;
+            }
+
+            if (direction.Y > 0) {
+                player.PointBounce(player.Center + direction);
+            } else {
+                On.Celeste.Player.RefillStamina += DisabledRefillStamina;
+                On.Celeste.Player.RefillDash += DisabledRefillDash;
+                player.PointBounce(player.Center + direction);
+                On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
+                On.Celeste.Player.RefillDash -= DisabledRefillDash;
+            }
+
+            Audio.Play("event:/game/general/crystalheart_bounce", player.Center + direction);
+            Input.Rumble(RumbleStrength.Medium, RumbleLength.Medium);
+            barrier.OnReflect();
+            return true;
         }
 
         private static void DisabledRefillStamina(On.Celeste.Player.orig_RefillStamina orig, Player self) { }
