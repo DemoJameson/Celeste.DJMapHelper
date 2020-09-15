@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,28 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             On.Celeste.Player.Update += PlayerOnUpdate;
             On.Celeste.Player.Die += PlayerOnDie;
             On.Celeste.Actor.OnGround_int += ActorOnOnGroundInt;
+            On.Celeste.TalkComponent.TalkComponentUI.Awake += TalkComponentUIOnAwake;
         }
 
         public static void OnUnload() {
             On.Celeste.Player.Update -= PlayerOnUpdate;
             On.Celeste.Player.Die -= PlayerOnDie;
             On.Celeste.Actor.OnGround_int -= ActorOnOnGroundInt;
+            On.Celeste.TalkComponent.TalkComponentUI.Awake -= TalkComponentUIOnAwake;
+        }
+
+        // 在 Solid 里打开望远镜就会报空指针异常，这里直接吃掉。等待 Everest 合并我关于 Lookout 造成这个崩溃的修改
+        private static void TalkComponentUIOnAwake(On.Celeste.TalkComponent.TalkComponentUI.orig_Awake orig, TalkComponent.TalkComponentUI self,
+            Scene scene) {
+            try {
+                orig(self, scene);
+            } catch (Exception) {
+                if (self.SceneAs<Level>().Entities.Any(entity => entity is Lookout && entity.Get<LookoutComponent>() != null)) {
+                    // ignore exception;
+                    return;
+                }
+                throw;
+            }
         }
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
@@ -40,11 +57,11 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         private static PlayerDeadBody PlayerOnDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction,
             bool evenIfInvincible, bool registerDeathInStats) {
             PlayerDeadBody playerDeadBody = orig(self, direction, evenIfInvincible, registerDeathInStats);
-            
+
             if (savedInvincible != null && playerDeadBody != null) {
                 SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
                 savedInvincible = null;
-            } 
+            }
 
             return playerDeadBody;
         }

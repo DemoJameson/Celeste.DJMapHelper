@@ -134,6 +134,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static void OnLoad() {
             On.Celeste.Player.WindMove += PlayerOnWindMove;
             On.Celeste.Player.Update += PlayerOnUpdate;
+            On.Celeste.Player.StarFlyReturnToNormalHitbox += PlayerOnStarFlyReturnToNormalHitbox;
             // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
             IL.Celeste.Player.OnCollideH += AddCollideCheck;
             IL.Celeste.Player.OnCollideV += AddCollideCheck;
@@ -142,8 +143,22 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static void OnUnload() {
             On.Celeste.Player.WindMove -= PlayerOnWindMove;
             On.Celeste.Player.Update -= PlayerOnUpdate;
+            On.Celeste.Player.StarFlyReturnToNormalHitbox -= PlayerOnStarFlyReturnToNormalHitbox;
             IL.Celeste.Player.OnCollideH -= AddCollideCheck;
             IL.Celeste.Player.OnCollideV -= AddCollideCheck;
+        }
+
+        private static void PlayerOnStarFlyReturnToNormalHitbox(On.Celeste.Player.orig_StarFlyReturnToNormalHitbox orig, Player self) {
+            try {
+                orig(self);
+            } catch (Exception) {
+                if (self.CollideFirst<FeatherBarrier>() != null) {
+                    // ignore exception
+                    return;
+                }
+
+                throw;
+            }
         }
 
         private static void AddCollideCheck(ILContext il) {
@@ -154,6 +169,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 cursor.EmitDelegate<Action<Player, CollisionData>>(CheckCollide);
                 cursor.GotoNext();
             }
+
             Logger.Log("DJMapHelper/FeatherBarrier",
                 $"Injecting code to make feather barrier light in IL for {cursor.Method.Name}");
         }
@@ -172,33 +188,41 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void PlayerOnWindMove(On.Celeste.Player.orig_WindMove orig, Player self, Vector2 move) {
             var featherBarriers =
                 self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
-            var flyColor = (Color) StarFlyColorFieldInfo.GetValue(self);
-            foreach (FeatherBarrier featherBarrier in featherBarriers) {
-                if (flyColor != featherBarrier.barrieColor ||
-                    self.StateMachine.State != Player.StStarFly) {
-                    featherBarrier.Collidable = true;
-                }
-            }
-
-            if (self.CollideFirst<FeatherBarrier>() is FeatherBarrier barrier &&
-                self.StateMachine.State != Player.StStarFly) {
-                if (SaveData.Instance.Assists.Invincible) {
-                    barrier.Collidable = false;
-                }
-                else {
-                    self.Die(Vector2.UnitX * (int) self.Facing);
-                }
-            }
+            TryMakeBarrierCollidable(self, featherBarriers);
 
             orig(self, move);
         }
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+            var featherBarriers =
+                self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
+            if (self.SceneAs<Level>().Wind == Vector2.Zero) {
+                TryMakeBarrierCollidable(self, featherBarriers);
+            }
+
             orig(self);
 
-            var featherBarriers = self.Scene.Tracker.GetEntities<FeatherBarrier>().ToList();
-            foreach (Entity featherBarrier in featherBarriers) {
+            foreach (FeatherBarrier featherBarrier in featherBarriers) {
                 featherBarrier.Collidable = false;
+            }
+        }
+
+        private static void TryMakeBarrierCollidable(Player player, List<FeatherBarrier> featherBarriers) {
+            var flyColor = (Color) StarFlyColorFieldInfo.GetValue(player);
+            foreach (FeatherBarrier featherBarrier in featherBarriers) {
+                if (flyColor != featherBarrier.barrieColor ||
+                    player.StateMachine.State != Player.StStarFly) {
+                    featherBarrier.Collidable = true;
+                }
+            }
+
+            if (player.CollideFirst<FeatherBarrier>() is FeatherBarrier barrier &&
+                player.StateMachine.State != Player.StStarFly) {
+                if (SaveData.Instance.Assists.Invincible) {
+                    barrier.Collidable = false;
+                } else {
+                    player.Die(Vector2.UnitX * (int) player.Facing);
+                }
             }
         }
     }

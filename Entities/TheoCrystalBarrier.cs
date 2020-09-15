@@ -158,8 +158,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static void PlayerOnWindMove(On.Celeste.Player.orig_WindMove orig, Player self, Vector2 move) {
-            orig(self, move);
-
             List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
             if (self.Holding?.Entity is TheoCrystal) {
                 theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
@@ -172,17 +170,30 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     return;
                 }
 
-                if (CollideCheckOutside(self, Vector2.UnitY)) {
+                if (CollideCheckOutside(self, Vector2.UnitY * 3)) {
                     return;
                 }
 
                 CollideCheckOutside(self, -Vector2.UnitY);
             }
+
+            orig(self, move);
         }
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+            List<Entity> barriers = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>();
+            if (self.SceneAs<Level>().Wind == Vector2.Zero) {
+                if (self.Holding?.Entity is TheoCrystal) {
+                    barriers.ForEach(entity => entity.Collidable = true);
+
+                    CollideCheckOutside(self, Vector2.UnitX);
+                    CollideCheckOutside(self, -Vector2.UnitX);
+                    CollideCheckOutside(self, Vector2.UnitY * 3);
+                    CollideCheckOutside(self, -Vector2.UnitY);
+                }
+            }
             orig(self);
-            self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ForEach(entity => entity.Collidable = false);
+            barriers.ForEach(entity => entity.Collidable = false);
         }
 
         private static bool CollideCheckOutside(Player player, Vector2 direction) {
