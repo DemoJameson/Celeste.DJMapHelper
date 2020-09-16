@@ -48,7 +48,7 @@ end
 
 function Ahorn.renderAbs(ctx::Ahorn.Cairo.CairoContext, entity::BadelineBoss, room::Maple.Room)
     x, y = Ahorn.position(entity)
-    Ahorn.drawSprite(ctx, sprite, x, y)
+    Ahorn.drawSprite(ctx, sprite, x, y, sx=-1)
 end
 
 end

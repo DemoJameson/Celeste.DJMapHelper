@@ -2,7 +2,7 @@ module DJMapHelperFeatherBarrier
 
 using ..Ahorn, Maple
 
-@mapdef Entity "DJMapHelper/featherBarrier" Barrier(x::Integer, y::Integer, shielded::Bool=false, singleUse::Bool=false, color::String="Blue")
+@mapdef Entity "DJMapHelper/featherBarrier" Barrier(x::Integer, y::Integer, color::String="Blue")
 
 const colors = String[
     "Blue",
@@ -43,7 +43,7 @@ Ahorn.minimumSize(entity::Barrier) = 8, 8
 Ahorn.resizable(entity::Barrier) = true, true
 
 Ahorn.editingOptions(entity::Barrier) = Dict{String, Any}(
-    "color" => feather_colors
+    "color" => colors
 )
 
 function Ahorn.selection(entity::Barrier)

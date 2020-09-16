@@ -1,0 +1,69 @@
+# -- Entity and Trigger Tooltips -- 
+#    placements.entities.entityName.tooltips.attr=Tooltip
+#    placements.triggers.triggerName.tooltips.attr=Tooltip
+
+# -- Entities -- 
+
+# Badeline Boost Down
+
+# Colorful Fly Feather
+placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.shielded=Determines whether the feather is surrounded by a shield that must be dashed into to activate.
+placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.singleUse=Determines whether the feather is single-use, not reappearing after usage.
+placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.color=Determines the color of the feather, only allow through barriers of the same color.
+
+# Colorful Feather Barrier
+placements.entities.DJMapHelper/featherBarrier.tooltips.color=Determines the color of the barrier, only feathers of the same color are allowed to pass through.
+
+# Colorful Refill
+placements.entities.DJMapHelper/colorfulRefill.tooltips.color=Determines the color of the refill.\n black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.\n blue: only +stamina.\n red: only +dash.
+placements.entities.DJMapHelper/colorfulRefill.tooltips.oneUse=Whether the refill should respawn after being used.
+
+# Final Boss Reversed
+placements.entities.DJMapHelper/finalBossReversed.tooltips.startHit=Determines whether or not Badeline waits to attack until the first hit or upon room entry.
+placements.entities.DJMapHelper/finalBossReversed.tooltips.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
+placements.entities.DJMapHelper/finalBossReversed.tooltips.canChangeMusic=Whether the boss should be able to change the music to the boss track.
+
+# Spring Green
+placements.entities.DJMapHelper/springGreen.tooltips.orientation=Determines orientation of the spring.
+
+# Temple Gate Reversed
+placements.entities.DJMapHelper/templeGateReversed.tooltips.sprite=Determines the visual appearance of the gate.
+placements.entities.DJMapHelper/templeGateReversed.tooltips.type=Determines what abilities the gate has.
+
+# -- Triggers --
+
+# Badeline Protector Trigger
+placements.triggers.DJMapHelper/badelineProtectTrigger.tooltips.respwanTime=Badeline will respawn after this amount of time (in seconds) after being destroyed.
+placements.triggers.DJMapHelper/badelineProtectTrigger.tooltips.rotationTime=Time taken for Badeline to spin around.
+placements.triggers.DJMapHelper/badelineProtectTrigger.tooltips.radius=Rotation radius of the Badeline.
+placements.triggers.DJMapHelper/badelineProtectTrigger.tooltips.clockwise=The spinning Badeline will run clockwise.
+placements.triggers.DJMapHelper/badelineProtectTrigger.tooltips.maxQuantity=The number of Badelines that rotate around the player.
+
+# Change Boss Pattern Trigger
+placements.triggers.DJMapHelper/changeBossPatternTrigger.tooltips.dashless=The trigger only works in the dashless state.
+placements.triggers.DJMapHelper/changeBossPatternTrigger.tooltips.mode=Whether the trigger should affect all badeline bosses, or only the ones contained within it.
+placements.triggers.DJMapHelper/changeBossPatternTrigger.tooltips.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
+placements.triggers.DJMapHelper/changeBossPatternTrigger.tooltips.onlyOnce=Whether the trigger should only trigger once.
+
+# Change Spinner Color Trigger
+placements.triggers.DJMapHelper/changeSpinnerColorTrigger.tooltips.mode=Determining the timing of the trigger.
+placements.triggers.DJMapHelper/changeSpinnerColorTrigger.tooltips.color=Determine the color of crystal spinner.
+
+# Climb Blocker Trigger
+placements.triggers.DJMapHelper/climbBlockerTrigger.tooltips.climb=Whether climbing is allowed.
+placements.triggers.DJMapHelper/climbBlockerTrigger.tooltips.mode=Whether the trigger should affect entire chapter, or only when player contained within it.
+placements.triggers.DJMapHelper/climbBlockerTrigger.tooltips.wallJump=Whether wallJump is allowed.
+
+# Color Grade Trigger
+placements.triggers.DJMapHelper/colorGradeTrigger.tooltips.ColorGrade=Select or type in the color grade you want to apply.
+
+# Max Dashes Trigger
+placements.triggers.DJMapHelper/maxDashesTrigger.tooltips.dashes=Set the number of dashes.
+
+# Teleport Trigger
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.bonfire=Whether to walk to the bonfire, if it exists.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.Dreaming=Set the value of dreaming after teleport.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.KeepKey=Whether the key is retained after teleport.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.room=The name of the room you want to teleport to.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.spawnPointX=X-coordinates of the spawn point you want to teleport to.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.spawnPointY=Y-coordinates of the spawn point you want to teleport to.
