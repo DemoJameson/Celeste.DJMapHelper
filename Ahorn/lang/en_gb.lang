@@ -6,6 +6,15 @@
 
 # Badeline Boost Down
 
+# Badeline Boost Teleport
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.ColorGrade=Type in the color grade you want to apply in the room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenColorGrade=Type in the color grade you want to apply in the golden room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyColorGrade=Type in the color grade you want to apply in the key room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.Room=The name of the room you want to teleport to when without golden berry and key.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenRoom=The name of the room you want to teleport to when keeping golden berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyRoom=The name of the room you want to teleport to when keeping key.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyFirst=Whether to check the key first and then the golden berry.
+
 # Colorful Fly Feather
 placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.shielded=Determines whether the feather is surrounded by a shield that must be dashed into to activate.
 placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.singleUse=Determines whether the feather is single-use, not reappearing after usage.
@@ -22,6 +31,15 @@ placements.entities.DJMapHelper/colorfulRefill.tooltips.oneUse=Whether the refil
 placements.entities.DJMapHelper/finalBossReversed.tooltips.startHit=Determines whether or not Badeline waits to attack until the first hit or upon room entry.
 placements.entities.DJMapHelper/finalBossReversed.tooltips.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
 placements.entities.DJMapHelper/finalBossReversed.tooltips.canChangeMusic=Whether the boss should be able to change the music to the boss track.
+
+# Fling Bird Reversed
+placements.entities.DJMapHelper/flingBirdReversed.tooltips.waiting=Whether the bird should visually look like it is tired and waiting to grab the player.
+
+# Play Sprite
+placements.entities.DJMapHelper/playSprite.tooltips.flipX=Flips the sprite horizontally.
+placements.entities.DJMapHelper/playSprite.tooltips.flipY=Flips the sprite vertically.
+placements.entities.DJMapHelper/playSprite.tooltips.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "idle_carry".
+placements.entities.DJMapHelper/playSprite.tooltips.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "player".
 
 # Spring Green
 placements.entities.DJMapHelper/springGreen.tooltips.orientation=Determines orientation of the spring.
@@ -59,6 +77,19 @@ placements.triggers.DJMapHelper/colorGradeTrigger.tooltips.ColorGrade=Select or 
 
 # Max Dashes Trigger
 placements.triggers.DJMapHelper/maxDashesTrigger.tooltips.dashes=Set the number of dashes.
+
+# Oshiro Right Trigger
+placements.triggers.DJMapHelper/oshiroRightTrigger.tooltips.state=Triggers whether Oshiro spawns into or leaves the room.
+
+# Payphone Call Trigger
+placements.triggers.DJMapHelper/payphoneCallTrigger.tooltips.answer=Determining whether to answer the phone or make a call.
+placements.triggers.DJMapHelper/payphoneCallTrigger.tooltips.dialogId=The dialog ID to use for the dialogue.
+placements.triggers.DJMapHelper/payphoneCallTrigger.tooltips.endLevel=Whether finishing the dialogue should count as completing the map.
+
+# Talk To Badeline Trigger
+placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.dialogId=The dialog ID to use for the dialogue.
+placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.endLevel=Whether finishing the dialogue should count as completing the map.
+placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.rejoin=Whether Badeline should rejoin or vanish.
 
 # Teleport Trigger
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.bonfire=Whether to walk to the bonfire, if it exists.
