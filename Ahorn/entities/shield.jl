@@ -1,21 +1,21 @@
 module DJMapHelperShield
 
 using ..Ahorn, Maple
-@mapdef Entity "DJMapHelper/shield" Sheild(x::Integer, y::Integer)
+@mapdef Entity "DJMapHelper/shield" Shield(x::Integer, y::Integer)
 
 const placements = Ahorn.PlacementDict(
-    "Sheild (DJMapHelper)" => Ahorn.EntityPlacement(
-        Sheild
+    "Shield (DJMapHelper)" => Ahorn.EntityPlacement(
+        Shield
     )
 )
 
-function Ahorn.selection(entity::Sheild)
+function Ahorn.selection(entity::Shield)
     x, y = Ahorn.position(entity)
     
     return Ahorn.Rectangle(x - 12, y - 12, 24, 24)
 end
 
-function Ahorn.render(ctx::Ahorn.Cairo.CairoContext, entity::Sheild, room::Maple.Room)
+function Ahorn.render(ctx::Ahorn.Cairo.CairoContext, entity::Shield, room::Maple.Room)
     Ahorn.Cairo.save(ctx)
 
     Ahorn.set_antialias(ctx, 1)
