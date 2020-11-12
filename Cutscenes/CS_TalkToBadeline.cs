@@ -48,7 +48,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 level.Session.Inventory.Dashes = maxDashes;
                 player.Dashes = maxDashes;
                 player.Depth = 0;
-                player.Speed = Vector2.Zero;
                 player.Position = player.Position - Vector2.UnitY * 12f;
                 player.MoveVExact(100);
                 player.Active = true;

@@ -98,7 +98,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         public override void OnEnd(Level level) {
             level.OnEndOfFrame += (Action) (() => {
                 player.Depth = 0;
-                player.Speed = Vector2.Zero;
                 player.Position.X = payphone.Position.X - 4f;
                 player.Facing = Facings.Right;
                 player.MoveVExact(100);
