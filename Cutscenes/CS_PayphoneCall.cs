@@ -100,7 +100,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.Depth = 0;
                 player.Position.X = payphone.Position.X - 4f;
                 player.Facing = Facings.Right;
-                player.MoveVExact(100);
                 sprite.Visible = false;
                 payphone.Sprite.Visible = true;
                 payphone.Sprite.Play("idle", false, false);
