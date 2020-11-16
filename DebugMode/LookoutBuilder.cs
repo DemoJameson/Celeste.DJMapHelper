@@ -17,15 +17,13 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         private static readonly FieldInfo InteractingField = typeof(Lookout).GetPrivateField("interacting");
 
         public static void OnLoad() {
-            On.Celeste.Player.Update += PlayerOnUpdate;
-            On.Celeste.Player.Die += PlayerOnDie;
+            On.Celeste.Level.Update += LevelOnUpdate;
             On.Celeste.Actor.OnGround_int += ActorOnOnGroundInt;
             On.Celeste.TalkComponent.TalkComponentUI.Awake += TalkComponentUIOnAwake;
         }
 
         public static void OnUnload() {
-            On.Celeste.Player.Update -= PlayerOnUpdate;
-            On.Celeste.Player.Die -= PlayerOnDie;
+            On.Celeste.Level.Update -= LevelOnUpdate;
             On.Celeste.Actor.OnGround_int -= ActorOnOnGroundInt;
             On.Celeste.TalkComponent.TalkComponentUI.Awake -= TalkComponentUIOnAwake;
         }
@@ -54,25 +52,15 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             return orig(self, downCheck);
         }
 
-        private static PlayerDeadBody PlayerOnDie(On.Celeste.Player.orig_Die orig, Player self, Vector2 direction,
-            bool evenIfInvincible, bool registerDeathInStats) {
-            PlayerDeadBody playerDeadBody = orig(self, direction, evenIfInvincible, registerDeathInStats);
+        private static void LevelOnUpdate(On.Celeste.Level.orig_Update orig, Level level) {
+            orig(level);
 
-            if (savedInvincible != null && playerDeadBody != null) {
-                SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
-                savedInvincible = null;
-            }
+            Player player = level.Entities.FindFirst<Player>();
+            if (player == null) return;
 
-            return playerDeadBody;
-        }
 
-        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
-            orig(self);
-
-            Level level = self.SceneAs<Level>();
-
-            if (level.Tracker.GetEntities<Lookout>()
-                    .All(entity => entity.Get<LookoutComponent>() == null) &&
+            if ((level.Tracker.GetEntities<Lookout>().Count == 0 || level.Tracker.GetEntities<Lookout>()
+                    .All(entity => entity.Get<LookoutComponent>() == null)) &&
                 savedInvincible != null
             ) {
                 SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
@@ -83,19 +71,19 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 return;
             }
 
-            if (self.Dead || level.Paused || self.StateMachine.State == Player.StDummy) {
+            if (level.Paused || player.Dead || player.StateMachine.State == Player.StDummy) {
                 return;
             }
 
             MInput.KeyboardData keyboard = MInput.Keyboard;
 
             if (keyboard.Pressed(Keys.Q) && (keyboard.Check(Keys.LeftControl) || keyboard.Check(Keys.RightControl))) {
-                Lookout lookout = new Lookout(new EntityData {Position = self.Position}, Vector2.Zero) {
+                Lookout lookout = new Lookout(new EntityData {Position = player.Position}, Vector2.Zero) {
                     new LookoutComponent()
                 };
-                lookout.Add(new Coroutine(Look(lookout, self)));
+                lookout.Add(new Coroutine(Look(lookout, player)));
                 level.Add(lookout);
-                level.Tracker.GetEntitiesCopy<LookoutBlocker>().ForEach(entity => level.Remove(entity));
+                level.Tracker.GetEntitiesCopy<LookoutBlocker>().ForEach(level.Remove);
             }
         }
 
