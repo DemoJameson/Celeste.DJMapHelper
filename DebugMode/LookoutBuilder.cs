@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
@@ -42,7 +40,6 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
             Player player = level.Entities.FindFirst<Player>();
             if (player == null) return;
 
-
             if ((level.Tracker.GetEntities<Lookout>().Count == 0 || level.Tracker.GetEntities<Lookout>()
                     .All(entity => entity.Get<LookoutComponent>() == null)) &&
                 savedInvincible != null
@@ -72,7 +69,6 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         }
 
         private static IEnumerator Look(Lookout lookout, Player player) {
-            yield return null;
             InteractMethod?.Invoke(lookout, new object[] {player});
             savedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
@@ -115,7 +111,7 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
 
         private static IEnumerator RestoreCameraLockMode(Level level, Level.CameraLockModes cameraLockMode,
             Vector2 cameraPosition) {
-            while (Vector2.Distance(level.Camera.Position, cameraPosition) > 1) {
+            while (Vector2.Distance(level.Camera.Position, cameraPosition) > 1f) {
                 yield return null;
             }
 
