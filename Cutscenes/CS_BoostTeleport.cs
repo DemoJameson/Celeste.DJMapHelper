@@ -25,11 +25,9 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private bool hasKey;
         private AscendManager.Streaks streaks;
         private float timer;
-        private Coroutine wave;
 
         public CS_BoostTeleport(Player player, BadelineBoostTeleport boost, string normalRoom, string normalColorGrade,
-            string keyRoom, string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst)
-            : base(false, false) {
+            string keyRoom, string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst) {
             this.player = player;
             this.boost = boost;
             this.normalRoom = normalRoom;
@@ -84,7 +82,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 blackhole = null;
             }
 
-            Add(wave = new Coroutine(WaveCamera(), true));
+            Add(new Coroutine(WaveCamera(), true));
             Add(new Coroutine(BirdRoutine(0.8f), true));
             Level.Add(streaks = new AscendManager.Streaks(null));
             for (var p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 12f) {

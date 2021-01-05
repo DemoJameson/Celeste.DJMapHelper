@@ -12,8 +12,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private BadelineDummy badeline;
         private int maxDashes;
 
-        public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin)
-            : base(false) {
+        public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin) {
             this.player = player;
             this.dialogEntry = dialogEntry;
             this.endLevel = endLevel;

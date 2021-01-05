@@ -16,8 +16,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private int maxDashes;
 
         public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint,
-            TeleportTrigger.Dreams dreams, bool keepKey)
-            : base(false) {
+            TeleportTrigger.Dreams dreams, bool keepKey) {
             this.player = player;
             this.sitFire = sitFire;
             this.teleportRoom = teleportRoom;

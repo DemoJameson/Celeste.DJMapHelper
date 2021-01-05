@@ -14,8 +14,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private SoundSource ringtone;
         private Sprite sprite;
 
-        public CS_PayphoneCall(Player player, string dialogEntry, bool endLevel, bool answer)
-            : base(false) {
+        public CS_PayphoneCall(Player player, string dialogEntry, bool endLevel, bool answer) {
             this.player = player;
             this.dialogEntry = dialogEntry;
             this.endLevel = endLevel;
