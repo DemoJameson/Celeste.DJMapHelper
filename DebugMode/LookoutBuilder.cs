@@ -25,9 +25,10 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         }
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
-            if (self is Player && DJMapHelperModule.Settings.EnableTowerViewer && self.SceneAs<Level>().Tracker
-                .GetEntities<Lookout>()
-                .Any(entity => entity.Get<LookoutComponent>() != null)) {
+            if (DJMapHelperModule.Settings.EnableTowerViewer
+                && self is Player
+                && self.SceneAs<Level>() is Level level
+                && level.Tracker.GetEntities<Lookout>().Any(entity => entity.Get<LookoutComponent>() != null)) {
                 return true;
             }
 
