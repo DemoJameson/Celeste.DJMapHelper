@@ -38,13 +38,7 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         private static void LevelOnUpdate(On.Celeste.Level.orig_Update orig, Level level) {
             orig(level);
 
-            Player player = level.Entities.FindFirst<Player>();
-            if (player == null) return;
-
-            if ((level.Tracker.GetEntities<Lookout>().Count == 0 || level.Tracker.GetEntities<Lookout>()
-                    .All(entity => entity.Get<LookoutComponent>() == null)) &&
-                savedInvincible != null
-            ) {
+            if (level.Tracker.GetEntities<Lookout>().All(entity => entity.Get<LookoutComponent>() == null) && savedInvincible != null) {
                 SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
                 savedInvincible = null;
             }
@@ -53,7 +47,10 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 return;
             }
 
-            if (level.Paused || player.Dead || player.StateMachine.State == Player.StDummy) {
+            Player player = level.Tracker.GetEntity<Player>();
+            if (player == null) return;
+
+            if (level.Paused || level.Transitioning || level.SkippingCutscene || level.InCutscene || player.Dead || player.StateMachine.State == Player.StDummy) {
                 return;
             }
 
@@ -63,13 +60,17 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 Lookout lookout = new Lookout(new EntityData {Position = player.Position}, Vector2.Zero) {
                     new LookoutComponent()
                 };
-                lookout.Add(new Coroutine(Look(lookout, player)));
+                lookout.Add(new Coroutine(Look(lookout)));
                 level.Add(lookout);
                 level.Tracker.GetEntitiesCopy<LookoutBlocker>().ForEach(level.Remove);
             }
         }
 
-        private static IEnumerator Look(Lookout lookout, Player player) {
+        private static IEnumerator Look(Lookout lookout) {
+            Player player = Engine.Scene.Tracker.GetEntity<Player>();
+            if (player?.Scene == null || player.Dead) {
+                yield break;
+            }
             InteractMethod?.Invoke(lookout, new object[] {player});
             savedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
