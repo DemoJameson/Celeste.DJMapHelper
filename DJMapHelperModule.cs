@@ -38,6 +38,7 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnLoad();
             FlingBirdReversed.OnLoad();
             LookoutBuilder.OnLoad();
+            MaxDashesTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
         }
@@ -54,6 +55,7 @@ namespace Celeste.Mod.DJMapHelper {
             FinalBossReversed.OnUnload();
             FlingBirdReversed.OnUnLoad();
             LookoutBuilder.OnUnload();
+            MaxDashesTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
         }

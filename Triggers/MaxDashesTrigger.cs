@@ -11,6 +11,27 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             dashesNum = data.Enum("dashes", DashesNum.One);
         }
 
+        public static void OnLoad() {
+            On.Celeste.Player.Update += PlayerOnUpdate;
+        }
+
+        public static void OnUnload() {
+            On.Celeste.Player.Update -= PlayerOnUpdate;
+        }
+
+        private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
+            orig(self);
+
+            if (DJMapHelperModule.Session.LastNoRefills != null) {
+                if (self.Dashes == 0) {
+                    self.Hair.Color = self.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline ? Player.UsedBadelineHairColor : Player.UsedHairColor;
+                    self.OverrideHairColor = self.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline ? Player.UsedBadelineHairColor : Player.UsedHairColor;
+                } else {
+                    self.OverrideHairColor = DJMapHelperModule.Session.LastOverrideHairColor;
+                }
+            }
+        }
+
         public override void OnEnter(Player player) {
             base.OnEnter(player);
             Session session = SceneAs<Level>().Session;
@@ -21,7 +42,6 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                     if (DJMapHelperModule.Session.LastNoRefills == null) {
                         DJMapHelperModule.Session.LastNoRefills = session.Inventory.NoRefills;
                         DJMapHelperModule.Session.LastOverrideHairColor = player.OverrideHairColor;
-                        player.OverrideHairColor = player.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline ? Player.UsedBadelineHairColor : Player.UsedHairColor;
                     }
 
                     session.Inventory.NoRefills = true;
