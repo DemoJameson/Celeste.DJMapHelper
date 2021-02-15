@@ -20,6 +20,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static readonly MethodInfo SeekerGotBounced = typeof(Seeker).GetPrivateMethod("GotBouncedOn");
         private static readonly MethodInfo KeyOnPlayer = typeof(Key).GetPrivateMethod("OnPlayer");
+        private static readonly MethodInfo BerrySeedOnPlayer = typeof(StrawberrySeed).GetPrivateMethod("OnPlayer");
+        private static readonly FieldInfo BerryCollected = typeof(Strawberry).GetPrivateField("collected");
+        private static readonly Lazy<Type> ReturnBerryType = new Lazy<Type>(() => Type.GetType("LunaticHelper.BubbleReturnBerry, LunaticHelper"));
+        private static readonly Lazy<MethodInfo> ReturnBerryOnPlayer = new Lazy<MethodInfo>(() => ReturnBerryType?.Value.GetMethod("OnPlayer"));
         private readonly List<BadelineDummy> badelines;
         private Player player;
         private float respawnTimer;
@@ -149,8 +153,20 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     }
 
                     foreach (Strawberry berry in Scene.Entities.FindAll<Strawberry>()) {
-                        if (badeline.CollideCheck(berry)) {
-                            berry.OnPlayer(player);
+                        if (berry.Follower.Leader == null && false == (bool) BerryCollected.GetValue(berry) && badeline.CollideCheck(berry)) {
+                            if (ReturnBerryType.Value == berry.GetType() && ReturnBerryOnPlayer.Value != null) {
+                                ReturnBerryOnPlayer.Value.Invoke(berry, new object[] {player});
+                            } else {
+                                berry.OnPlayer(player);
+                            }
+                            RemoveBadeline(badeline);
+                            break;
+                        }
+                    }
+
+                    foreach (StrawberrySeed seed in Scene.Tracker.GetEntities<StrawberrySeed>()) {
+                        if (badeline.CollideCheck(seed)) {
+                            BerrySeedOnPlayer.Invoke(seed, new object[] {player});
                             RemoveBadeline(badeline);
                             break;
                         }
