@@ -19,6 +19,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly bool clockwise;
 
         private static readonly MethodInfo SeekerGotBounced = typeof(Seeker).GetPrivateMethod("GotBouncedOn");
+        private static readonly MethodInfo KeyOnPlayer = typeof(Key).GetPrivateMethod("OnPlayer");
         private readonly List<BadelineDummy> badelines;
         private Player player;
         private float respawnTimer;
@@ -65,8 +66,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (clockwise) {
                 rotationPercent -= Engine.DeltaTime / rotationTime;
                 ++rotationPercent;
-            }
-            else {
+            } else {
                 rotationPercent += Engine.DeltaTime / rotationTime;
             }
 
@@ -138,6 +138,24 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         break;
                     }
                 }
+
+                if (!player.Dead) {
+                    foreach (Key key in Scene.Entities.FindAll<Key>()) {
+                        if (badeline.CollideCheck(key)) {
+                            KeyOnPlayer.Invoke(key, new object[] {player});
+                            RemoveBadeline(badeline);
+                            break;
+                        }
+                    }
+
+                    foreach (Strawberry berry in Scene.Entities.FindAll<Strawberry>()) {
+                        if (badeline.CollideCheck(berry)) {
+                            berry.OnPlayer(player);
+                            RemoveBadeline(badeline);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -176,6 +194,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (respawnTimer <= 0) {
                 respawnTimer = respwanTime;
             }
+
             Disappear(badeline);
             badelines.Remove(badeline);
         }
