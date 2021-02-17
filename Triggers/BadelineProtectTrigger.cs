@@ -24,6 +24,8 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
                 Scene.Add(new BadelineProtector(data));
             }
 
+            EntityID entityId = new EntityID(data.Level.Name, data.ID + 10000000);
+            SceneAs<Level>().Session.DoNotLoad.Add(entityId);
             RemoveSelf();
         }
     }
