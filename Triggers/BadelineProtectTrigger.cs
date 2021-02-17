@@ -8,16 +8,22 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
     [CustomEntity("DJMapHelper/badelineProtectTrigger")]
     public class BadelineProtectTrigger : Trigger {
         private readonly EntityData data;
-        private readonly Vector2 offset;
 
         public BadelineProtectTrigger(EntityData data, Vector2 offset) : base(data, offset) {
             this.data = data;
-            this.offset = offset;
         }
 
         public override void OnEnter(Player player) {
             base.OnEnter(player);
-            Scene.Add(new BadelineProtector(data, offset));
+            if (Scene.Tracker.GetEntity<BadelineProtector>() is BadelineProtector badelineProtector) {
+                badelineProtector.RemoveSelf();
+                DJMapHelperModule.Session.BadelineProtectorConfig = null;
+            }
+
+            if (data.Int("maxQuantity") > 0) {
+                Scene.Add(new BadelineProtector(data));
+            }
+
             RemoveSelf();
         }
     }

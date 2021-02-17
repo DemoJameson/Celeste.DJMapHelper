@@ -29,6 +29,7 @@ namespace Celeste.Mod.DJMapHelper {
         // Load runs before Celeste itself has initialized properly.
         public override void Load() {
             BadelineBoostDown.OnLoad();
+            BadelineProtector.OnLoad();
             ChangeBossPatternTrigger.OnLoad();
             ChangeSpinnerColorTrigger.OnLoad();
             ColorfulFlyFeather.OnLoad();
@@ -46,6 +47,7 @@ namespace Celeste.Mod.DJMapHelper {
         // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
             BadelineBoostDown.OnUnLoad();
+            BadelineProtector.OnUnload();
             ChangeBossPatternTrigger.OnUnload();
             ChangeSpinnerColorTrigger.OnUnload();
             ColorfulFlyFeather.OnUnload();

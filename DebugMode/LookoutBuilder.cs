@@ -25,8 +25,7 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
         }
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
-            if (DJMapHelperModule.Settings.EnableTowerViewer
-                && self is Player
+            if (self is Player
                 && self.SceneAs<Level>() is Level level
                 && level.Tracker.GetEntities<Lookout>().Any(entity => entity.Get<LookoutComponent>() != null)) {
                 return true;
@@ -43,10 +42,6 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 savedInvincible = null;
             }
 
-            if (!DJMapHelperModule.Settings.EnableTowerViewer) {
-                return;
-            }
-
             Player player = level.Tracker.GetEntity<Player>();
             if (player == null) return;
 
@@ -54,9 +49,8 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
                 return;
             }
 
-            MInput.KeyboardData keyboard = MInput.Keyboard;
-
-            if (keyboard.Pressed(Keys.Q) && (keyboard.Check(Keys.LeftControl) || keyboard.Check(Keys.RightControl))) {
+            if (DJMapHelperModule.Settings.SpawnTowerViewer.Pressed) {
+                DJMapHelperModule.Settings.SpawnTowerViewer.ConsumePress();
                 Lookout lookout = new Lookout(new EntityData {Position = player.Position}, Vector2.Zero) {
                     new LookoutComponent()
                 };

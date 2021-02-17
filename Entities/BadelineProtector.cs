@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
@@ -10,6 +9,14 @@ using Monocle;
 // ReSharper disable PossibleInvalidCastExceptionInForeachLoop
 
 namespace Celeste.Mod.DJMapHelper.Entities {
+    public class BadelineProtectorConfig {
+        public int MaxQuantity;
+        public float Radius;
+        public float RespwanTime;
+        public float RotationTime;
+        public bool Clockwise;
+    }
+
     [Tracked]
     public class BadelineProtector : Entity {
         private readonly int maxQuantity;
@@ -29,20 +36,49 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private float respawnTimer;
         private float rotationPercent;
 
-        public BadelineProtector(EntityData data, Vector2 offset) : this(
-            data.Int("maxQuantity", 1), data.Int("radius", 24), data.Float("respwanTime", 8f),
-            data.Float("rotationTime", 1.8f), data.Bool("clockwise", true)) { }
 
-        private BadelineProtector(int maxQuantity, int radius, float respwanTime, float rotationTime, bool clockwise) {
-            this.maxQuantity = maxQuantity;
-            this.radius = radius;
-            this.respwanTime = respwanTime;
-            this.rotationTime = rotationTime;
-            this.clockwise = clockwise;
+        public static void OnLoad() {
+            On.Celeste.Player.Added += PlayerOnAdded;
+        }
+
+        public static void OnUnload() {
+            On.Celeste.Player.Added -= PlayerOnAdded;
+        }
+
+        private static void PlayerOnAdded(On.Celeste.Player.orig_Added orig, Player self, Scene scene) {
+            orig(self, scene);
+
+            if (DJMapHelperModule.Session.BadelineProtectorConfig != null
+                && DJMapHelperModule.Session.BadelineProtectorConfig.MaxQuantity > 0
+                && scene.Tracker.GetEntity<BadelineProtector>() == null) {
+                scene.Add(new BadelineProtector(DJMapHelperModule.Session.BadelineProtectorConfig));
+            }
+        }
+
+
+        public BadelineProtector(EntityData data) : this(
+            new BadelineProtectorConfig(){
+                MaxQuantity = data.Int("maxQuantity", 1),
+                Radius = data.Int("radius", 24),
+                RespwanTime = data.Float("respwanTime", 8f),
+                RotationTime = data.Float("rotationTime", 1.8f),
+                Clockwise = data.Bool("clockwise", true)
+                }) { }
+
+        private BadelineProtector(BadelineProtectorConfig config) {
+            maxQuantity = config.MaxQuantity;
+            radius = config.Radius;
+            respwanTime = config.RespwanTime;
+            rotationTime = config.RotationTime;
+            clockwise = config.Clockwise;
+
+            DJMapHelperModule.Session.BadelineProtectorConfig = config;
 
             respawnTimer = 0.0f;
             rotationPercent = 0.0f;
             badelines = new List<BadelineDummy>();
+
+            Tag = Tags.Persistent;
         }
 
         private static float GetAngle(float rotationPercent) {
@@ -177,7 +213,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private void AddBadeline(bool silent = false) {
             BadelineDummy badeline = new BadelineDummy(Vector2.Zero) {
-                Collider = new Hitbox(8f, 9f, -4f, -11f)
+                Collider = new Hitbox(8f, 9f, -4f, -11f),
+                Tag = Tags.Persistent
             };
             badeline.Add(new Coroutine(Appear(badeline, silent)));
             Scene.Add(badeline);

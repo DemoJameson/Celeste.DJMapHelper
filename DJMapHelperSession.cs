@@ -1,8 +1,10 @@
+using Celeste.Mod.DJMapHelper.Entities;
 using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DJMapHelper {
     public class DJMapHelperSession : EverestModuleSession {
         public bool? LastNoRefills { get; set; } = null;
         public Color? LastOverrideHairColor { get; set; } = null;
+        public BadelineProtectorConfig BadelineProtectorConfig { get; set; }
     }
 }

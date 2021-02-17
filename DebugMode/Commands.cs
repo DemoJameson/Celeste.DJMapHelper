@@ -3,7 +3,7 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.DebugMode {
     // ReSharper disable once UnusedMember.Global
     public static class Commands {
-        [Command("metadata", "check metadata values(DJ Map Helper)")]
+        [Command("metadata", "check metadata values (DJ Map Helper)")]
         private static void CmdMetadata() {
             Level scene = Engine.Scene as Level;
             if (scene == null) {
