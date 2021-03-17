@@ -89,7 +89,7 @@
     <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
     <Compile Include="Cutscenes\CS_Teleport.cs" />
     <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
-    <Compile Include="DebugMode\LookoutBuilder.cs" />
+    <Compile Include="DebugFeatures\LookoutBuilder.cs" />
     <Compile Include="DJMapHelperSession.cs" />
     <Compile Include="Entities\AngryOshiroRight.cs" />
     <Compile Include="Entities\BadelineBoostDown.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="Entities\SpringGreen.cs" />
     <Compile Include="Entities\StartPoint.cs" />
     <Compile Include="Entities\TempleGateReversed.cs" />
-    <Compile Include="DebugMode\Commands.cs" />
+    <Compile Include="DebugFeatures\Commands.cs" />
     <Compile Include="Entities\TheoCrystalBarrier.cs" />
     <Compile Include="DJMapHelperModule.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
@@ -132,6 +132,7 @@
     <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".editorconfig" />
     <Content Include=".gitignore" />
     <Content Include="Ahorn\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

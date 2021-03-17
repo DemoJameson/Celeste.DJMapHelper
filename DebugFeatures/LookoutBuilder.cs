@@ -3,10 +3,9 @@ using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.DebugMode {
+namespace Celeste.Mod.DJMapHelper.DebugFeatures {
     // Ctrl+Q: Add tower viewer.
     public static class LookoutBuilder {
         private static bool? savedInvincible;
@@ -51,6 +50,10 @@ namespace Celeste.Mod.DJMapHelper.DebugMode {
 
             if (DJMapHelperModule.Settings.SpawnTowerViewer.Pressed) {
                 DJMapHelperModule.Settings.SpawnTowerViewer.ConsumePress();
+                if (level.Tracker.GetEntities<Lookout>().Any(entity => entity.Get<LookoutComponent>() != null)) {
+                    return;
+                }
+                
                 Lookout lookout = new Lookout(new EntityData {Position = player.Position}, Vector2.Zero) {
                     new LookoutComponent()
                 };

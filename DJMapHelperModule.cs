@@ -1,5 +1,5 @@
 ﻿using System;
-using Celeste.Mod.DJMapHelper.DebugMode;
+using Celeste.Mod.DJMapHelper.DebugFeatures;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
 
