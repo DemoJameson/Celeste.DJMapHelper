@@ -1,168 +1,203 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{468DD19C-41BC-4A42-91C8-01F57BB4064C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Celeste.Mod.DJMapHelper</RootNamespace>
-    <AssemblyName>DJMapHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Celeste">
-      <HintPath>..\..\Celeste.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="FNA">
-      <HintPath>..\..\FNA.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MMHOOK_Celeste">
-      <HintPath>..\..\MMHOOK_Celeste.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="YamlDotNet">
-      <HintPath>..\..\YamlDotNet.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\..\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\..\Mono.Cecil.Mdb.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\Mono.Cecil.Pdb.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\..\Mono.Cecil.Rocks.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod">
-      <HintPath>..\..\MonoMod.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>..\..\MonoMod.RuntimeDetour.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour.HookGen">
-      <HintPath>..\..\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>..\..\MonoMod.Utils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
-    <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
-    <Compile Include="Cutscenes\CS_Teleport.cs" />
-    <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
-    <Compile Include="DebugFeatures\LookoutBuilder.cs" />
-    <Compile Include="DJMapHelperSession.cs" />
-    <Compile Include="Entities\AngryOshiroRight.cs" />
-    <Compile Include="Entities\BadelineBoostDown.cs" />
-    <Compile Include="Entities\BadelineBoostTeleport.cs" />
-    <Compile Include="Entities\BadelineProtector.cs" />
-    <Compile Include="Entities\ColorfulFlyFeather.cs" />
-    <Compile Include="Entities\ColorfulRefill.cs" />
-    <Compile Include="Entities\FeatherBarrier.cs" />
-    <Compile Include="Entities\FinallBossReversed.cs" />
-    <Compile Include="Entities\FlingBirdReversed.cs" />
-    <Compile Include="Entities\PlaySprite.cs" />
-    <Compile Include="Entities\SeekerBoss.cs" />
-    <Compile Include="Entities\SeekerBossBeam.cs" />
-    <Compile Include="Entities\SeekerBossShot.cs" />
-    <Compile Include="Entities\Shield.cs" />
-    <Compile Include="Entities\SnowballLeft.cs" />
-    <Compile Include="Entities\SpringGreen.cs" />
-    <Compile Include="Entities\StartPoint.cs" />
-    <Compile Include="Entities\TempleGateReversed.cs" />
-    <Compile Include="DebugFeatures\Commands.cs" />
-    <Compile Include="Entities\TheoCrystalBarrier.cs" />
-    <Compile Include="DJMapHelperModule.cs" />
-    <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\CommonExtensions.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DJMapHelperSettings.cs" />
-    <Compile Include="Triggers\BadelineProtectTrigger.cs" />
-    <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
-    <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs" />
-    <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
-    <Compile Include="Triggers\ColorGradeTrigger.cs" />
-    <Compile Include="Triggers\KillBoxTrigger.cs" />
-    <Compile Include="Triggers\MaxDashesTrigger.cs" />
-    <Compile Include="Triggers\OshiroRightTrigger.cs" />
-    <Compile Include="Triggers\PayphoneCallTrigger.cs" />
-    <Compile Include="Triggers\StopProtectTrigger.cs" />
-    <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
-    <Compile Include="Triggers\TeleportTrigger.cs" />
-    <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include=".editorconfig" />
-    <Content Include=".github\workflows\NetFramework.Legacy.CI.yml" />
-    <Content Include=".gitignore" />
-    <Content Include="Ahorn\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialog\English.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialog\Simplified Chinese.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="everest.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Graphics\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Ahorn\triggers\oshiroRightTrigger.jl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{468DD19C-41BC-4A42-91C8-01F57BB4064C}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Celeste.Mod.DJMapHelper</RootNamespace>
+        <AssemblyName>DJMapHelper</AssemblyName>
+        <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugType>portable</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Celeste, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>lib-stripped\Celeste.exe</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="FNA, Version=19.9.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>lib-stripped\FNA.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MMHOOK_Celeste, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>lib-stripped\MMHOOK_Celeste.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="KeraLua, Version=1.0.22.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217">
+            <HintPath>packages\KeraLua.1.0.22\lib\net45\KeraLua.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e">
+            <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Mdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e">
+            <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Pdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e">
+            <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Rocks, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e">
+            <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour, Version=21.1.11.1, Culture=neutral, PublicKeyToken=null">
+            <HintPath>packages\MonoMod.RuntimeDetour.21.1.11.1\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.Utils, Version=21.1.11.1, Culture=neutral, PublicKeyToken=null">
+            <HintPath>packages\MonoMod.Utils.21.1.11.1\lib\net40\MonoMod.Utils.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="NLua, Version=1.4.25.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217">
+            <HintPath>packages\NLua.1.4.25\lib\net45\NLua.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Drawing"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="YamlDotNet">
+            <HintPath>..\..\YamlDotNet.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil">
+            <HintPath>..\..\Mono.Cecil.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Mdb">
+            <HintPath>..\..\Mono.Cecil.Mdb.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Pdb">
+            <HintPath>..\..\Mono.Cecil.Pdb.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil.Rocks">
+            <HintPath>..\..\Mono.Cecil.Rocks.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod">
+            <HintPath>..\..\MonoMod.exe</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour">
+            <HintPath>..\..\MonoMod.RuntimeDetour.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour.HookGen">
+            <HintPath>..\..\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.Utils">
+            <HintPath>..\..\MonoMod.Utils.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Cutscenes\CS_BoostTeleport.cs"/>
+        <Compile Include="Cutscenes\CS_TalkToBadeline.cs"/>
+        <Compile Include="Cutscenes\CS_Teleport.cs"/>
+        <Compile Include="Cutscenes\CS_PayphoneCall.cs"/>
+        <Compile Include="DebugFeatures\LookoutBuilder.cs"/>
+        <Compile Include="DJMapHelperSession.cs"/>
+        <Compile Include="Entities\AngryOshiroRight.cs"/>
+        <Compile Include="Entities\BadelineBoostDown.cs"/>
+        <Compile Include="Entities\BadelineBoostTeleport.cs"/>
+        <Compile Include="Entities\BadelineProtector.cs"/>
+        <Compile Include="Entities\ColorfulFlyFeather.cs"/>
+        <Compile Include="Entities\ColorfulRefill.cs"/>
+        <Compile Include="Entities\FeatherBarrier.cs"/>
+        <Compile Include="Entities\FinallBossReversed.cs"/>
+        <Compile Include="Entities\FlingBirdReversed.cs"/>
+        <Compile Include="Entities\PlaySprite.cs"/>
+        <Compile Include="Entities\SeekerBoss.cs"/>
+        <Compile Include="Entities\SeekerBossBeam.cs"/>
+        <Compile Include="Entities\SeekerBossShot.cs"/>
+        <Compile Include="Entities\Shield.cs"/>
+        <Compile Include="Entities\SnowballLeft.cs"/>
+        <Compile Include="Entities\SpringGreen.cs"/>
+        <Compile Include="Entities\StartPoint.cs"/>
+        <Compile Include="Entities\TempleGateReversed.cs"/>
+        <Compile Include="DebugFeatures\Commands.cs"/>
+        <Compile Include="Entities\TheoCrystalBarrier.cs"/>
+        <Compile Include="DJMapHelperModule.cs"/>
+        <Compile Include="Extensions\ColorExtensions.cs"/>
+        <Compile Include="Extensions\CommonExtensions.cs"/>
+        <Compile Include="Extensions\Extensions.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="DJMapHelperSettings.cs"/>
+        <Compile Include="Triggers\BadelineProtectTrigger.cs"/>
+        <Compile Include="Triggers\ChangeBossPatternTrigger.cs"/>
+        <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs"/>
+        <Compile Include="Triggers\ClimbBlockerTrigger.cs"/>
+        <Compile Include="Triggers\ColorGradeTrigger.cs"/>
+        <Compile Include="Triggers\KillBoxTrigger.cs"/>
+        <Compile Include="Triggers\MaxDashesTrigger.cs"/>
+        <Compile Include="Triggers\OshiroRightTrigger.cs"/>
+        <Compile Include="Triggers\PayphoneCallTrigger.cs"/>
+        <Compile Include="Triggers\StopProtectTrigger.cs"/>
+        <Compile Include="Triggers\TalkToBadelineTrigger.cs"/>
+        <Compile Include="Triggers\TeleportTrigger.cs"/>
+        <Compile Include="Triggers\WindAttackLeftTrigger.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include=".editorconfig"/>
+        <Content Include=".github\workflows\NetFramework.Legacy.CI.yml"/>
+        <Content Include=".gitignore"/>
+        <Content Include="Ahorn\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Dialog\English.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Dialog\Simplified Chinese.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="everest.yaml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Graphics\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Ahorn\triggers\oshiroRightTrigger.jl">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+           Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+      -->
 </Project>
