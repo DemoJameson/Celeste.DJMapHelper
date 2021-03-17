@@ -38,10 +38,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.StateMachine.State = 11;
                 player.Dashes = 1;
                 yield return 0.3f;
-                ringtone.Play("event:/game/02_old_site/sequence_phone_ring_loop", null, 0.0f);
+                ringtone.Play("event:/game/02_old_site/sequence_phone_ring_loop");
                 yield return 1.2f;
                 if (player.X < payphone.X - 24f || player.X > payphone.X - 4f) {
-                    yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                    yield return player.DummyWalkTo(payphone.X - 24f);
                 }
 
                 yield return 1.5f;
@@ -49,12 +49,12 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 yield return 1.5f;
                 player.Facing = Facings.Right;
                 yield return 0.25f;
-                yield return player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
+                yield return player.DummyWalkTo(payphone.X - 4f);
                 yield return 1.5f;
                 Add(Alarm.Create(Alarm.AlarmMode.Oneshot, () => ringtone.Param("end", 1f), 0.43f, true));
                 player.Visible = false;
                 Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
-                yield return payphone.Sprite.PlayRoutine("pickUp", false);
+                yield return payphone.Sprite.PlayRoutine("pickUp");
                 yield return 1f;
             }
             else {
@@ -62,7 +62,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.Dashes = 1;
                 yield return 0.3f;
                 if (player.X < payphone.X - 24f || player.X > payphone.X - 4f) {
-                    yield return player.DummyWalkTo(payphone.X - 24f, false, 1f, false);
+                    yield return player.DummyWalkTo(payphone.X - 24f);
                 }
 
                 yield return 1.5f;
@@ -70,27 +70,27 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 yield return 1.5f;
                 player.Facing = Facings.Right;
                 yield return 0.25f;
-                yield return player.DummyWalkTo(payphone.X - 4f, false, 1f, false);
+                yield return player.DummyWalkTo(payphone.X - 4f);
                 yield return 0.2f;
                 yield return 0.5f;
                 player.Visible = false;
                 Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
-                yield return payphone.Sprite.PlayRoutine("pickUp", false);
+                yield return payphone.Sprite.PlayRoutine("pickUp");
                 yield return 0.25f;
                 phoneSfx.Position = player.Position;
-                phoneSfx.Play("event:/game/02_old_site/sequence_phone_ringtone_loop", null, 0.0f);
+                phoneSfx.Play("event:/game/02_old_site/sequence_phone_ringtone_loop");
                 yield return 6f;
-                phoneSfx.Stop(true);
+                phoneSfx.Stop();
             }
 
-            payphone.Sprite.Play("talkPhone", false, false);
+            payphone.Sprite.Play("talkPhone");
             yield return Textbox.Say(dialogEntry);
             yield return 0.3f;
             payphone.Sprite.Visible = false;
             sprite.Visible = true;
             Audio.Play("event:/game/02_old_site/sequence_phone_pickup", player.Position);
             Position = payphone.Position;
-            yield return sprite.PlayRoutine("putdown", false);
+            yield return sprite.PlayRoutine("putdown");
             EndCutscene(level);
         }
 
@@ -101,7 +101,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 player.Facing = Facings.Right;
                 sprite.Visible = false;
                 payphone.Sprite.Visible = true;
-                payphone.Sprite.Play("idle", false, false);
+                payphone.Sprite.Play("idle");
                 player.Active = true;
                 player.Visible = true;
                 player.StateMachine.State = Player.StNormal;
