@@ -221,6 +221,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private IEnumerator Appear(BadelineDummy badeline, bool silent = false) {
+            if (Scene == null) {
+                badeline.RemoveSelf();
+                yield break;
+            }
+            
             badelines.Add(badeline);
             ResetPosition();
 
@@ -230,7 +235,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
             SceneAs<Level>().Displacement.AddBurst(badeline.Center, 0.5f, 24f, 96f, 0.4f);
             SceneAs<Level>().Particles.Emit(BadelineOldsite.P_Vanish, 12, badeline.Center, Vector2.One * 6f);
-            yield break;
         }
 
         private void Disappear(BadelineDummy badeline, bool silent = false) {
@@ -238,8 +242,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Audio.Play("event:/char/badeline/disappear", badeline.Position);
             }
 
-            SceneAs<Level>().Displacement.AddBurst(badeline.Center, 0.5f, 24f, 96f, 0.4f);
-            SceneAs<Level>().Particles.Emit(BadelineOldsite.P_Vanish, 12, badeline.Center, Vector2.One * 6f);
+            SceneAs<Level>()?.Displacement.AddBurst(badeline.Center, 0.5f, 24f, 96f, 0.4f);
+            SceneAs<Level>()?.Particles.Emit(BadelineOldsite.P_Vanish, 12, badeline.Center, Vector2.One * 6f);
             badeline.RemoveSelf();
         }
 
