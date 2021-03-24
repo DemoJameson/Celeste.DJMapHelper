@@ -182,7 +182,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             List<Entity> barriers = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>();
-            if (self.SceneAs<Level>().Wind == Vector2.Zero) {
+            if (self.SceneAs<Level>().Wind == Vector2.Zero || self.Get<WindMover>() == null) {
                 if (self.Holding?.Entity is TheoCrystal) {
                     barriers.ForEach(entity => entity.Collidable = true);
 

@@ -196,7 +196,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
             var featherBarriers =
                 self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
-            if (self.SceneAs<Level>().Wind == Vector2.Zero) {
+            if (self.SceneAs<Level>().Wind == Vector2.Zero || self.Get<WindMover>() == null) {
                 TryMakeBarrierCollidable(self, featherBarriers);
             }
 
