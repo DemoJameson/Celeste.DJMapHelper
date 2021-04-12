@@ -369,7 +369,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             //这里写复活代码
             pattern = pattern + 1;
             switchAppearTime = 6f;
-            pattern = FinalPattern;
             switch (pattern) {
                 case 1:
                     attackCoroutine.Replace(Attack1Sequence());
