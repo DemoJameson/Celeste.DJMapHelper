@@ -128,7 +128,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public Vector2 ShotOrigin => Center;
 
-        public void Die() {
+        private void Die() {
             Entity entity = new Entity(Position);
             entity.Add(new DeathEffect(Color.Black, Center - Position) {
                 OnEnd = () => entity.RemoveSelf()
@@ -150,21 +150,31 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 protector.RemoveSelf();
             }
             DJMapHelperModule.Session.BadelineProtectorConfig = null;
+            DJMapHelperModule.Session.DefeatedBoss = true;
 
             Audio.SetMusic(null);
             RemoveSelf();
         }
 
-        public override void Added(Scene scene) {
-            base.Added(scene);
+        public override void Awake(Scene scene) {
+            base.Awake(scene);
+
+            if (DJMapHelperModule.Session.DefeatedBoss) {
+                foreach (InvisibleBarrier barrier in scene.Tracker.GetEntities<InvisibleBarrier>()) {
+                    barrier.RemoveSelf();
+                }
+
+                foreach (TempleGate gate in scene.Tracker.GetEntities<TempleGate>()) {
+                    gate.Open();
+                }
+                RemoveSelf();
+                return;
+            }
 
             //需要生成保护刺
             GenerateSpinner();
             GenerateCoin();
-        }
 
-        public override void Awake(Scene scene) {
-            base.Awake(scene);
             Player entity = Scene.Tracker.GetEntity<Player>();
             if (entity == null || Math.Abs(X - (double) entity.X) < 0.01) {
                 SnapFacing(1f);
@@ -359,6 +369,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             //这里写复活代码
             pattern = pattern + 1;
             switchAppearTime = 6f;
+            pattern = FinalPattern;
             switch (pattern) {
                 case 1:
                     attackCoroutine.Replace(Attack1Sequence());

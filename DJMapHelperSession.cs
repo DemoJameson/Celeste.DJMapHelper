@@ -6,5 +6,6 @@ namespace Celeste.Mod.DJMapHelper {
         public bool? LastNoRefills { get; set; } = null;
         public Color? LastOverrideHairColor { get; set; } = null;
         public BadelineProtectorConfig BadelineProtectorConfig { get; set; }
+        public bool DefeatedBoss { get; set; } = false;
     }
 }
