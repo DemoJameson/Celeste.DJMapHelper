@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,6 +11,7 @@
         <AssemblyName>DJMapHelper</AssemblyName>
         <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x86</PlatformTarget>
@@ -76,9 +77,9 @@
             <HintPath>packages\NLua.1.4.25\lib\net45\NLua.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Drawing"/>
-        <Reference Include="System.Xml"/>
+        <Reference Include="System" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Xml" />
         <Reference Include="YamlDotNet">
             <HintPath>..\..\YamlDotNet.dll</HintPath>
             <Private>False</Private>
@@ -117,56 +118,56 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Cutscenes\CS_BoostTeleport.cs"/>
-        <Compile Include="Cutscenes\CS_TalkToBadeline.cs"/>
-        <Compile Include="Cutscenes\CS_Teleport.cs"/>
-        <Compile Include="Cutscenes\CS_PayphoneCall.cs"/>
-        <Compile Include="DebugFeatures\LookoutBuilder.cs"/>
-        <Compile Include="DJMapHelperSession.cs"/>
-        <Compile Include="Entities\AngryOshiroRight.cs"/>
-        <Compile Include="Entities\BadelineBoostDown.cs"/>
-        <Compile Include="Entities\BadelineBoostTeleport.cs"/>
-        <Compile Include="Entities\BadelineProtector.cs"/>
-        <Compile Include="Entities\ColorfulFlyFeather.cs"/>
-        <Compile Include="Entities\ColorfulRefill.cs"/>
-        <Compile Include="Entities\FeatherBarrier.cs"/>
-        <Compile Include="Entities\FinallBossReversed.cs"/>
-        <Compile Include="Entities\FlingBirdReversed.cs"/>
-        <Compile Include="Entities\PlaySprite.cs"/>
-        <Compile Include="Entities\SeekerBoss.cs"/>
-        <Compile Include="Entities\SeekerBossBeam.cs"/>
-        <Compile Include="Entities\SeekerBossShot.cs"/>
-        <Compile Include="Entities\Shield.cs"/>
-        <Compile Include="Entities\SnowballLeft.cs"/>
-        <Compile Include="Entities\SpringGreen.cs"/>
-        <Compile Include="Entities\StartPoint.cs"/>
-        <Compile Include="Entities\TempleGateReversed.cs"/>
-        <Compile Include="DebugFeatures\Commands.cs"/>
-        <Compile Include="Entities\TheoCrystalBarrier.cs"/>
-        <Compile Include="DJMapHelperModule.cs"/>
-        <Compile Include="Extensions\ColorExtensions.cs"/>
-        <Compile Include="Extensions\CommonExtensions.cs"/>
-        <Compile Include="Extensions\Extensions.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="DJMapHelperSettings.cs"/>
-        <Compile Include="Triggers\BadelineProtectTrigger.cs"/>
-        <Compile Include="Triggers\ChangeBossPatternTrigger.cs"/>
-        <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs"/>
-        <Compile Include="Triggers\ClimbBlockerTrigger.cs"/>
-        <Compile Include="Triggers\ColorGradeTrigger.cs"/>
-        <Compile Include="Triggers\KillBoxTrigger.cs"/>
-        <Compile Include="Triggers\MaxDashesTrigger.cs"/>
-        <Compile Include="Triggers\OshiroRightTrigger.cs"/>
-        <Compile Include="Triggers\PayphoneCallTrigger.cs"/>
-        <Compile Include="Triggers\StopProtectTrigger.cs"/>
-        <Compile Include="Triggers\TalkToBadelineTrigger.cs"/>
-        <Compile Include="Triggers\TeleportTrigger.cs"/>
-        <Compile Include="Triggers\WindAttackLeftTrigger.cs"/>
+        <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
+        <Compile Include="Cutscenes\CS_TalkToBadeline.cs" />
+        <Compile Include="Cutscenes\CS_Teleport.cs" />
+        <Compile Include="Cutscenes\CS_PayphoneCall.cs" />
+        <Compile Include="DebugFeatures\LookoutBuilder.cs" />
+        <Compile Include="DJMapHelperSession.cs" />
+        <Compile Include="Entities\AngryOshiroRight.cs" />
+        <Compile Include="Entities\BadelineBoostDown.cs" />
+        <Compile Include="Entities\BadelineBoostTeleport.cs" />
+        <Compile Include="Entities\BadelineProtector.cs" />
+        <Compile Include="Entities\ColorfulFlyFeather.cs" />
+        <Compile Include="Entities\ColorfulRefill.cs" />
+        <Compile Include="Entities\FeatherBarrier.cs" />
+        <Compile Include="Entities\FinallBossReversed.cs" />
+        <Compile Include="Entities\FlingBirdReversed.cs" />
+        <Compile Include="Entities\PlaySprite.cs" />
+        <Compile Include="Entities\SeekerBoss.cs" />
+        <Compile Include="Entities\SeekerBossBeam.cs" />
+        <Compile Include="Entities\SeekerBossShot.cs" />
+        <Compile Include="Entities\Shield.cs" />
+        <Compile Include="Entities\SnowballLeft.cs" />
+        <Compile Include="Entities\SpringGreen.cs" />
+        <Compile Include="Entities\StartPoint.cs" />
+        <Compile Include="Entities\TempleGateReversed.cs" />
+        <Compile Include="DebugFeatures\Commands.cs" />
+        <Compile Include="Entities\TheoCrystalBarrier.cs" />
+        <Compile Include="DJMapHelperModule.cs" />
+        <Compile Include="Extensions\ColorExtensions.cs" />
+        <Compile Include="Extensions\CommonExtensions.cs" />
+        <Compile Include="Extensions\Extensions.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="DJMapHelperSettings.cs" />
+        <Compile Include="Triggers\BadelineProtectTrigger.cs" />
+        <Compile Include="Triggers\ChangeBossPatternTrigger.cs" />
+        <Compile Include="Triggers\ChangeSpinnerColorTrigger.cs" />
+        <Compile Include="Triggers\ClimbBlockerTrigger.cs" />
+        <Compile Include="Triggers\ColorGradeTrigger.cs" />
+        <Compile Include="Triggers\KillBoxTrigger.cs" />
+        <Compile Include="Triggers\MaxDashesTrigger.cs" />
+        <Compile Include="Triggers\OshiroRightTrigger.cs" />
+        <Compile Include="Triggers\PayphoneCallTrigger.cs" />
+        <Compile Include="Triggers\StopProtectTrigger.cs" />
+        <Compile Include="Triggers\TalkToBadelineTrigger.cs" />
+        <Compile Include="Triggers\TeleportTrigger.cs" />
+        <Compile Include="Triggers\WindAttackLeftTrigger.cs" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include=".editorconfig"/>
-        <Content Include=".github\workflows\NetFramework.Legacy.CI.yml"/>
-        <Content Include=".gitignore"/>
+        <Content Include=".editorconfig" />
+        <Content Include=".github\workflows\NetFramework.Legacy.CI.yml" />
+        <Content Include=".gitignore" />
         <Content Include="Ahorn\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
@@ -190,9 +191,9 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <None Include="packages.config"/>
+        <None Include="packages.config" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
            Other similar extension points exist, see Microsoft.Common.targets.
       <Target Name="BeforeBuild">

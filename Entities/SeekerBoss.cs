@@ -149,6 +149,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             foreach (BadelineProtector protector in Scene.Entities.FindAll<BadelineProtector>()) {
                 protector.RemoveSelf();
             }
+            DJMapHelperModule.Session.BadelineProtectorConfig = null;
 
             Audio.SetMusic(null);
             RemoveSelf();
