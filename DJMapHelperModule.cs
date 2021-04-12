@@ -1,9 +1,9 @@
 ﻿using System;
+using Celeste.Mod.DJMapHelper.Cutscenes;
 using Celeste.Mod.DJMapHelper.DebugFeatures;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
 
-// TODO: 添加 Ahorn 插件的语言文件（Tooltip）
 namespace Celeste.Mod.DJMapHelper {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class DJMapHelperModule : EverestModule {
@@ -32,9 +32,10 @@ namespace Celeste.Mod.DJMapHelper {
             BadelineProtector.OnLoad();
             ChangeBossPatternTrigger.OnLoad();
             ChangeSpinnerColorTrigger.OnLoad();
+            ClimbBlockerTrigger.OnLoad();
             ColorfulFlyFeather.OnLoad();
             ColorfulRefill.OnLoad();
-            ClimbBlockerTrigger.OnLoad();
+            CS_BoostTeleport.OnLoad();
             FeatherBarrier.OnLoad();
             FinalBossReversed.OnLoad();
             FlingBirdReversed.OnLoad();
@@ -50,9 +51,10 @@ namespace Celeste.Mod.DJMapHelper {
             BadelineProtector.OnUnload();
             ChangeBossPatternTrigger.OnUnload();
             ChangeSpinnerColorTrigger.OnUnload();
+            ClimbBlockerTrigger.OnUnLoad();
             ColorfulFlyFeather.OnUnload();
             ColorfulRefill.OnUnload();
-            ClimbBlockerTrigger.OnUnLoad();
+            CS_BoostTeleport.OnUnload();
             FeatherBarrier.OnUnload();
             FinalBossReversed.OnUnload();
             FlingBirdReversed.OnUnLoad();

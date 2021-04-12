@@ -88,8 +88,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sw.Start();
             if (finalBoost) {
                 Audio.Play("event:/new_content/char/badeline/booster_finalfinal_part1", Position);
-            }
-            else {
+            } else {
                 Audio.Play("event:/char/badeline/booster_begin", Position);
             }
 
@@ -102,8 +101,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             player.DummyGravity = false;
             if (player.Inventory.Dashes > 1) {
                 player.Dashes = 1;
-            }
-            else {
+            } else {
                 player.RefillDash();
             }
 
@@ -118,8 +116,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Scene.Add(badeline);
             if (side == -1) {
                 player.Facing = Facings.Right;
-            }
-            else {
+            } else {
                 player.Facing = Facings.Left;
             }
 
@@ -147,8 +144,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     Calc.Clamp(player.Y - level.Camera.Y, 60f, 120f));
                 Add(new Coroutine(level.ZoomTo(center, 1.5f, 0.18f)));
                 Engine.TimeRate = 0.5f;
-            }
-            else {
+            } else {
                 Audio.Play("event:/char/badeline/booster_throw", Position);
             }
 
@@ -203,8 +199,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 tween.OnComplete = t => {
                     if (X >= (double) level.Bounds.Right) {
                         RemoveSelf();
-                    }
-                    else {
+                    } else {
                         travelling = false;
                         stretch.Visible = false;
                         sprite.Visible = true;
@@ -217,8 +212,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Medium);
                 level.DirectionalShake(-Vector2.UnitY);
                 level.Displacement.AddBurst(Center, 0.4f, 8f, 32f, 0.5f);
-            }
-            else {
+            } else {
                 Ch9FinalBoostSfx = Audio.Play("event:/new_content/char/badeline/booster_finalfinal_part2", Position);
                 Console.WriteLine("TIME: " + sw.ElapsedMilliseconds);
                 Engine.FreezeTimer = 0.1f;

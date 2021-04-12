@@ -28,6 +28,29 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         private float timer;
         private Color screenWipeColor;
 
+        public static void OnLoad() {
+            On.Celeste.Player.IntroJumpCoroutine += PlayerOnIntroJumpCoroutine;
+        }
+
+        public static void OnUnload() {
+            On.Celeste.Player.IntroJumpCoroutine -= PlayerOnIntroJumpCoroutine;
+        }
+
+        private static IEnumerator PlayerOnIntroJumpCoroutine(On.Celeste.Player.orig_IntroJumpCoroutine orig, Player player) {
+            bool showPlayer = false;
+            if (player.Get<ShowPlayerComponent>() is { } component) {
+                player.Remove(component);
+                showPlayer = true;
+            }
+            IEnumerator enumerator = orig(player);
+            while (enumerator.MoveNext()) {
+                yield return enumerator.Current;
+                if (showPlayer) {
+                    player.Visible = true;
+                }
+            }
+        }
+
         public CS_BoostTeleport(Player player, BadelineBoostTeleport boost, string normalRoom, string normalColorGrade,
             string keyRoom, string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst) {
             this.player = player;
@@ -145,8 +168,14 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             player.DummyAutoAnimate = true;
             player.ForceCameraUpdate = false;
             Engine.TimeRate = 1f;
-            Level.OnEndOfFrame += (Action) (() => {
+            Level.OnEndOfFrame += () => {
                 Level.TeleportTo(player, nextLevelName, nextLevelIntro);
+                if (Level.Tracker.GetEntity<Player>() is { } newPlayer) {
+                    newPlayer.Visible = !WasSkipped;
+                    if (WasSkipped) {
+                        newPlayer.Add(new ShowPlayerComponent());
+                    }
+                }
                 if (nextColorGrade != "") {
                     if (nextColorGrade == "none") {
                         nextColorGrade = null;
@@ -154,7 +183,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
 
                     level.SnapColorGrade(nextColorGrade);
                 }
-            });
+            };
         }
 
         private IEnumerator WaveCamera() {
@@ -222,6 +251,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         public override void Render() {
             Camera camera = Level.Camera;
             Draw.Rect(camera.X - 1f, camera.Y - 1f, 322f, 322f, Color.White * fadeToWhite);
+        }
+
+        private class ShowPlayerComponent : Component {
+            public ShowPlayerComponent() : base(false, false) { }
         }
     }
 }
