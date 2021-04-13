@@ -167,6 +167,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 foreach (TempleGate gate in scene.Tracker.GetEntities<TempleGate>()) {
                     gate.Open();
                 }
+
+                Audio.SetMusic(null);
+
                 RemoveSelf();
                 return;
             }
