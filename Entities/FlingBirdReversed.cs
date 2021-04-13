@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Monocle;
+using MonoMod;
 using MonoMod.Cil;
 using MonoMod.Utils;
 
@@ -16,9 +17,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
     public class FlingBirdReversed : FlingBird {
         private static readonly FieldInfo FlingBirdFieldInfo = typeof(Player).GetPrivateField("flingBird");
         private static readonly FieldInfo ForceMoveXFieldInfo = typeof(Player).GetPrivateField("forceMoveX");
-        private static readonly IntPtr UpdatePtr = typeof(Entity).GetMethod("Update").MethodHandle.GetFunctionPointer();
-        private static readonly IntPtr AwakePtr = typeof(Entity).GetMethod("Awake").MethodHandle.GetFunctionPointer();
-
 
         private new static readonly Vector2 FlingSpeed = new Vector2(380f, -100f);
         private readonly EntityData entityData;
@@ -28,9 +26,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly Sprite sprite;
         private readonly Vector2 spriteOffset = new Vector2(0f, 8f);
         private readonly Color trailColor = Calc.HexToColor("639bff");
-        private Action<Scene> _baseAwake;
-
-        private Action _baseUpdate;
         private float flingAccel;
         private Vector2 flingSpeed;
         private Vector2 flingTargetSpeed;
@@ -105,24 +100,16 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
         }
 
-        private void baseUpdate() {
-            if (_baseUpdate == null) {
-                _baseUpdate = (Action) Activator.CreateInstance(typeof(Action), this, UpdatePtr);
-            }
+        // thanks max
+        // https://github.com/max4805/MaxHelpingHand/blob/master/Entities/FlagExitBlock.cs#L27-L32
+        [MonoModLinkTo("Monocle.Entity", "System.Void Awake(Monocle.Scene)")]
+        private void EntityAwake(Scene scene) { }
 
-            _baseUpdate();
-        }
-
-        private void baseAwake(Scene scene) {
-            if (_baseAwake == null) {
-                _baseAwake = (Action<Scene>) Activator.CreateInstance(typeof(Action<Scene>), this, AwakePtr);
-            }
-
-            _baseAwake(scene);
-        }
+        [MonoModLinkTo("Monocle.Entity", "System.Void Update()")]
+        private void EntityUpdate() { }
 
         public override void Awake(Scene scene) {
-            baseAwake(scene);
+            EntityAwake(scene);
             var birds = Scene.Entities.FindAll<FlingBirdReversed>();
             for (var i = birds.Count - 1; i >= 0; i--) {
                 if (birds[i].entityData.Level.Name != entityData.Level.Name) {
@@ -172,7 +159,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public override void Update() {
-            baseUpdate();
+            EntityUpdate();
             if (state != States.Wait) {
                 sprite.Position = Calc.Approach(sprite.Position, spriteOffset, 32f * Engine.DeltaTime);
             }
