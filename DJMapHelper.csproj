@@ -65,6 +65,10 @@
             <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="MonoMod, Version=21.1.11.1, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\MonoMod.21.1.11.1\lib\net40\MonoMod.exe</HintPath>
+          <Private>False</Private>
+        </Reference>
         <Reference Include="MonoMod.RuntimeDetour, Version=21.1.11.1, Culture=neutral, PublicKeyToken=null">
             <HintPath>packages\MonoMod.RuntimeDetour.21.1.11.1\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
             <Private>False</Private>
@@ -80,42 +84,6 @@
         <Reference Include="System" />
         <Reference Include="System.Drawing" />
         <Reference Include="System.Xml" />
-        <Reference Include="YamlDotNet">
-            <HintPath>..\..\YamlDotNet.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Mono.Cecil">
-            <HintPath>..\..\Mono.Cecil.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Mono.Cecil.Mdb">
-            <HintPath>..\..\Mono.Cecil.Mdb.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Mono.Cecil.Pdb">
-            <HintPath>..\..\Mono.Cecil.Pdb.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Mono.Cecil.Rocks">
-            <HintPath>..\..\Mono.Cecil.Rocks.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="MonoMod">
-            <HintPath>..\..\MonoMod.exe</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="MonoMod.RuntimeDetour">
-            <HintPath>..\..\MonoMod.RuntimeDetour.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="MonoMod.RuntimeDetour.HookGen">
-            <HintPath>..\..\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="MonoMod.Utils">
-            <HintPath>..\..\MonoMod.Utils.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Cutscenes\CS_BoostTeleport.cs" />
