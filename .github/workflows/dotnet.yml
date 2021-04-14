@@ -1,0 +1,25 @@
+name: .NET
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: "!contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: DJMapHelper
+          path: bin/Release/net452
