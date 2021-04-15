@@ -35,4 +35,4 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
-          files: DJMapHelper.zip
+          files: bin/Release/net452/DJMapHelper.zip
