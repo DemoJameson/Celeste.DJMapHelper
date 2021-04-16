@@ -11,6 +11,14 @@
         <PlatformTarget>x86</PlatformTarget>
         <DebugType>full</DebugType>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="KeraLua" Version="1.0.22">
             <IncludeAssets>compile</IncludeAssets>
