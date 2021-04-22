@@ -22,8 +22,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
         public override void OnBegin(Level level) {
             maxDashes = level.Session.Inventory.Dashes;
             level.Session.Inventory.Dashes = 1;
-
             Add(new Coroutine(Cutscene(level)));
+            if (endLevel) {
+                level.RegisterAreaComplete();
+            }
         }
 
         private IEnumerator Cutscene(Level level) {

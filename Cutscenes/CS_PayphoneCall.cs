@@ -30,6 +30,9 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             sprite.Add("putdown", "", 0.08f, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
             sprite.Justify = new Vector2(0.5f, 1f);
             sprite.Visible = false;
+            if (endLevel) {
+                level.RegisterAreaComplete();
+            }
         }
 
         private IEnumerator Cutscene(Level level) {
