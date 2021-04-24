@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Microsoft.Xna.Framework;
 using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.DebugFeatures {
-    // Ctrl+Q: Add tower viewer.
     public static class LookoutBuilder {
         private static bool? savedInvincible;
 
@@ -25,8 +23,8 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
 
         private static bool ActorOnOnGroundInt(On.Celeste.Actor.orig_OnGround_int orig, Actor self, int downCheck) {
             if (self is Player
-                && self.SceneAs<Level>() is Level level
-                && level.Tracker.GetEntities<Lookout>().Any(entity => entity.Get<LookoutComponent>() != null)) {
+                && self.SceneAs<Level>() is { } level
+                && level.Tracker.GetEntity<PortableLookout>() != null) {
                 return true;
             }
 
@@ -36,38 +34,47 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
         private static void LevelOnUpdate(On.Celeste.Level.orig_Update orig, Level level) {
             orig(level);
 
-            if (level.Tracker.GetEntities<Lookout>().All(entity => entity.Get<LookoutComponent>() == null) && savedInvincible != null) {
+            if (level.Tracker.GetEntity<PortableLookout>() == null && savedInvincible != null) {
                 SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
                 savedInvincible = null;
             }
 
             Player player = level.Tracker.GetEntity<Player>();
-            if (player == null) return;
+            if (player == null) {
+                return;
+            }
 
-            if (level.Paused || level.Transitioning || level.SkippingCutscene || level.InCutscene || player.Dead || player.StateMachine.State == Player.StDummy) {
+            if (level.Paused || level.Transitioning || level.SkippingCutscene || level.InCutscene || player.Dead ||
+                player.StateMachine.State == Player.StDummy) {
                 return;
             }
 
             if (DJMapHelperModule.Settings.SpawnTowerViewer.Pressed) {
                 DJMapHelperModule.Settings.SpawnTowerViewer.ConsumePress();
-                if (level.Tracker.GetEntities<Lookout>().Any(entity => entity.Get<LookoutComponent>() != null)) {
+                if (level.Tracker.GetEntity<PortableLookout>() != null) {
                     return;
                 }
-                
-                Lookout lookout = new Lookout(new EntityData {Position = player.Position}, Vector2.Zero) {
-                    new LookoutComponent()
-                };
+
+                PortableLookout lookout = new(new EntityData {
+                    Position = player.Position,
+                    Level = level.Session.LevelData,
+                    Name = "towerviewer",
+                    ID = 1234567890
+                }, Vector2.Zero);
                 lookout.Add(new Coroutine(Look(lookout)));
                 level.Add(lookout);
-                level.Tracker.GetEntitiesCopy<LookoutBlocker>().ForEach(level.Remove);
+                
+                // 恢复 LookoutBlocker 后用普通望远镜可能会卡住，因为镜头没有完全还原例如 10 j-16，所以干脆不恢复 LookoutBlocker
+                level.Remove(level.Tracker.GetEntitiesCopy<LookoutBlocker>());
             }
         }
 
-        private static IEnumerator Look(Lookout lookout) {
+        private static IEnumerator Look(PortableLookout lookout) {
             Player player = Engine.Scene.Tracker.GetEntity<Player>();
             if (player?.Scene == null || player.Dead) {
                 yield break;
             }
+
             InteractMethod?.Invoke(lookout, new object[] {player});
             savedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
@@ -79,16 +86,16 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
 
             Entity underfootPlatform = player.CollideFirstOutside<FloatySpaceBlock>(player.Position + Vector2.UnitY);
 
-            bool interacting = (bool) InteractingField?.GetValue(lookout);
+            bool interacting = (bool) InteractingField.GetValue(lookout);
             while (!interacting) {
                 player.Position = lookout.Position;
-                interacting = (bool) InteractingField?.GetValue(lookout);
+                interacting = (bool) InteractingField.GetValue(lookout);
                 yield return null;
             }
 
             while (interacting) {
                 player.Position = lookout.Position;
-                interacting = (bool) InteractingField?.GetValue(lookout);
+                interacting = (bool) InteractingField.GetValue(lookout);
                 yield return null;
             }
 
@@ -117,8 +124,10 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
             level.CameraLockMode = cameraLockMode;
         }
 
-        private class LookoutComponent : Component {
-            public LookoutComponent() : base(false, false) { }
+        [Tracked]
+        [TrackedAs(typeof(Lookout))]
+        private class PortableLookout : Lookout {
+            public PortableLookout(EntityData data, Vector2 offset) : base(data, offset) { }
         }
     }
 }
