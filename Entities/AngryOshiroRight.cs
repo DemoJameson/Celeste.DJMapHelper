@@ -52,8 +52,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public Sprite Sprite;
         private float targetAnxiety;
         private float yApproachSpeed = 100f;
+        private bool fromCutscene;
 
-        public AngryOshiroRight(Vector2 position) : base(position) {
+        public AngryOshiroRight(Vector2 position, bool fromCutscene = false) : base(position) {
             Add(Sprite = GFX.SpriteBank.Create("oshiro_boss"));
             Sprite.Play("idle");
             Add(lightning = GFX.SpriteBank.Create("oshiro_boss_lightning"));
@@ -76,6 +77,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             state.SetCallbacks(StWaiting, WaitingUpdate);
             state.SetCallbacks(StHurt, HurtUpdate, null, HurtBegin);
             Add(state);
+            if (fromCutscene) {
+                yApproachSpeed = 0f;
+            }
+            this.fromCutscene = fromCutscene;
             Add(new TransitionListener {
                 OnOutBegin = () => {
                     if (X < level.Bounds.Right - Sprite.Width / 2.0) {
@@ -100,7 +105,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public AngryOshiroRight(EntityData data, Vector2 offset)
-            : this(data.Position + offset + Vector2.UnitX * 10000) { }
+            : this(data.Position + offset + Vector2.UnitX * 10000, data.Bool("fromCutscene")) { }
 
         private float TargetY {
             get {
@@ -113,8 +118,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
         }
 
-        public bool DummyMode => state.State == 3;
-
         public override void Added(Scene scene) {
             base.Added(scene);
             level = SceneAs<Level>();
@@ -123,16 +126,20 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 RemoveSelf();
             }
 
-            if (state.State != 3) {
-                state.State = 4;
+            if (state.State != StDummy) {
+                state.State = StWaiting;
             }
 
-            Y = TargetY;
-            cameraXOffset = 48f;
+            if (fromCutscene) {
+                cameraXOffset = X - level.Camera.Right;
+            } else {
+                Y = TargetY;
+                cameraXOffset = 48f;
+            }
         }
 
         private void OnPlayer(Player player) {
-            if (state.State == 5 || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") {
+            if (state.State == StHurt || CenterX <= player.CenterX - 4.0 && Sprite.CurrentAnimationID == "respawn") {
                 return;
             }
 
@@ -140,14 +147,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private void OnPlayerBounce(Player player) {
-            if (state.State != 2 || player.Bottom > Top + 6.0) {
+            if (state.State != StAttack || player.Bottom > Top + 6.0) {
                 return;
             }
 
             Audio.Play("event:/game/general/thing_booped", Position);
             Celeste.Freeze(0.2f);
             player.Bounce(Top + 2f);
-            state.State = 5;
+            state.State = StHurt;
             prechargeSfx.Stop();
             chargeSfx.Stop();
         }
@@ -164,7 +171,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (state.State != 3 && canControlTimeRate) {
                 if (state.State == 2 && attackSpeed > 200.0) {
                     Player player = Scene.Tracker.GetEntity<Player>();
-                    Engine.TimeRate = player == null || player.Dead || (double) CenterX <= (double) player.CenterX - 4.0
+                    Engine.TimeRate = player == null || player.Dead || CenterX <= player.CenterX - 4.0
                         ? 1f
                         : MathHelper.Lerp(Calc.ClampedMap(CenterX - player.CenterX, 30f, 80f, 0.5f), 1f,
                             Calc.ClampedMap(Math.Abs(player.CenterY - CenterY), 32f, 48f));
@@ -233,7 +240,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 CenterY = Calc.Approach(CenterY, TargetY, yApproachSpeed * Engine.DeltaTime);
             }
 
-            return 0;
+            return StChase;
         }
 
         private IEnumerator ChaseCoroutine() {
@@ -250,7 +257,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             yield return 0.7f;
             if (Scene.Tracker.GetEntity<Player>() != null) {
                 Alarm.Set(this, 0.216f, () => chargeSfx.Play("event:/char/oshiro/boss_charge"));
-                state.State = 1;
+                state.State = StChargeUp;
             } else {
                 Sprite.Play("idle");
             }
@@ -270,7 +277,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     30f * Engine.DeltaTime);
             }
 
-            return 1;
+            return StChargeUp;
         }
 
         private void ChargeUpEnd() {
@@ -285,7 +292,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             lightning.Play("once", true);
             yield return 0.3f;
             Player player = Scene.Tracker.GetEntity<Player>();
-            state.State = player == null ? 0 : 2;
+            state.State = player == null ? StChase : StAttack;
         }
 
         private void AttackBegin() {
@@ -306,14 +313,14 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             if (X <= level.Camera.Left - 48.0) {
                 if (leaving) {
                     RemoveSelf();
-                    return 2;
+                    return StAttack;
                 }
 
                 X = level.Camera.Right + 48f;
                 cameraXOffset = 48f;
                 doRespawnAnim = true;
                 Visible = false;
-                return 0;
+                return StChase;
             }
 
             Input.Rumble(RumbleStrength.Light, RumbleLength.Short);
@@ -321,7 +328,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 TrailManager.Add(this, Color.Red * 0.6f, 0.5f);
             }
 
-            return 2;
+            return StAttack;
         }
 
         private IEnumerator AttackCoroutine() {
@@ -331,11 +338,11 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private int WaitingUpdate() {
-            Player entity = Scene.Tracker.GetEntity<Player>();
-            return entity != null && entity.Speed != Vector2.Zero &&
-                   (double) entity.X < (double) (level.Bounds.Right - 48)
-                ? 0
-                : 4;
+            Player player = Scene.Tracker.GetEntity<Player>();
+            return player != null && player.Speed != Vector2.Zero &&
+                   player.X < (double) (level.Bounds.Right - 48)
+                ? StChase
+                : StWaiting;
         }
 
         private void HurtBegin() {
@@ -346,19 +353,19 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             X -= 100f * Engine.DeltaTime;
             Y += 200f * Engine.DeltaTime;
             if (Top <= (double) (level.Bounds.Bottom + 20)) {
-                return 5;
+                return StHurt;
             }
 
             if (leaving) {
                 RemoveSelf();
-                return 5;
+                return StHurt;
             }
 
             X = level.Camera.Right + 48f;
             cameraXOffset = 48f;
             doRespawnAnim = true;
             Visible = false;
-            return 0;
+            return StChase;
         }
     }
 }

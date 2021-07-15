@@ -1,8 +1,8 @@
-# -- Entity and Trigger Tooltips -- 
+# -- Entity and Trigger Tooltips --
 #    placements.entities.entityName.tooltips.attr=Tooltip
 #    placements.triggers.triggerName.tooltips.attr=Tooltip
 
-# -- Entities -- 
+# -- Entities --
 
 # Badeline Boost Down
 
@@ -34,6 +34,9 @@ placements.entities.DJMapHelper/finalBossReversed.tooltips.canChangeMusic=Whethe
 
 # Fling Bird Reversed
 placements.entities.DJMapHelper/flingBirdReversed.tooltips.waiting=Whether the bird should visually look like it is tired and waiting to grab the player.
+
+# Oshiro Boss Right
+placements.entities.DJMapHelper/oshiroBossRight.tooltips.fromCutscene=Whether oshiro is generated in the cutscene.
 
 # Play Sprite
 placements.entities.DJMapHelper/playSprite.tooltips.flipX=Flips the sprite horizontally.

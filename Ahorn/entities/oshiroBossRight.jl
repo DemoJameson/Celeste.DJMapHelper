@@ -1,7 +1,7 @@
 module DJMapHelperAngryOshiroRight
 
 using ..Ahorn, Maple
-@mapdef Entity "DJMapHelper/oshiroBossRight" OshiroRight(x::Integer, y::Integer)
+@mapdef Entity "DJMapHelper/oshiroBossRight" OshiroRight(x::Integer, y::Integer, fromCutscene::Bool=false)
 const placements = Ahorn.PlacementDict(
     "Oshiro Boss Right (DJMapHelper)" => Ahorn.EntityPlacement(
 		OshiroRight
