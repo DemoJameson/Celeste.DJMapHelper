@@ -126,7 +126,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 RemoveSelf();
             }
 
-            if (state.State != StDummy) {
+            if (state.State != StDummy && !fromCutscene) {
                 state.State = StWaiting;
             }
 
