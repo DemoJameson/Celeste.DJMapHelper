@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using Celeste.Mod.DJMapHelper.Entities;
 using FMOD.Studio;
 using Microsoft.Xna.Framework;
@@ -9,24 +8,16 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.Cutscenes {
     public class CS_BoostTeleport : CutsceneEntity {
         private readonly BadelineBoostTeleport boost;
-        private readonly string goldenColorGrade;
-        private readonly string goldenRoom;
-        private readonly string keyColorGrade;
-        private readonly bool keyFirst;
-        private readonly string keyRoom;
-        private readonly string normalColorGrade;
-        private readonly string normalRoom;
         private readonly Player player;
         private BirdNPC bird;
         private Vector2 birdScreenPosition;
         private Vector2 cameraOffset;
         private Vector2 cameraWaveOffset;
         private float fadeToWhite;
-        private bool hasGolden;
-        private bool hasKey;
         private AscendManager.Streaks streaks;
         private float timer;
         private Color screenWipeColor;
+        private readonly BadelineBoostTeleport.Info info;
 
         public static void OnLoad() {
             On.Celeste.Player.IntroJumpCoroutine += PlayerOnIntroJumpCoroutine;
@@ -51,19 +42,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             }
         }
 
-        public CS_BoostTeleport(Player player, BadelineBoostTeleport boost, string normalRoom, string normalColorGrade,
-            string keyRoom, string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst) {
+        public CS_BoostTeleport(Player player, BadelineBoostTeleport boost, BadelineBoostTeleport.Info info) {
             this.player = player;
             this.boost = boost;
-            this.normalRoom = normalRoom;
-            this.normalColorGrade = normalColorGrade;
-            this.keyRoom = keyRoom;
-            this.keyColorGrade = keyColorGrade;
-            this.goldenRoom = goldenRoom;
-            this.goldenColorGrade = goldenColorGrade;
-            this.keyFirst = keyFirst;
-            hasKey = false;
-            hasGolden = false;
+            this.info = info;
             Depth = 10010;
         }
 
@@ -71,9 +53,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             Audio.SetMusic(null);
             screenWipeColor = ScreenWipe.WipeColor;
             ScreenWipe.WipeColor = Color.White;
-
-            hasGolden = player.Leader.Followers.Any(follower => follower.Entity is Strawberry berry && berry.Golden);
-            hasKey = player.Leader.Followers.Any(follower => follower.Entity is Key);
 
             Add(new Coroutine(Cutscene()));
         }
@@ -99,7 +78,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             Add(new Coroutine(WaveCamera()));
             Add(new Coroutine(BirdRoutine(0.8f)));
             Level.Add(streaks = new AscendManager.Streaks(null));
-            for (var p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 12f) {
+            for (var p = 0.0f; p < 1.0; p += Engine.DeltaTime / 12f) {
                 fadeToWhite = p;
                 streaks.Alpha = p;
                 foreach (Parallax parallax in Level.Foreground.GetEach<Parallax>("blackhole")) {
@@ -118,7 +97,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
 
             var from = cameraOffset.Y;
             var to = 180;
-            for (var p = 0.0f; (double) p < 1.0; p += Engine.DeltaTime / 2f) {
+            for (var p = 0.0f; p < 1.0; p += Engine.DeltaTime / 2f) {
                 cameraOffset.Y = from + (to - from) * Ease.BigBackIn(p);
                 yield return null;
             }
@@ -138,26 +117,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 boost.Ch9FinalBoostSfx.release();
             }
 
-            var nextLevelName = normalRoom;
-            var nextColorGrade = normalColorGrade;
-
-            if (hasKey && !hasGolden && keyRoom != "") {
-                nextLevelName = keyRoom;
-                nextColorGrade = keyColorGrade;
-            }
-            else if (!hasKey && hasGolden && goldenRoom != "") {
-                nextLevelName = goldenRoom;
-                nextColorGrade = goldenColorGrade;
-            }
-            else if (hasKey && hasGolden && keyFirst && keyRoom != "") {
-                nextLevelName = keyRoom;
-                nextColorGrade = keyColorGrade;
-            }
-            else if (hasKey && hasGolden && !keyFirst && goldenRoom != "") {
-                nextLevelName = goldenRoom;
-                nextColorGrade = goldenColorGrade;
-            }
-
             Player.IntroTypes nextLevelIntro = Player.IntroTypes.Jump;
             player.Active = true;
             player.Speed = Vector2.Zero;
@@ -169,29 +128,30 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             player.ForceCameraUpdate = false;
             Engine.TimeRate = 1f;
             Level.OnEndOfFrame += () => {
-                Level.TeleportTo(player, nextLevelName, nextLevelIntro);
+                Level.TeleportTo(player, info.Room, nextLevelIntro);
                 if (Level.Tracker.GetEntity<Player>() is { } newPlayer) {
                     newPlayer.Visible = !WasSkipped;
                     if (WasSkipped) {
                         newPlayer.Add(new ShowPlayerComponent());
                     }
                 }
-                if (nextColorGrade != "") {
-                    if (nextColorGrade == "none") {
-                        nextColorGrade = null;
+
+                if (info.ColorGrade != "") {
+                    if (info.ColorGrade == "none") {
+                        info.ColorGrade = null;
                     }
 
-                    level.SnapColorGrade(nextColorGrade);
+                    level.SnapColorGrade(info.ColorGrade);
                 }
             };
         }
 
         private IEnumerator WaveCamera() {
-            var timer = 0.0f;
+            float waveTimer = 0.0f;
             while (true) {
-                cameraWaveOffset.X = (float) Math.Sin(timer) * 16f;
-                cameraWaveOffset.Y = (float) (Math.Sin(timer * 0.5) * 16.0 + Math.Sin(timer * 0.25) * 8.0);
-                timer += Engine.DeltaTime * 2f;
+                cameraWaveOffset.X = (float) Math.Sin(waveTimer) * 16f;
+                cameraWaveOffset.Y = (float) (Math.Sin(waveTimer * 0.5) * 16.0 + Math.Sin(waveTimer * 0.25) * 8.0);
+                waveTimer += Engine.DeltaTime * 2f;
                 yield return null;
             }
         }
@@ -205,23 +165,21 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             Vector2 botCenter = new Vector2(center.X, 180f);
             Vector2 from1 = botCenter + new Vector2(40f, 40f);
             Vector2 to1 = center + new Vector2(-32f, -24f);
-            for (var t = 0.0f; (double) t < 1.0; t += Engine.DeltaTime / 4f) {
+            for (var t = 0.0f; t < 1.0; t += Engine.DeltaTime / 4f) {
                 birdScreenPosition = from1 + (to1 - from1) * Ease.BackOut(t);
                 yield return null;
             }
 
             bird.Sprite.Play("flyupRoll");
-            for (var t = 0.0f; (double) t < 1.0; t += Engine.DeltaTime / 2f) {
+            for (var t = 0.0f; t < 1.0; t += Engine.DeltaTime / 2f) {
                 birdScreenPosition = to1 + new Vector2(64f, 0.0f) * Ease.CubeInOut(t);
                 yield return null;
             }
 
-            from1 = new Vector2();
-            to1 = new Vector2();
             Vector2 from2 = birdScreenPosition;
             Vector2 to2 = topCenter + new Vector2(-40f, -100f);
             var playedAnim = false;
-            for (var t = 0.0f; (double) t < 1.0; t += Engine.DeltaTime / 4f) {
+            for (var t = 0.0f; t < 1.0; t += Engine.DeltaTime / 4f) {
                 if (t >= 0.349999994039536 && !playedAnim) {
                     bird.Sprite.Play("flyupRoll");
                     playedAnim = true;

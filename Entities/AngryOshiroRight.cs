@@ -339,8 +339,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private int WaitingUpdate() {
             Player player = Scene.Tracker.GetEntity<Player>();
-            return player != null && player.Speed != Vector2.Zero &&
-                   player.X < (double) (level.Bounds.Right - 48)
+            return player != null && player.Speed != Vector2.Zero && player.X < (double) (level.Bounds.Right - 48)
                 ? StChase
                 : StWaiting;
         }

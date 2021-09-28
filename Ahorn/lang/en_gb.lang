@@ -9,11 +9,13 @@
 # Badeline Boost Teleport
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.ColorGrade=Type in the color grade you want to apply in the room.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenColorGrade=Type in the color grade you want to apply in the golden room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonColorGrade=Type in the color grade you want to apply in the moon room.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyColorGrade=Type in the color grade you want to apply in the key room.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.Room=The name of the room you want to teleport to when without golden berry and key.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenRoom=The name of the room you want to teleport to when keeping golden berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonRoom=The name of the room you want to teleport to when keeping moon berry.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyRoom=The name of the room you want to teleport to when keeping key.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyFirst=Whether to check the key first and then the golden berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.Priority=Priority among multiple collectibles.
 
 # Colorful Fly Feather
 placements.entities.DJMapHelper/colorfulFlyFeather.tooltips.shielded=Determines whether the feather is surrounded by a shield that must be dashed into to activate.
@@ -36,7 +38,7 @@ placements.entities.DJMapHelper/finalBossReversed.tooltips.canChangeMusic=Whethe
 placements.entities.DJMapHelper/flingBirdReversed.tooltips.waiting=Whether the bird should visually look like it is tired and waiting to grab the player.
 
 # Oshiro Boss Right
-placements.entities.DJMapHelper/oshiroBossRight.tooltips.fromCutscene=Whether oshiro is generated in the cutscene.
+placements.entities.DJMapHelper/oshiroBossRight.tooltips.fromCutscene=Whether oshiro is spawned in the cutscene.
 
 # Play Sprite
 placements.entities.DJMapHelper/playSprite.tooltips.flipX=Flips the sprite horizontally.

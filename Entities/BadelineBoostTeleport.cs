@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 using Celeste.Mod.DJMapHelper.Cutscenes;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
@@ -10,17 +11,20 @@ using EventInstance = FMOD.Studio.EventInstance;
 namespace Celeste.Mod.DJMapHelper.Entities {
     [CustomEntity("DJMapHelper/badelineBoostTeleport")]
     public class BadelineBoostTeleport : Entity {
+        public enum Collectable {
+            None, Key, Golden, Moon
+        }
+
+        public record Info {
+            public Collectable Collectable;
+            public string Room;
+            public string ColorGrade;
+        }
+
         private const float MoveSpeed = 320f;
         private readonly BloomPoint bloom;
-        private readonly string goldenColorGrade;
-        private readonly string goldenRoom;
-        private readonly string keyColorGrade;
-        private readonly bool keyFirst;
-        private readonly string keyRoom;
         private readonly VertexLight light;
         private readonly Vector2[] nodes;
-        private readonly string normalColorGrade;
-        private readonly string normalRoom;
         private readonly SoundSource relocateSfx;
         private readonly Sprite sprite;
         private readonly Image stretch;
@@ -29,19 +33,58 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private Player holding;
         private int nodeIndex;
         private bool travelling;
+        private readonly List<Info> infos = new();
 
-        private BadelineBoostTeleport(Vector2[] nodes, string normalRoom, string normalColorGrade, string keyRoom,
-            string keyColorGrade, string goldenRoom, string goldenColorGrade, bool keyFirst)
+        private BadelineBoostTeleport(Vector2[] nodes,
+            string normalRoom, string normalColorGrade,
+            string keyRoom, string keyColorGrade,
+            string goldenRoom, string goldenColorGrade,
+            string moonRoom, string moonColorGrade,
+            string priority)
             : base(nodes[0]) {
             Depth = -1000000;
             this.nodes = nodes;
-            this.normalRoom = normalRoom;
-            this.normalColorGrade = normalColorGrade;
-            this.keyRoom = keyRoom;
-            this.keyColorGrade = keyColorGrade;
-            this.goldenRoom = goldenRoom;
-            this.goldenColorGrade = goldenColorGrade;
-            this.keyFirst = keyFirst;
+
+            if (!string.IsNullOrWhiteSpace(keyRoom)) {
+                infos.Add(new Info {
+                    Collectable = Collectable.Key,
+                    Room = keyRoom,
+                    ColorGrade = keyColorGrade,
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(goldenRoom)) {
+                infos.Add(new Info {
+                    Collectable = Collectable.Golden,
+                    Room = goldenRoom,
+                    ColorGrade = goldenColorGrade
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(moonRoom)) {
+                infos.Add(new Info {
+                    Collectable = Collectable.Moon,
+                    Room = moonRoom,
+                    ColorGrade = moonColorGrade
+                });
+            }
+
+
+            if (string.IsNullOrWhiteSpace(priority)) {
+                priority = "Moon -> Golden -> Key";
+            }
+
+            List<Collectable> priorities = priority.Split(new[] { "->" }, StringSplitOptions.None).Select(s => (Collectable)Enum.GetNames(typeof(Collectable)).ToList().IndexOf(s.Trim())).ToList();
+            infos.Sort((a, b) => priorities.IndexOf(a.Collectable) - priorities.IndexOf(b.Collectable));
+
+            if (!string.IsNullOrWhiteSpace(normalRoom)) {
+                infos.Add(new Info {
+                    Collectable = Collectable.None,
+                    Room = normalRoom,
+                    ColorGrade = normalColorGrade
+                });
+            }
+
             Collider = new Circle(16f);
             Add(new PlayerCollider(OnPlayer));
             Add(sprite = GFX.SpriteBank.Create("badelineBoost"));
@@ -60,7 +103,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 data.Attr("Room"), data.Attr("ColorGrade"),
                 data.Attr("KeyRoom"), data.Attr("KeyColorGrade"),
                 data.Attr("GoldenRoom"), data.Attr("GoldenColorGrade"),
-                data.Bool("KeyFirst")) { }
+                data.Attr("MoonRoom"), data.Attr("MoonColorGrade"),
+                data.Attr("Priority")) { }
 
         public override void Awake(Scene scene) {
             base.Awake(scene);
@@ -84,8 +128,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Collidable = false;
             var finalBoost = nodeIndex >= nodes.Length;
             Level level = player.SceneAs<Level>();
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
             if (finalBoost) {
                 Audio.Play("event:/new_content/char/badeline/booster_finalfinal_part1", Position);
             } else {
@@ -112,7 +154,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 side = -1;
             }
 
-            BadelineDummy badeline = new BadelineDummy(Position);
+            BadelineDummy badeline = new(Position);
             Scene.Add(badeline);
             if (side == -1) {
                 player.Facing = Facings.Right;
@@ -155,15 +197,28 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             }
 
             yield return 0.1f;
+
             if (finalBoost) {
-                Scene.Add(new CS_BoostTeleport(player, this, normalRoom, normalColorGrade, keyRoom, keyColorGrade,
-                    goldenRoom, goldenColorGrade, keyFirst));
-                player.Active = false;
-                badeline.Active = false;
-                Active = false;
-                yield return null;
-                player.Active = true;
-                badeline.Active = true;
+                List<Follower> followers = player.Leader.Followers;
+                if (!followers.Any(follower => follower.Entity is Key)) {
+                    infos.RemoveAll(info => info.Collectable == Collectable.Key);
+                }
+                if (!followers.Any(follower => follower.Entity is Strawberry {Golden: true})) {
+                    infos.RemoveAll(info => info.Collectable == Collectable.Golden);
+                }
+                if (!followers.Any(follower => follower.Entity is Strawberry {Moon: true})) {
+                    infos.RemoveAll(info => info.Collectable == Collectable.Moon);
+                }
+
+                if (infos.Count > 0) {
+                    Scene.Add(new CS_BoostTeleport(player, this, infos.First()));
+                    player.Active = false;
+                    badeline.Active = false;
+                    Active = false;
+                    yield return null;
+                    player.Active = true;
+                    badeline.Active = true;
+                }
             }
 
             Add(Alarm.Create(Alarm.AlarmMode.Oneshot, () => {
@@ -214,7 +269,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 level.Displacement.AddBurst(Center, 0.4f, 8f, 32f, 0.5f);
             } else {
                 Ch9FinalBoostSfx = Audio.Play("event:/new_content/char/badeline/booster_finalfinal_part2", Position);
-                Console.WriteLine("TIME: " + sw.ElapsedMilliseconds);
                 Engine.FreezeTimer = 0.1f;
                 yield return null;
                 Input.Rumble(RumbleStrength.Strong, RumbleLength.Long);

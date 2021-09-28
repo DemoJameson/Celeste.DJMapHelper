@@ -1,12 +1,25 @@
 module DJMapHelperBadelineBoostTeleport
 
 using ..Ahorn, Maple
-@mapdef Entity "DJMapHelper/badelineBoostTeleport" TeleportBadelineBoost(x::Integer, y::Integer, Room::String="", ColorGrade::String="", KeyRoom::String="", KeyColorGrade::String="", GoldenRoom::String="", GoldenColorGrade::String="", nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[], KeyFirst::Bool=false)
+@mapdef Entity "DJMapHelper/badelineBoostTeleport" TeleportBadelineBoost(x::Integer, y::Integer, Room::String="", ColorGrade::String="", KeyRoom::String="", KeyColorGrade::String="", GoldenRoom::String="", GoldenColorGrade::String="", MoonRoom::String="", MoonColorGrade::String="", Priority::String="Moon -> Golden -> Key", nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[])
+
+const priorities = String[
+    "Moon -> Golden -> Key",
+    "Moon -> Key -> Golden",
+    "Golden -> Moon -> Key",
+    "Golden -> Key -> Moon",
+    "Key -> Moon -> Golden",
+    "Key -> Golden -> Moon"
+]
 
 const placements = Ahorn.PlacementDict(
     "Badeline Boost Teleport (DJMapHelper)" => Ahorn.EntityPlacement(
         TeleportBadelineBoost
     ),
+)
+
+Ahorn.editingOptions(entity::TeleportBadelineBoost) = Dict{String, Any}(
+    "Priority" => priorities
 )
 
 Ahorn.nodeLimits(entity::TeleportBadelineBoost) = 0, -1
@@ -18,7 +31,7 @@ function Ahorn.selection(entity::TeleportBadelineBoost)
     x, y = Ahorn.position(entity)
 
     res = Ahorn.Rectangle[Ahorn.getSpriteRectangle(sprite, x, y)]
-    
+
     for node in nodes
         nx, ny = Int.(node)
 

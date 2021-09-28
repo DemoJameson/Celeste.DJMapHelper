@@ -2,6 +2,7 @@ module DJMapHelperColorfulRefill
 
 using ..Ahorn, Maple
 @mapdef Entity "DJMapHelper/colorfulRefill" Refill(x::Integer, y::Integer, oneUse::Bool=false, color::String="Red")
+
 const colors = String[
     "Red",
     "Blue",
