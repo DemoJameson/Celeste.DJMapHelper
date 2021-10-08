@@ -1,7 +1,7 @@
 module DJMapHelperSpringGreen
 
 using ..Ahorn, Maple
-@mapdef Entity "DJMapHelper/springGreen" springGreen(x::Integer, y::Integer, orientation::String="Floor")
+@mapdef Entity "DJMapHelper/springGreen" springGreen(x::Integer, y::Integer, orientation::String="Floor", sprite::String="objects/DJMapHelper/springGreen")
 const orientations = String[
     "Floor",
     "WallLeft",
@@ -45,8 +45,12 @@ function Ahorn.selection(entity::springGreen)
 end
 
 function Ahorn.render(ctx::Ahorn.Cairo.CairoContext, entity::springGreen, room::Maple.Room)
-    orientation = get(entity.data, "orientation", false)
-    sprite = "objects/DJMapHelper/springGreen/00.png"
+    orientation = get(entity.data, "orientation", "Floor")
+    sprite = get(entity.data, "sprite", "objects/DJMapHelper/springGreen")
+    if !endswith(sprite, "/")
+        sprite *= "/"
+    end
+    sprite *= "00.png"
     if orientation == "Floor"
         Ahorn.drawSprite(ctx, sprite, 0, -8)
     elseif orientation == "WallLeft"

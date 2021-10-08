@@ -7,11 +7,20 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.Entities {
     [CustomEntity("DJMapHelper/springGreen")]
     public class SpringGreen : Spring {
-        private static readonly FieldInfo SpriteFieldInfo = typeof(Spring).GetPrivateField("sprite");
+        private static readonly FieldInfo SpringSprite = typeof(Spring).GetPrivateField("sprite");
+        private static readonly MethodInfo SpriteCloneInto = typeof(Sprite).GetPrivateMethod("CloneInto");
 
-        public SpringGreen(Vector2 position, Orientations orientation, bool playerCanUse)
-            : base(position, orientation, playerCanUse) {
-            Sprite sprite = new Sprite(GFX.Game, "objects/DJMapHelper/springGreen/");
+        public SpringGreen(Vector2 position, Orientations orientation, string spritePath)
+            : base(position, orientation, true) {
+            if (string.IsNullOrWhiteSpace(spritePath)) {
+                spritePath = "objects/DJMapHelper/springGreen/";
+            }
+
+            if (!spritePath.EndsWith("/")) {
+                spritePath += "/";
+            }
+
+            Sprite sprite = new(GFX.Game, spritePath);
             sprite.Add("idle", "", 0.0f, new int[1]);
             sprite.Add("bounce", "", 0.07f, "idle", 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5);
             sprite.Add("disabled", "white", 0.07f);
@@ -20,18 +29,17 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             sprite.Origin.Y = sprite.Height;
             if (orientation == Orientations.WallLeft) {
                 sprite.Rotation = 1.570796f;
-            }
-            else if (orientation == Orientations.WallRight) {
+            } else if (orientation == Orientations.WallRight) {
                 sprite.Rotation = -1.570796f;
             }
 
-            SpriteFieldInfo?.SetValue(this, sprite);
-            Remove(Get<Sprite>());
-            Add(sprite);
+            if (SpringSprite.GetValue(this) is Sprite origSprite) {
+                SpriteCloneInto.Invoke(sprite, new object[] {origSprite});
+            }
         }
 
         public SpringGreen(EntityData data, Vector2 offset)
-            : this(data.Position + offset, data.Enum("orientation", Orientations.Floor), true) { }
+            : this(data.Position + offset, data.Enum("orientation", Orientations.Floor), data.Attr("sprite")) { }
 
         public static void OnLoad() {
             On.Celeste.Spring.OnCollide += SpringGreenOnCollide;
@@ -52,7 +60,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 var origSpeedY = player.Speed.Y;
                 if (origDashAttacking && player.Speed == Vector2.Zero) {
                     FieldInfo beforeDashSpeedFieldInfo = typeof(Player).GetPrivateField("beforeDashSpeed");
-                    Vector2 bDSpeed = (Vector2) beforeDashSpeedFieldInfo?.GetValue(player);
+                    Vector2 bDSpeed = (Vector2)beforeDashSpeedFieldInfo?.GetValue(player);
                     origSpeedX = bDSpeed.X;
                     origSpeedY = bDSpeed.Y;
                 }
@@ -68,40 +76,33 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                         if (origDashDir.Y > 0.0f && origDashAttacking) {
                             player.Speed.Y = -370f / 3;
                             varJumpSpeedFieldInfo?.SetValue(player, -370f / 3);
-                        }
-                        else {
+                        } else {
                             player.Speed.Y = -185f;
                         }
-                    }
-                    else {
+                    } else {
                         player.Speed.Y = origSpeedY - 185f;
                         varJumpSpeedFieldInfo?.SetValue(player, player.Speed.Y);
                     }
-                }
-                else if (self.Orientation == Orientations.WallLeft) {
+                } else if (self.Orientation == Orientations.WallLeft) {
                     player.Speed.Y = origSpeedY - 140f;
                     if (origSpeedX > 0.0f) {
                         player.Speed.X = origSpeedX + 240f;
-                    }
-                    else {
+                    } else {
                         player.Speed.X = 240f;
                     }
 
                     varJumpSpeedFieldInfo?.SetValue(player, player.Speed.Y);
-                }
-                else {
+                } else {
                     player.Speed.Y = origSpeedY - 140f;
                     if (origSpeedX < 0.0f) {
                         player.Speed.X = origSpeedX - 240f;
-                    }
-                    else {
+                    } else {
                         player.Speed.X = -240f;
                     }
 
                     varJumpSpeedFieldInfo?.SetValue(player, player.Speed.Y);
                 }
-            }
-            else {
+            } else {
                 orig(self, player);
             }
         }
