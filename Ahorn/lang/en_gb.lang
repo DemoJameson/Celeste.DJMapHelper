@@ -7,14 +7,22 @@
 # Badeline Boost Down
 
 # Badeline Boost Teleport
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.ColorGrade=Type in the color grade you want to apply in the room.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenColorGrade=Type in the color grade you want to apply in the golden room.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonColorGrade=Type in the color grade you want to apply in the moon room.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyColorGrade=Type in the color grade you want to apply in the key room.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.Room=The name of the room you want to teleport to when without golden berry and key.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenRoom=The name of the room you want to teleport to when keeping golden berry.
-placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonRoom=The name of the room you want to teleport to when keeping moon berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.DefaultColorGrade=Type in the color grade you want to apply in the room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.DefaultRoom=The name of the room you want to teleport to when without golden berry and key.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.DefaultSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.DefaultSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyRoom=The name of the room you want to teleport to when keeping key.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeyColorGrade=Type in the color grade you want to apply in the key room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeySpawnPointX=X-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.KeySpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenRoom=The name of the room you want to teleport to when keeping golden berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenColorGrade=Type in the color grade you want to apply in the golden room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.GoldenSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonRoom=The name of the room you want to teleport to when keeping moon berry.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonColorGrade=Type in the color grade you want to apply in the moon room.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.MoonSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
 placements.entities.DJMapHelper/badelineBoostTeleport.tooltips.Priority=Priority among multiple collectibles.
 
 # Colorful Fly Feather

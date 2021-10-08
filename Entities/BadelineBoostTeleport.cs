@@ -19,6 +19,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             public Collectable Collectable;
             public string Room;
             public string ColorGrade;
+            public Vector2 SpawnPoint;
         }
 
         private const float MoveSpeed = 320f;
@@ -36,10 +37,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private readonly List<Info> infos = new();
 
         private BadelineBoostTeleport(Vector2[] nodes,
-            string normalRoom, string normalColorGrade,
-            string keyRoom, string keyColorGrade,
-            string goldenRoom, string goldenColorGrade,
-            string moonRoom, string moonColorGrade,
+            string defaultRoom, string defaultColorGrade, int defaultSpawnPointX, int defaultSpawnPointY,
+            string keyRoom, string keyColorGrade, int keySpawnPointX, int keySpawnPointY,
+            string goldenRoom, string goldenColorGrade, int goldenSpawnPointX, int goldenSpawnPointY,
+            string moonRoom, string moonColorGrade, int moonSpawnPointX, int moonSpawnPointY,
             string priority)
             : base(nodes[0]) {
             Depth = -1000000;
@@ -50,6 +51,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     Collectable = Collectable.Key,
                     Room = keyRoom,
                     ColorGrade = keyColorGrade,
+                    SpawnPoint = new Vector2(keySpawnPointX, keySpawnPointY)
                 });
             }
 
@@ -57,7 +59,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 infos.Add(new Info {
                     Collectable = Collectable.Golden,
                     Room = goldenRoom,
-                    ColorGrade = goldenColorGrade
+                    ColorGrade = goldenColorGrade,
+                    SpawnPoint = new Vector2(goldenSpawnPointX, goldenSpawnPointY)
                 });
             }
 
@@ -65,7 +68,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 infos.Add(new Info {
                     Collectable = Collectable.Moon,
                     Room = moonRoom,
-                    ColorGrade = moonColorGrade
+                    ColorGrade = moonColorGrade,
+                    SpawnPoint = new Vector2(moonSpawnPointX, moonSpawnPointY)
                 });
             }
 
@@ -77,11 +81,12 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             List<Collectable> priorities = priority.Split(new[] { "->" }, StringSplitOptions.None).Select(s => (Collectable)Enum.GetNames(typeof(Collectable)).ToList().IndexOf(s.Trim())).ToList();
             infos.Sort((a, b) => priorities.IndexOf(a.Collectable) - priorities.IndexOf(b.Collectable));
 
-            if (!string.IsNullOrWhiteSpace(normalRoom)) {
+            if (!string.IsNullOrWhiteSpace(defaultRoom)) {
                 infos.Add(new Info {
                     Collectable = Collectable.None,
-                    Room = normalRoom,
-                    ColorGrade = normalColorGrade
+                    Room = defaultRoom,
+                    ColorGrade = defaultColorGrade,
+                    SpawnPoint = new Vector2(defaultSpawnPointX, defaultSpawnPointY)
                 });
             }
 
@@ -100,10 +105,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         public BadelineBoostTeleport(EntityData data, Vector2 offset)
             : this(data.NodesWithPosition(offset),
-                data.Attr("Room"), data.Attr("ColorGrade"),
-                data.Attr("KeyRoom"), data.Attr("KeyColorGrade"),
-                data.Attr("GoldenRoom"), data.Attr("GoldenColorGrade"),
-                data.Attr("MoonRoom"), data.Attr("MoonColorGrade"),
+                data.Attr("Room", data.Attr("DefaultRoom")), data.Attr("ColorGrade", data.Attr("DefaultColorGrade")), data.Int("DefaultSpawnPointX"), data.Int("DefaultSpawnPointY"),
+                data.Attr("KeyRoom"), data.Attr("KeyColorGrade"), data.Int("KeySpawnPointX"), data.Int("KeySpawnPointY"),
+                data.Attr("GoldenRoom"), data.Attr("GoldenColorGrade"), data.Int("GoldenSpawnPointX"), data.Int("GoldenSpawnPointY"),
+                data.Attr("MoonRoom"), data.Attr("MoonColorGrade"), data.Int("MoonSpawnPointX"), data.Int("MoonSpawnPointY"),
                 data.Attr("Priority")) { }
 
         public override void Awake(Scene scene) {

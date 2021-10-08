@@ -117,7 +117,6 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                 boost.Ch9FinalBoostSfx.release();
             }
 
-            Player.IntroTypes nextLevelIntro = Player.IntroTypes.Jump;
             player.Active = true;
             player.Speed = Vector2.Zero;
             player.EnforceLevelBounds = true;
@@ -128,7 +127,7 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
             player.ForceCameraUpdate = false;
             Engine.TimeRate = 1f;
             Level.OnEndOfFrame += () => {
-                Level.TeleportTo(player, info.Room, nextLevelIntro);
+                Level.TeleportTo(player, info.Room, Player.IntroTypes.Jump, info.SpawnPoint);
                 if (Level.Tracker.GetEntity<Player>() is { } newPlayer) {
                     newPlayer.Visible = !WasSkipped;
                     if (WasSkipped) {
@@ -144,6 +143,10 @@ namespace Celeste.Mod.DJMapHelper.Cutscenes {
                     level.SnapColorGrade(info.ColorGrade);
                 }
             };
+        }
+
+        public override void Removed(Scene scene) {
+            ScreenWipe.WipeColor = screenWipeColor;
         }
 
         private IEnumerator WaveCamera() {

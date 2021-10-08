@@ -1,7 +1,7 @@
 module DJMapHelperBadelineBoostTeleport
 
 using ..Ahorn, Maple
-@mapdef Entity "DJMapHelper/badelineBoostTeleport" TeleportBadelineBoost(x::Integer, y::Integer, Room::String="", ColorGrade::String="", KeyRoom::String="", KeyColorGrade::String="", GoldenRoom::String="", GoldenColorGrade::String="", MoonRoom::String="", MoonColorGrade::String="", Priority::String="Moon -> Golden -> Key", nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[])
+@mapdef Entity "DJMapHelper/badelineBoostTeleport" TeleportBadelineBoost(x::Integer, y::Integer, DefaultRoom::String="", DefaultColorGrade::String="", DefaultSpawnPointX::Int=0, DefaultSpawnPointY::Int=0, KeyRoom::String="", KeyColorGrade::String="", KeySpawnPointX::Int=0, KeySpawnPointY::Int=0, GoldenRoom::String="", GoldenColorGrade::String="", GoldenSpawnPointX::Int=0, GoldenSpawnPointY::Int=0, MoonRoom::String="", MoonColorGrade::String="", MoonSpawnPointX::Int=0, MoonSpawnPointY::Int=0, Priority::String="Moon -> Golden -> Key", nodes::Array{Tuple{Integer, Integer}, 1}=Tuple{Integer, Integer}[])
 
 const priorities = String[
     "Moon -> Golden -> Key",
