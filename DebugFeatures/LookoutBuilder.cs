@@ -6,7 +6,10 @@ using Monocle;
 
 namespace Celeste.Mod.DJMapHelper.DebugFeatures {
     public static class LookoutBuilder {
-        private static bool? savedInvincible;
+        private static bool? SavedInvincible {
+            get => DJMapHelperModule.Session.SavedInvincible;
+            set => DJMapHelperModule.Session.SavedInvincible = value;
+        }
 
         private static readonly MethodInfo InteractMethod = typeof(Lookout).GetPrivateMethod("Interact");
         private static readonly FieldInfo InteractingField = typeof(Lookout).GetPrivateField("interacting");
@@ -34,9 +37,9 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
         private static void LevelOnUpdate(On.Celeste.Level.orig_Update orig, Level level) {
             orig(level);
 
-            if (level.Tracker.GetEntity<PortableLookout>() == null && savedInvincible != null) {
-                SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
-                savedInvincible = null;
+            if (level.Tracker.GetEntity<PortableLookout>() == null && SavedInvincible != null) {
+                SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
+                SavedInvincible = null;
             }
 
             Player player = level.Tracker.GetEntity<Player>();
@@ -63,7 +66,7 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
                 }, Vector2.Zero);
                 lookout.Add(new Coroutine(Look(lookout)));
                 level.Add(lookout);
-                
+
                 // 恢复 LookoutBlocker 后用普通望远镜可能会卡住，因为镜头没有完全还原例如 10 j-16，所以干脆不恢复 LookoutBlocker
                 level.Remove(level.Tracker.GetEntitiesCopy<LookoutBlocker>());
             }
@@ -76,7 +79,7 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
             }
 
             InteractMethod?.Invoke(lookout, new object[] {player});
-            savedInvincible = SaveData.Instance.Assists.Invincible;
+            SavedInvincible = SaveData.Instance.Assists.Invincible;
             SaveData.Instance.Assists.Invincible = true;
 
             Level level = player.SceneAs<Level>();
@@ -101,9 +104,9 @@ namespace Celeste.Mod.DJMapHelper.DebugFeatures {
 
             lookout.Collidable = lookout.Visible = false;
 
-            if (savedInvincible != null) {
-                SaveData.Instance.Assists.Invincible = (bool) savedInvincible;
-                savedInvincible = null;
+            if (SavedInvincible != null) {
+                SaveData.Instance.Assists.Invincible = (bool) SavedInvincible;
+                SavedInvincible = null;
             }
 
             if (underfootPlatform != null) {
