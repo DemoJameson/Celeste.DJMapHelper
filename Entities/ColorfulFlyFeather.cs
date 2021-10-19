@@ -28,6 +28,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static readonly Color GreenStarFlyColor = Calc.HexToColor("66FF66");
         public static readonly Color RedStarFlyColor = Calc.HexToColor("F21E4F");
 
+        private static SpriteBank MySpriteBank;
+
         private readonly Color starFlyColor;
         private FeatherColor color;
 
@@ -45,15 +47,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (color) {
                 case FeatherColor.Blue:
-                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
                     starFlyColor = BlueStarFlyColor;
                     break;
                 case FeatherColor.Green:
-                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_greenFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "DJMapHelper_greenFlyFeather");
                     starFlyColor = GreenStarFlyColor;
                     break;
                 case FeatherColor.Red:
-                    GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_redFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "DJMapHelper_redFlyFeather");
                     starFlyColor = RedStarFlyColor;
                     break;
                 default:
@@ -78,6 +80,10 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         public static void OnUnload() {
             On.Celeste.FlyFeather.OnPlayer -= FlyFeatherOnPlayer;
             On.Celeste.FlyFeather.Respawn -= FlyFeatherOnRespawn;
+        }
+
+        public static void OnLoadContent() {
+            MySpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
         }
 
         private static void FlyFeatherOnPlayer(On.Celeste.FlyFeather.orig_OnPlayer orig, FlyFeather self,

@@ -15,18 +15,13 @@ namespace Celeste.Mod.DJMapHelper {
             Instance = this;
         }
 
-        // If you don't need to store any settings, => null
         public override Type SettingsType => typeof(DJMapHelperSettings);
         public override Type SessionType => typeof(DJMapHelperSession);
         public static DJMapHelperSettings Settings => (DJMapHelperSettings) Instance._Settings;
         public static DJMapHelperSession Session => (DJMapHelperSession) Instance._Session;
-
-        // If you don't need to store any save data, => null
         public override Type SaveDataType => null;
 
 
-        // Set up any hooks, event handlers and your mod in general here.
-        // Load runs before Celeste itself has initialized properly.
         public override void Load() {
             BadelineBoostDown.OnLoad();
             BadelineProtector.OnLoad();
@@ -45,7 +40,6 @@ namespace Celeste.Mod.DJMapHelper {
             SpringGreen.OnLoad();
         }
 
-        // Unload the entirety of your mod's content, remove any event listeners and undo all hooks.
         public override void Unload() {
             BadelineBoostDown.OnUnLoad();
             BadelineProtector.OnUnload();
@@ -62,6 +56,12 @@ namespace Celeste.Mod.DJMapHelper {
             MaxDashesTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
+        }
+
+        public override void LoadContent(bool firstLoad) {
+            if (firstLoad) {
+                ColorfulFlyFeather.OnLoadContent();
+            }
         }
     }
 }
