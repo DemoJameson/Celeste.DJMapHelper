@@ -23,6 +23,7 @@ namespace Celeste.Mod.DJMapHelper {
 
 
         public override void Load() {
+            AngryOshiroRight.OnLoad();
             BadelineBoostDown.OnLoad();
             BadelineProtector.OnLoad();
             ChangeBossPatternTrigger.OnLoad();
@@ -41,6 +42,7 @@ namespace Celeste.Mod.DJMapHelper {
         }
 
         public override void Unload() {
+            AngryOshiroRight.OnUnload();
             BadelineBoostDown.OnUnLoad();
             BadelineProtector.OnUnload();
             ChangeBossPatternTrigger.OnUnload();

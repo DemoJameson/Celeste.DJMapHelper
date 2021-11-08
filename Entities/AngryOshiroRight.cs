@@ -207,7 +207,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         public void Squish() {
-            //-1.3?
             Sprite.Scale = new Vector2(-1.3f, 0.5f);
             shaker.ShakeFor(0.5f, false);
         }
@@ -365,6 +364,19 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             doRespawnAnim = true;
             Visible = false;
             return StChase;
+        }
+
+        public static void OnLoad() {
+            On.Celeste.HeartGem.Collect += HeartGemOnCollect;
+        }
+
+        public static void OnUnload() {
+            On.Celeste.HeartGem.Collect -= HeartGemOnCollect;
+        }
+
+        private static void HeartGemOnCollect(On.Celeste.HeartGem.orig_Collect orig, HeartGem self, Player player) {
+            self.Scene.Tracker.GetEntities<AngryOshiroRight>().ForEach(entity => (entity as AngryOshiroRight)?.StopControllingTime());
+            orig(self, player);
         }
     }
 }
