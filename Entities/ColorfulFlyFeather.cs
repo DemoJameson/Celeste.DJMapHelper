@@ -47,15 +47,15 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (color) {
                 case FeatherColor.Blue:
-                    MySpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "blueFlyFeather");
                     starFlyColor = BlueStarFlyColor;
                     break;
                 case FeatherColor.Green:
-                    MySpriteBank.CreateOn(sprite, "DJMapHelper_greenFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "greenFlyFeather");
                     starFlyColor = GreenStarFlyColor;
                     break;
                 case FeatherColor.Red:
-                    MySpriteBank.CreateOn(sprite, "DJMapHelper_redFlyFeather");
+                    MySpriteBank.CreateOn(sprite, "redFlyFeather");
                     starFlyColor = RedStarFlyColor;
                     break;
                 default:
