@@ -13,8 +13,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
     [Tracked]
     [CustomEntity("DJMapHelper/featherBarrier")]
     public class FeatherBarrier : Solid {
-        private static readonly FieldInfo StarFlyTimerFieldInfo = typeof(Player).GetPrivateField("starFlyTimer");
-        private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");
+        private static readonly Func<Player, float> StarFlyTimerGetter = "starFlyTimer".CreateDelegate_Get<Player, float>();
+        private static readonly Func<Player, Color> StarFlyColorGetter = "starFlyColor".CreateDelegate_Get<Player, Color>();
 
         private readonly List<FeatherBarrier> adjacent = new List<FeatherBarrier>();
 
@@ -179,7 +179,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 return;
             }
 
-            if ((float) StarFlyTimerFieldInfo.GetValue(player) >= 0.2 &&
+            if (StarFlyTimerGetter(player) >= 0.2 &&
                 data.Hit is FeatherBarrier barrier) {
                 barrier.OnReflect();
             }
@@ -208,7 +208,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static void TryMakeBarrierCollidable(Player player, List<FeatherBarrier> featherBarriers) {
-            var flyColor = (Color) StarFlyColorFieldInfo.GetValue(player);
+            var flyColor = StarFlyColorGetter(player);
             foreach (FeatherBarrier featherBarrier in featherBarriers) {
                 if (flyColor != featherBarrier.barrieColor ||
                     player.StateMachine.State != Player.StStarFly) {
