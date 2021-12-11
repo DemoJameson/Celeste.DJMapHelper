@@ -216,8 +216,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 }
             }
 
-            if (player.CollideFirst<FeatherBarrier>() is FeatherBarrier barrier &&
-                player.StateMachine.State != Player.StStarFly) {
+            if (player.CollideFirst<FeatherBarrier>() is { } barrier &&
+                (player.StateMachine.State != Player.StStarFly || flyColor != barrier.barrieColor)) {
                 if (SaveData.Instance.Assists.Invincible) {
                     barrier.Collidable = false;
                 } else {
