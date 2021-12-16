@@ -17,6 +17,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         }
 
         private static readonly FieldInfo StarFlyColorFieldInfo = typeof(Player).GetPrivateField("starFlyColor");
+        private static readonly Func<FlyFeather, bool> ShieldedGetter = "shielded".CreateDelegate_Get<FlyFeather, bool>();
 
         public static Color OrigStarFlyColor = Calc.HexToColor("FFD65C");
         private static Color origFlyPowerHairColor = Calc.HexToColor("F2EB6D");
@@ -101,31 +102,32 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             OrigStarFlyColor = (Color)StarFlyColorFieldInfo.GetValue(self);
         }
 
-        private static void FlyFeatherOnPlayer(On.Celeste.FlyFeather.orig_OnPlayer orig, FlyFeather self,
-            Player player) {
-            Color starFlyColor;
-            if (self.GetType() == typeof(ColorfulFlyFeather)) {
-                ColorfulFlyFeather colorfulFlyFeather = (ColorfulFlyFeather)self;
-                starFlyColor = colorfulFlyFeather.starFlyColor;
+        private static void FlyFeatherOnPlayer(On.Celeste.FlyFeather.orig_OnPlayer orig, FlyFeather self, Player player) {
+            if (!ShieldedGetter(self) || player.DashAttacking) {
+                Color starFlyColor;
+                if (self.GetType() == typeof(ColorfulFlyFeather)) {
+                    ColorfulFlyFeather colorfulFlyFeather = (ColorfulFlyFeather)self;
+                    starFlyColor = colorfulFlyFeather.starFlyColor;
 
-                P_Collect.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
-                P_Collect.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
-                P_Boost.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
-                P_Boost.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
-                P_Flying.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
-                P_Flying.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
-            } else {
-                starFlyColor = OrigStarFlyColor;
+                    P_Collect.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                    P_Collect.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+                    P_Boost.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                    P_Boost.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+                    P_Flying.Color = colorfulFlyFeather.FlyPowerHairColor.Value;
+                    P_Flying.Color2 = colorfulFlyFeather.FlyPowerHairColor2.Value;
+                } else {
+                    starFlyColor = OrigStarFlyColor;
 
-                P_Collect.Color = origFlyPowerHairColor;
-                P_Collect.Color2 = origFlyPowerHairColor2;
-                P_Boost.Color = origFlyPowerHairColor;
-                P_Boost.Color2 = origFlyPowerHairColor2;
-                P_Flying.Color = origFlyPowerHairColor;
-                P_Flying.Color2 = origFlyPowerHairColor2;
+                    P_Collect.Color = origFlyPowerHairColor;
+                    P_Collect.Color2 = origFlyPowerHairColor2;
+                    P_Boost.Color = origFlyPowerHairColor;
+                    P_Boost.Color2 = origFlyPowerHairColor2;
+                    P_Flying.Color = origFlyPowerHairColor;
+                    P_Flying.Color2 = origFlyPowerHairColor2;
+                }
+
+                StarFlyColorFieldInfo.SetValue(player, starFlyColor);
             }
-
-            StarFlyColorFieldInfo.SetValue(player, starFlyColor);
 
             orig(self, player);
         }
