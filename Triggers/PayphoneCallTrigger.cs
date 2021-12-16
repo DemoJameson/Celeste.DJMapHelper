@@ -20,7 +20,16 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
             base.OnEnter(player);
             RemoveSelf();
 
-            Session session = player.SceneAs<Level>().Session;
+            if (player.SceneAs<Level>() is not {} level) {
+                return;
+            }
+
+            if (level.Tracker.GetEntity<Payphone>() == null) {
+                level.Add(new MiniTextbox("DJ_MAP_HELPER_PAYPHONE_NOT_FOUND"));
+                return;
+            }
+
+            Session session = level.Session;
             if (session.GetFlag(dialogEntry)) {
                 return;
             }

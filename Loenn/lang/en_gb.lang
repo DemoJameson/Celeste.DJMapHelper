@@ -1,0 +1,132 @@
+# ------------ Mod Names ------------
+mods.DJMapHelper.name=DJ Map Helper
+
+
+# ------------ Entities ------------
+
+# Badeline Boost Teleport
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultColorGrade=Type in the color grade you want to apply in the room.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultRoom=The name of the room you want to teleport to when without golden berry and key.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.KeyRoom=The name of the room you want to teleport to when keeping key.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.KeyColorGrade=Type in the color grade you want to apply in the key room.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.KeySpawnPointX=X-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.KeySpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.GoldenRoom=The name of the room you want to teleport to when keeping golden berry.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.GoldenColorGrade=Type in the color grade you want to apply in the golden room.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.GoldenSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.GoldenSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonRoom=The name of the room you want to teleport to when keeping moon berry.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonColorGrade=Type in the color grade you want to apply in the moon room.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonSpawnPointX=X-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.Priority=Priority among multiple collectibles.
+
+# Colorful Fly Feather
+entities.DJMapHelper/colorfulFlyFeather.attributes.description.shielded=Determines whether the feather is surrounded by a shield that must be dashed into to activate.
+entities.DJMapHelper/colorfulFlyFeather.attributes.description.singleUse=Determines whether the feather is single-use, not reappearing after usage.
+entities.DJMapHelper/colorfulFlyFeather.attributes.description.color=Determines the color of the feather, only allow through barriers of the same color.
+
+# Colorful Feather Barrier
+entities.DJMapHelper/featherBarrier.attributes.description.color=Determines the color of the barrier, only feathers of the same color are allowed to pass through.
+
+# Colorful Refill
+entities.DJMapHelper/colorfulRefill.attributes.description.color=Determines the color of the refill.\n black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.\n blue: only +stamina.\n red: only +dash.
+entities.DJMapHelper/colorfulRefill.attributes.description.oneUse=Whether the refill should respawn after being used.
+
+# Final Boss Reversed
+entities.DJMapHelper/finalBossReversed.attributes.description.startHit=Determines whether or not Badeline waits to attack until the first hit or upon room entry.
+entities.DJMapHelper/finalBossReversed.attributes.description.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
+entities.DJMapHelper/finalBossReversed.attributes.description.canChangeMusic=Whether the boss should be able to change the music to the boss track.
+
+# Fling Bird Reversed
+entities.DJMapHelper/flingBirdReversed.attributes.description.waiting=Whether the bird should visually look like it is tired and waiting to grab the player.
+
+# Oshiro Boss Right
+entities.DJMapHelper/oshiroBossRight.attributes.description.fromCutscene=Whether oshiro is spawned in the cutscene.
+
+# Play Sprite
+entities.DJMapHelper/playSprite.attributes.description.flipX=Flips the sprite horizontally.
+entities.DJMapHelper/playSprite.attributes.description.flipY=Flips the sprite vertically.
+entities.DJMapHelper/playSprite.attributes.description.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "idle_carry".
+entities.DJMapHelper/playSprite.attributes.description.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "player".
+
+# Spring Green
+entities.DJMapHelper/springGreen.attributes.description.orientation=Determines orientation of the spring.
+entities.DJMapHelper/springGreen.attributes.description.sprite=Determines the visual appearance of the sprint.
+
+# Temple Gate Reversed
+entities.DJMapHelper/templeGateReversed.attributes.description.sprite=Determines the visual appearance of the gate.
+entities.DJMapHelper/templeGateReversed.attributes.description.type=Determines what abilities the gate has.
+
+
+# ------------ Triggers ------------
+
+# Badeline Protector Trigger
+triggers.DJMapHelper/badelineProtectTrigger.placements.name.normal=Badeline Protect Trigger
+triggers.DJMapHelper/badelineProtectTrigger.attributes.description.respwanTime=Badeline will respawn after this amount of time (in seconds) after being destroyed.
+triggers.DJMapHelper/badelineProtectTrigger.attributes.description.rotationTime=Time taken for Badeline to spin around.
+triggers.DJMapHelper/badelineProtectTrigger.attributes.description.radius=Rotation radius of the Badeline.
+triggers.DJMapHelper/badelineProtectTrigger.attributes.description.clockwise=The spinning Badeline will run clockwise.
+triggers.DJMapHelper/badelineProtectTrigger.attributes.description.maxQuantity=The number of Badelines that rotate around the player.
+
+# Change Boss Pattern Trigger
+triggers.DJMapHelper/changeBossPatternTrigger.placements.name.normal=Change Boss Pattern Trigger
+triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.dashless=The trigger only works in the dashless state.
+triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.mode=Whether the trigger should affect all badeline bosses, or only the ones contained within it. \nCan be: All, Contained
+triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
+triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.onlyOnce=Whether the trigger should only trigger once.
+
+# Change Spinner Color Trigger
+triggers.DJMapHelper/changeSpinnerColorTrigger.placements.name.normal=Change Spinner Color Trigger
+triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.mode=Determining the timing of the trigger.\nCan be: OnPlayerEnter, OnLevelStart
+triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.color=Determine the color of crystal spinner.\nCan be: Blue, Red, Purple, Rainbow, Default
+
+# Climb Blocker Trigger
+triggers.DJMapHelper/climbBlockerTrigger.placements.name.normal=Climb Blocker Trigger
+triggers.DJMapHelper/climbBlockerTrigger.attributes.description.climb=Whether climbing is allowed.
+triggers.DJMapHelper/climbBlockerTrigger.attributes.description.mode=Whether the trigger should affect entire chapter, or only when player contained within it.\nCan be: Contained, Persistent
+triggers.DJMapHelper/climbBlockerTrigger.attributes.description.wallJump=Whether wallJump is allowed.
+
+# Color Grade Trigger
+triggers.DJMapHelper/colorGradeTrigger.placements.name.normal=Color Grade Trigger
+triggers.DJMapHelper/colorGradeTrigger.attributes.description.ColorGrade=Select or type in the color grade you want to apply.\nCan be: none, cold, credits, hot, oldsite, panicattack, reflection, templevoid or whatever available
+
+# Kill Box Trigger
+triggers.DJMapHelper/killBoxTrigger.placements.name.normal=Kill Box Trigger
+
+# Max Dashes Trigger
+triggers.DJMapHelper/maxDashesTrigger.placements.name.normal=Max Dashes Trigger
+triggers.DJMapHelper/maxDashesTrigger.attributes.description.dashes=Set the number of dashes.\nCan be: Zero, One, Two
+
+# Oshiro Right Trigger
+triggers.DJMapHelper/oshiroRightTrigger.placements.name.normal=Oshiro Right Trigger
+triggers.DJMapHelper/oshiroRightTrigger.attributes.description.state=Triggers whether Oshiro spawns into or leaves the room.
+
+# Payphone Call Trigger
+triggers.DJMapHelper/payphoneCallTrigger.placements.name.normal=Payphone Call Trigger
+triggers.DJMapHelper/payphoneCallTrigger.attributes.description.answer=Determining whether to answer the phone or make a call.
+triggers.DJMapHelper/payphoneCallTrigger.attributes.description.dialogId=The dialog ID to use for the dialogue.
+triggers.DJMapHelper/payphoneCallTrigger.attributes.description.endLevel=Whether finishing the dialogue should count as completing the map.
+
+# Stop Protect Trigger
+triggers.DJMapHelper/StopProtectTrigger.placements.name.normal=Stop Protect Trigger
+
+# Talk To Badeline Trigger
+triggers.DJMapHelper/talkToBadelineTrigger.placements.name.normal=Talk To Badeline Trigger
+triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.dialogId=The dialog ID to use for the dialogue.
+triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.endLevel=Whether finishing the dialogue should count as completing the map.
+triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.rejoin=Whether Badeline should rejoin or vanish.
+
+# Teleport Trigger
+triggers.DJMapHelper/teleportTrigger.placements.name.normal=Teleport Trigger
+triggers.DJMapHelper/teleportTrigger.attributes.description.bonfire=Whether to walk to the bonfire, if it exists.
+triggers.DJMapHelper/teleportTrigger.attributes.description.Dreaming=Set the value of dreaming after teleport.\nCan be: Awake, Dreaming, NoChange
+triggers.DJMapHelper/teleportTrigger.attributes.description.KeepKey=Whether the key is retained after teleport.
+triggers.DJMapHelper/teleportTrigger.attributes.description.room=The name of the room you want to teleport to.
+triggers.DJMapHelper/teleportTrigger.attributes.description.spawnPointX=X-coordinates of the spawn point you want to teleport to.
+triggers.DJMapHelper/teleportTrigger.attributes.description.spawnPointY=Y-coordinates of the spawn point you want to teleport to.
+
+# Wind Attack Trigger Left
+triggers.DJMapHelper/windAttackTriggerLeft.placements.name.normal=Wind Attack Trigger Left
