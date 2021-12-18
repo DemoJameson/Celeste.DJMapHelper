@@ -2,7 +2,7 @@ module DJMapHelperPlaySprite
 
 using ..Ahorn, Maple
 
-@mapdef Entity "DJMapHelper/playSprite" playSprite(x::Integer, y::Integer, SpriteName::String="", SpriteId::String="", flipX::Bool=false, flipY::Bool=false)
+@mapdef Entity "DJMapHelper/playSprite" playSprite(x::Integer, y::Integer, SpriteName::String="granny", SpriteId::String="laugh", flipX::Bool=false, flipY::Bool=false)
 
 const placements = Ahorn.PlacementDict(
     "Play Sprite (DJMapHelper)" => Ahorn.EntityPlacement(

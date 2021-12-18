@@ -45,7 +45,6 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             Sprite sprite = Get<Sprite>();
             this.color = color;
 
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (color) {
                 case FeatherColor.Blue:
                     mySpriteBank.CreateOn(sprite, "blueFlyFeather");
@@ -60,7 +59,9 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                     starFlyColor = RedStarFlyColor;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(color), color, null);
+                    mySpriteBank.CreateOn(sprite, "blueFlyFeather");
+                    starFlyColor = BlueStarFlyColor;
+                    break;
             }
         }
 

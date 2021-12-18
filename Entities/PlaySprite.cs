@@ -9,8 +9,8 @@ namespace Celeste.Mod.DJMapHelper.Entities {
             string spriteName = data.Attr("SpriteName");
             string spriteId = data.Attr("SpriteId");
             bool flipX = data.Bool("flipX");
-            bool flipY = data.Bool("filpY");
-            
+            bool flipY = data.Bool("flipY");
+
             Sprite sprite;
             Add(sprite = GFX.SpriteBank.Create(spriteName));
             if (spriteId != "") {

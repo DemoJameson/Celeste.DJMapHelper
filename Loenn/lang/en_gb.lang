@@ -4,7 +4,11 @@ mods.DJMapHelper.name=DJ Map Helper
 
 # ------------ Entities ------------
 
+# Badeline Boost Down
+entities.DJMapHelper/badelineBoostDown.placements.name.normal=Badeline Boost Down
+
 # Badeline Boost Teleport
+entities.DJMapHelper/badelineBoostTeleport.placements.name.normal=Badeline Boost Teleport
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultColorGrade=Type in the color grade you want to apply in the room.
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultRoom=The name of the room you want to teleport to when without golden berry and key.
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.DefaultSpawnPointX=X-coordinates of the spawn point you want to teleport to.
@@ -21,44 +25,71 @@ entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonRoom=The n
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonColorGrade=Type in the color grade you want to apply in the moon room.
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonSpawnPointX=X-coordinates of the spawn point you want to teleport to.
 entities.DJMapHelper/badelineBoostTeleport.attributes.description.MoonSpawnPointY=Y-coordinates of the spawn point you want to teleport to.
-entities.DJMapHelper/badelineBoostTeleport.attributes.description.Priority=Priority among multiple collectibles.
+entities.DJMapHelper/badelineBoostTeleport.attributes.description.Priority=Priority among multiple collectibles.\nCan be:\nMoon -> Golden -> Key\nMoon -> Key -> Golden\nGolden -> Moon -> Key\nGolden -> Key -> Moon\nKey -> Moon -> Golden\nKey -> Golden -> Moon
 
-# Colorful Fly Feather
+# Colorful Feather
+entities.DJMapHelper/colorfulFlyFeather.placements.name.blue=Colorful Feather (Blue)
+entities.DJMapHelper/colorfulFlyFeather.placements.name.red=Colorful Feather (Red)
+entities.DJMapHelper/colorfulFlyFeather.placements.name.green=Colorful Feather (Green)
 entities.DJMapHelper/colorfulFlyFeather.attributes.description.shielded=Determines whether the feather is surrounded by a shield that must be dashed into to activate.
 entities.DJMapHelper/colorfulFlyFeather.attributes.description.singleUse=Determines whether the feather is single-use, not reappearing after usage.
-entities.DJMapHelper/colorfulFlyFeather.attributes.description.color=Determines the color of the feather, only allow through barriers of the same color.
+entities.DJMapHelper/colorfulFlyFeather.attributes.description.color=Determines the color of the feather, only allow through barriers of the same color.\nCan be: Red, Blue, Green
 
 # Colorful Feather Barrier
+entities.DJMapHelper/featherBarrier.placements.name.blue=Colorful Feather Barrier (Blue)
+entities.DJMapHelper/featherBarrier.placements.name.red=Colorful Feather Barrier (Red)
+entities.DJMapHelper/featherBarrier.placements.name.green=Colorful Feather Barrier (Green)
+entities.DJMapHelper/featherBarrier.placements.name.yellow=Colorful Feather Barrier (Yellow)
 entities.DJMapHelper/featherBarrier.attributes.description.color=Determines the color of the barrier, only feathers of the same color are allowed to pass through.
 
 # Colorful Refill
-entities.DJMapHelper/colorfulRefill.attributes.description.color=Determines the color of the refill.\n black: +dash -stamina or -dash +stamina. If no stamina and no dash, die.\n blue: only +stamina.\n red: only +dash.
+entities.DJMapHelper/colorfulRefill.placements.name.red=Refill (Red)
+entities.DJMapHelper/colorfulRefill.placements.name.black=Refill (Black)
+entities.DJMapHelper/colorfulRefill.placements.name.blue=Refill (Blue)
+entities.DJMapHelper/colorfulRefill.attributes.description.color=Determines the color of the refill.\nblack: +dash -stamina or -dash +stamina. If no stamina and no dash, die.\nblue: only +stamina.\nred: only +dash.
 entities.DJMapHelper/colorfulRefill.attributes.description.oneUse=Whether the refill should respawn after being used.
 
 # Final Boss Reversed
+entities.DJMapHelper/finalBossReversed.placements.name.normal=Final Boss w/o Camera Lock
 entities.DJMapHelper/finalBossReversed.attributes.description.startHit=Determines whether or not Badeline waits to attack until the first hit or upon room entry.
 entities.DJMapHelper/finalBossReversed.attributes.description.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
 entities.DJMapHelper/finalBossReversed.attributes.description.canChangeMusic=Whether the boss should be able to change the music to the boss track.
 
 # Fling Bird Reversed
+entities.DJMapHelper/flingBirdReversed.placements.name.normal=Fling Bird Reversed
 entities.DJMapHelper/flingBirdReversed.attributes.description.waiting=Whether the bird should visually look like it is tired and waiting to grab the player.
 
 # Oshiro Boss Right
+entities.DJMapHelper/oshiroBossRight.placements.name.normal=Oshiro Boss Reversed
 entities.DJMapHelper/oshiroBossRight.attributes.description.fromCutscene=Whether oshiro is spawned in the cutscene.
 
 # Play Sprite
+entities.DJMapHelper/playSprite.placements.name.normal=Play Sprite
 entities.DJMapHelper/playSprite.attributes.description.flipX=Flips the sprite horizontally.
 entities.DJMapHelper/playSprite.attributes.description.flipY=Flips the sprite vertically.
-entities.DJMapHelper/playSprite.attributes.description.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "idle_carry".
-entities.DJMapHelper/playSprite.attributes.description.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "player".
+entities.DJMapHelper/playSprite.attributes.description.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "laugh".
+entities.DJMapHelper/playSprite.attributes.description.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "granny".
 
-# Spring Green
-entities.DJMapHelper/springGreen.attributes.description.orientation=Determines orientation of the spring.
-entities.DJMapHelper/springGreen.attributes.description.sprite=Determines the visual appearance of the sprint.
+# Shield
+entities.DJMapHelper/shield.placements.name.normal=Shield
+
+# Force Start Level Spawn Point
+entities.DJMapHelper/startPoint.placements.name.normal=Force Start Level Spawn Point
+
+# Momentum Spring
+entities.DJMapHelper/springGreen.placements.name.up=Momentum Spring (Up)
+entities.DJMapHelper/springGreen.placements.name.left=Momentum Spring (Left)
+entities.DJMapHelper/springGreen.placements.name.right=Momentum Spring (Right)
+entities.DJMapHelper/springGreen.attributes.description.orientation=Determines orientation of the spring.\nCan be: Floor, WallLeft, WallRight
+entities.DJMapHelper/springGreen.attributes.description.sprite=Determines the visual appearance of the spring.
 
 # Temple Gate Reversed
-entities.DJMapHelper/templeGateReversed.attributes.description.sprite=Determines the visual appearance of the gate.
-entities.DJMapHelper/templeGateReversed.attributes.description.type=Determines what abilities the gate has.
+entities.DJMapHelper/templeGateReversed.placements.name.normal=Temple Gate Reversed
+entities.DJMapHelper/templeGateReversed.attributes.description.sprite=Determines the visual appearance of the gate.\nCan be: default, mirror, theo
+entities.DJMapHelper/templeGateReversed.attributes.description.type=Determines what abilities the gate has.\nCan be: CloseBehindPlayer, CloseBehindPlayerAlways, HoldingTheo, CloseBehindPlayerAndTheo
+
+# Theo Crystal Barrier
+entities.DJMapHelper/theoCrystalBarrier.placements.name.normal=Theo Crystal Barrier
 
 
 # ------------ Triggers ------------

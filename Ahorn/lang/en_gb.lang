@@ -51,12 +51,12 @@ placements.entities.DJMapHelper/oshiroBossRight.tooltips.fromCutscene=Whether os
 # Play Sprite
 placements.entities.DJMapHelper/playSprite.tooltips.flipX=Flips the sprite horizontally.
 placements.entities.DJMapHelper/playSprite.tooltips.flipY=Flips the sprite vertically.
-placements.entities.DJMapHelper/playSprite.tooltips.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "idle_carry".
-placements.entities.DJMapHelper/playSprite.tooltips.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "player".
+placements.entities.DJMapHelper/playSprite.tooltips.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "laugh".
+placements.entities.DJMapHelper/playSprite.tooltips.SpriteName=Which sprite name to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "granny".
 
 # Spring Green
 placements.entities.DJMapHelper/springGreen.tooltips.orientation=Determines orientation of the spring.
-placements.entities.DJMapHelper/springGreen.tooltips.sprite=Determines the visual appearance of the sprint.
+placements.entities.DJMapHelper/springGreen.tooltips.sprite=Determines the visual appearance of the spring.
 
 # Temple Gate Reversed
 placements.entities.DJMapHelper/templeGateReversed.tooltips.sprite=Determines the visual appearance of the gate.

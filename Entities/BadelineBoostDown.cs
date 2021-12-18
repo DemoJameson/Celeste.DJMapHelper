@@ -194,7 +194,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
                 level.DirectionalShake(Vector2.UnitY, 0.6f);
                 level.Displacement.AddBurst(Center, 0.6f, 8f, 64f, 0.5f);
                 level.ResetZoom();
-                player.StateMachine.State = 18;
+                player.StateMachine.State = Player.StReflectionFall;
                 Engine.TimeRate = 1f;
                 Finish();
             }
@@ -240,7 +240,7 @@ namespace Celeste.Mod.DJMapHelper.Entities {
 
         private static IEnumerator BadelineBoostDownFall(On.Celeste.Player.orig_ReflectionFallCoroutine orig,
             Player player) {
-            
+
             if (player.SceneAs<Level>().Session.Area.GetLevelSet() == "Celeste") {
                 IEnumerator enumerator = orig(player);
                 while (enumerator.MoveNext()) {
