@@ -1,10 +1,11 @@
--- TODO 使用绿色贴图，并实时更新设置的贴图
+local drawableSprite = require("structs.drawable_sprite")
+local utils = require("utils")
 
 local momentumSpring = {}
+
 momentumSpring.name = "DJMapHelper/springGreen"
 momentumSpring.depth = -8501
-momentumSpring.texture = "objects/spring/00"
-momentumSpring.color = {0, 1, 0, 1}
+momentumSpring.color = { 0, 1, 0, 1 }
 momentumSpring.justification = { 0.5, 1.0 }
 momentumSpring.placements = {
     {
@@ -30,14 +31,27 @@ momentumSpring.placements = {
     },
 }
 
-function momentumSpring.rotation(room, entity)
+function momentumSpring.sprite(room, entity, viewport)
+    local sprite = drawableSprite.fromTexture("objects/DJMapHelper/springGreen/00", entity)
+
     local orientation = entity.orientation or "Floor"
     if orientation == "WallLeft" then
-        return math.pi / 2
+        sprite.rotation = math.pi / 2
     elseif orientation == "WallRight" then
-        return -math.pi / 2
+        sprite.rotation = -math.pi / 2
+    end
+
+    return sprite
+end
+
+function momentumSpring.selection(room, entity)
+    local orientation = entity.orientation or "Floor"
+    if orientation == "WallLeft" then
+        return utils.rectangle(entity.x - 8, entity.y - 6, 5, 12)
+    elseif orientation == "WallRight" then
+        return utils.rectangle(entity.x + 3, entity.y - 6, 5, 12)
     else
-        return 0
+        return utils.rectangle(entity.x - 6, entity.y + 3, 12, 5)
     end
 end
 

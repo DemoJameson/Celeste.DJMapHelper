@@ -1,5 +1,3 @@
--- TODO 解决贴图不显示的问题
-
 local drawableSprite = require("structs.drawable_sprite")
 local utils = require("utils")
 
@@ -20,16 +18,10 @@ for _, color in ipairs({ "Blue", "Red", "Green" }) do
     })
 end
 
-function colorfulFeather.draw(room, entity, viewport)
+function colorfulFeather.sprite(room, entity, viewport)
     local x, y = entity.x or 0, entity.y or 0
-
-    local shielded = entity.shielded or false
-    if shielded then
-        love.graphics.circle("line", x, y, 12)
-    end
-
     local color = entity.color or "Blue"
-    local texture = ""
+    local texture
 
     if color == "Red" then
         texture = "objects/DJMapHelper/redFlyFeather/idle00"
@@ -39,12 +31,18 @@ function colorfulFeather.draw(room, entity, viewport)
         texture = "objects/DJMapHelper/blueFlyFeather/idle00"
     end
 
-    drawableSprite.fromTexture("objects/flyFeather/idle00", entity):draw()
-    --drawableSprite.fromTexture(texture, { x = x, y = y }):draw()
+    local sprites = { drawableSprite.fromTexture(texture, { x = x, y = y }) }
+
+    local shielded = entity.shielded or false
+    if shielded then
+        table.insert(sprites, drawableSprite.fromTexture("objects/DJMapHelper/shield/shield", { x = x, y = y }))
+    end
+
+    return sprites
 end
 
 function colorfulFeather.selection(room, entity)
-    return utils.rectangle(entity.x - 12, entity.y - 12, 24, 24)
+    return utils.rectangle(entity.x - 10, entity.y - 10, 20, 20)
 end
 
 return colorfulFeather

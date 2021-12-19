@@ -6,8 +6,8 @@ theoCrystalBarrier.color = { 0.25, 0.50, 0.25, 0.8 }
 theoCrystalBarrier.placements = {
     name = "normal",
     data = {
-        width = 16,
-        height = 16
+        width = 8,
+        height = 8
     }
 }
 
