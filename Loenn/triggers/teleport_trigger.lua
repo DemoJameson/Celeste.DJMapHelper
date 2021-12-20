@@ -15,5 +15,9 @@ teleportTrigger.placements = {
         spawnPointY = 0,
     }
 }
+teleportTrigger.fieldInformation = {
+    spawnPointX = { fieldType = "integer" },
+    spawnPointY = { fieldType = "integer" },
+}
 
 return teleportTrigger

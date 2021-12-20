@@ -4,7 +4,7 @@ shield.name = "DJMapHelper/shield"
 shield.depth = 0
 shield.texture = "objects/DJMapHelper/shield/shield"
 shield.placements = {
-    name = "normal",
+    name = "normal"
 }
 
 return shield

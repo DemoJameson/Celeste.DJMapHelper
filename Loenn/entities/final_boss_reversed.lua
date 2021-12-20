@@ -18,5 +18,8 @@ finalBossReversed.placements = {
         canChangeMusic = true
     }
 }
+finalBossReversed.fieldInformation = {
+    patternIndex = { fieldType = "integer" },
+}
 
 return finalBossReversed

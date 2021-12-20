@@ -12,4 +12,9 @@ badelineProtectTrigger.placements = {
     }
 }
 
+badelineProtectTrigger.fieldInformation = {
+    maxQuantity = { fieldType = "integer" },
+    radius = { fieldType = "integer" },
+}
+
 return badelineProtectTrigger

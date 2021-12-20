@@ -27,13 +27,15 @@ badelineBoostTeleport.placements = {
         KeySpawnPointY = 0,
     }
 }
-badelineBoostTeleport.fieldOrder = {
-    "x", "y", "width", "height",
-    "DefaultRoom", "DefaultColorGrade", "DefaultSpawnPointX", "DefaultSpawnPointY",
-    "MoonRoom", "MoonColorGrade", "MoonSpawnPointX", "MoonSpawnPointY",
-    "GoldenRoom", "GoldenColorGrade", "GoldenSpawnPointX", "GoldenSpawnPointY",
-    "KeyRoom", "KeyColorGrade", "KeySpawnPointX", "KeySpawnPointY",
-    "Priority"
+badelineBoostTeleport.fieldInformation = {
+    DefaultSpawnPointX = { fieldType = "integer" },
+    DefaultSpawnPointY = { fieldType = "integer" },
+    MoonSpawnPointX = { fieldType = "integer" },
+    MoonSpawnPointY = { fieldType = "integer" },
+    GoldenSpawnPointX = { fieldType = "integer" },
+    GoldenSpawnPointY = { fieldType = "integer" },
+    KeySpawnPointX = { fieldType = "integer" },
+    KeySpawnPointY = { fieldType = "integer" },
 }
 
 return badelineBoostTeleport

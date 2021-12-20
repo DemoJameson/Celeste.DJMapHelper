@@ -10,5 +10,8 @@ changeBossPatternTrigger.placements = {
         onlyOnce = false,
     }
 }
+changeBossPatternTrigger.fieldInformation = {
+    patternIndex = { fieldType = "integer" },
+}
 
 return changeBossPatternTrigger
