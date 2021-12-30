@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
@@ -210,15 +209,13 @@ namespace Celeste.Mod.DJMapHelper.Entities {
         private static void TryMakeBarrierCollidable(Player player, List<FeatherBarrier> featherBarriers) {
             var flyColor = StarFlyColorGetter(player);
             foreach (FeatherBarrier featherBarrier in featherBarriers) {
-                if (flyColor != featherBarrier.barrieColor ||
-                    player.StateMachine.State != Player.StStarFly) {
+                if (flyColor != featherBarrier.barrieColor || player.StateMachine.State != Player.StStarFly) {
                     featherBarrier.Collidable = true;
                 }
             }
 
-            if (player.CollideFirst<FeatherBarrier>() is { } barrier &&
-                (player.StateMachine.State != Player.StStarFly || flyColor != barrier.barrieColor)) {
-                if (SaveData.Instance.Assists.Invincible) {
+            if (player.CollideFirst<FeatherBarrier>() is { } barrier && (player.StateMachine.State != Player.StStarFly || flyColor != barrier.barrieColor)) {
+                if (SaveData.Instance.Assists.Invincible || player.StateMachine.State == Player.StCassetteFly) {
                     barrier.Collidable = false;
                 } else {
                     player.Die(Vector2.UnitX * (int) player.Facing);
