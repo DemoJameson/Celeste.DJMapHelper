@@ -27,6 +27,16 @@ badelineBoostTeleport.placements = {
         KeySpawnPointY = 0,
     }
 }
+
+local priorities = {
+    "Moon -> Golden -> Key",
+    "Moon -> Key -> Golden",
+    "Golden -> Moon -> Key",
+    "Golden -> Key -> Moon",
+    "Key -> Moon -> Golden",
+    "Key -> Golden -> Moon"
+}
+
 badelineBoostTeleport.fieldInformation = {
     DefaultSpawnPointX = { fieldType = "integer" },
     DefaultSpawnPointY = { fieldType = "integer" },
@@ -36,6 +46,11 @@ badelineBoostTeleport.fieldInformation = {
     GoldenSpawnPointY = { fieldType = "integer" },
     KeySpawnPointX = { fieldType = "integer" },
     KeySpawnPointY = { fieldType = "integer" },
+    Priority = {
+        fieldType = "anything",
+        options = priorities,
+        editable = false
+    }
 }
 
 return badelineBoostTeleport

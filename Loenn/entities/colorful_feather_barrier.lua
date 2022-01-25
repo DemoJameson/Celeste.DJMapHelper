@@ -1,10 +1,11 @@
 local featherBarrier = {}
+local colors = { "Blue", "Red", "Green", "Yellow" }
 
 featherBarrier.name = "DJMapHelper/featherBarrier"
 featherBarrier.depth = 0
 featherBarrier.placements = {}
 
-for _, color in ipairs({ "Blue", "Red", "Green", "Yellow" }) do
+for _, color in ipairs(colors) do
     table.insert(featherBarrier.placements, {
         name = string.lower(color),
         data = {
@@ -14,6 +15,14 @@ for _, color in ipairs({ "Blue", "Red", "Green", "Yellow" }) do
         }
     })
 end
+
+featherBarrier.fieldInformation = {
+    color = {
+        fieldType = "anything",
+        options = colors,
+        editable = false
+    }
+}
 
 function featherBarrier.fillColor(room, entity)
     local color = entity.color or "Blue"

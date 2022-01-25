@@ -50,7 +50,7 @@ entities.DJMapHelper/colorfulRefill.attributes.description.color=Determines the 
 entities.DJMapHelper/colorfulRefill.attributes.description.oneUse=Whether the refill should respawn after being used.
 
 # Final Boss Reversed
-entities.DJMapHelper/finalBossReversed.placements.name.normal=Final Boss w/o Camera Lock
+entities.DJMapHelper/finalBossReversed.placements.name.normal=Badeline Boss w/o Camera Lock
 entities.DJMapHelper/finalBossReversed.attributes.description.startHit=Determines whether or not Badeline waits to attack until the first hit or upon room entry.
 entities.DJMapHelper/finalBossReversed.attributes.description.patternIndex=Determines what pattern of attack Badeline uses.\n 0 - Badeline transforms into the boss after being hit once\n 1 - Shoots orbs\n 2 - Shoots laser followed by one orb\n 3 - Shoots five streams of two orbs\n 4 - Shoots five streams of two orbs followed by one laser\n 5 - Shoots laser followed by three streams of two orbs\n 6 - Shoots lasers\n 7 - Shoots orbs with less delay\n 8 - Shoots lasers with less delay\n 9 - Shoots streams of two orbs\n 10 - Does nothing\n 11 - Shoots orbs with more delay\n 12 - Does nothing\n 13 - Shoots orbs after getting hit once\n 14 - Shoots lasers with very short delay\n 15 - Shoots lasers with more delay
 entities.DJMapHelper/finalBossReversed.attributes.description.canChangeMusic=Whether the boss should be able to change the music to the boss track.
@@ -112,7 +112,7 @@ triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.onlyOnce=Wh
 # Change Spinner Color Trigger
 triggers.DJMapHelper/changeSpinnerColorTrigger.placements.name.normal=Change Spinner Color Trigger
 triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.mode=Determining the timing of the trigger.\nCan be: OnPlayerEnter, OnLevelStart
-triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.color=Determine the color of crystal spinner.\nCan be: Blue, Red, Purple, Rainbow, Default
+triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.color=Determine the color of crystal spinner.\nCan be: Default, Blue, Red, Purple, Rainbow 
 
 # Climb Blocker Trigger
 triggers.DJMapHelper/climbBlockerTrigger.placements.name.normal=Climb Blocker Trigger

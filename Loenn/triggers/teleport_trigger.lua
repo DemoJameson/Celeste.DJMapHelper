@@ -18,6 +18,11 @@ teleportTrigger.placements = {
 teleportTrigger.fieldInformation = {
     spawnPointX = { fieldType = "integer" },
     spawnPointY = { fieldType = "integer" },
+    Dreaming = {
+        fieldType = "anything",
+        options = { "Dreaming", "Awake", "NoChange" },
+        editable = false
+    },
 }
 
 return teleportTrigger

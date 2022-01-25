@@ -1,3 +1,5 @@
+local enums = require("consts.celeste_enums")
+
 local finalBossReversed = {}
 
 finalBossReversed.name = "DJMapHelper/finalBossReversed"
@@ -19,7 +21,11 @@ finalBossReversed.placements = {
     }
 }
 finalBossReversed.fieldInformation = {
-    patternIndex = { fieldType = "integer" },
+    patternIndex = {
+        fieldType = "integer",
+        options = enums.badeline_boss_shooting_patterns,
+        editable = false
+    }
 }
 
 return finalBossReversed

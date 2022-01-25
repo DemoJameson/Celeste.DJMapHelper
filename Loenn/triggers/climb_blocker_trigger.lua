@@ -9,5 +9,12 @@ climbBlockerTrigger.placements = {
         mode = "Contained",
     }
 }
+climbBlockerTrigger.fieldInformation = {
+    mode = {
+        fieldType = "anything",
+        options = { "Contained", "Persistent" },
+        editable = false
+    }
+}
 
 return climbBlockerTrigger

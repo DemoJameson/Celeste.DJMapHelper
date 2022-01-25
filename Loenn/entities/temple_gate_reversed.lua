@@ -20,6 +20,26 @@ local textures = {
     theo = "objects/door/TempleDoorC00"
 }
 
+local types = {
+    "CloseBehindPlayer",
+    "CloseBehindPlayerAlways",
+    "HoldingTheo",
+    "CloseBehindPlayerAndTheo"
+}
+
+templeGate.fieldInformation = {
+    sprite = {
+        fieldType = "anything",
+        options = textures,
+        editable = false
+    },
+    ["type"] = {
+        fieldType = "anything",
+        options = types,
+        editable = false
+    },
+}
+
 function templeGate.sprite(room, entity)
     local variant = entity.sprite or "default"
     local texture = textures[variant] or textures["default"]

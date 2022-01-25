@@ -2,12 +2,13 @@ local drawableSprite = require("structs.drawable_sprite")
 local utils = require("utils")
 
 local colorfulFeather = {}
+local colors = { "Blue", "Red", "Green" }
 
 colorfulFeather.name = "DJMapHelper/colorfulFlyFeather"
 colorfulFeather.depth = 0
 colorfulFeather.placements = {}
 
-for _, color in ipairs({ "Blue", "Red", "Green" }) do
+for _, color in ipairs(colors) do
     table.insert(colorfulFeather.placements, {
         name = string.lower(color),
         data = {
@@ -17,6 +18,14 @@ for _, color in ipairs({ "Blue", "Red", "Green" }) do
         }
     })
 end
+
+colorfulFeather.fieldInformation = {
+    color = {
+        fieldType = "anything",
+        options = colors,
+        editable = false
+    }
+}
 
 function colorfulFeather.sprite(room, entity, viewport)
     local x, y = entity.x or 0, entity.y or 0
