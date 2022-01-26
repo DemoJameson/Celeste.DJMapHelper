@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Celeste.Mod.DJMapHelper.Extensions;
@@ -12,14 +13,10 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
         private const string PREFIX = "DJMapHelper/changeSpinnerColorTrigger_";
 
         private static readonly FieldInfo ColorFieldInfo = typeof(CrystalStaticSpinner).GetPrivateField("color");
+        private static readonly MethodInfo ClearSpritesMethodInfo = typeof(CrystalStaticSpinner).GetPrivateMethod("ClearSprites");
+        private static readonly MethodInfo CreateSpritesMethodInfo = typeof(CrystalStaticSpinner).GetPrivateMethod("CreateSprites");
+        private static readonly HashSet<AreaKey> PreProcessedAreas = new();
 
-        private static readonly MethodInfo ClearSpritesMethodInfo =
-            typeof(CrystalStaticSpinner).GetPrivateMethod("ClearSprites");
-
-        private static readonly MethodInfo CreateSpritesMethodInfo =
-            typeof(CrystalStaticSpinner).GetPrivateMethod("CreateSprites");
-
-        private static readonly FieldInfo SessionField = typeof(LevelLoader).GetPrivateField("session");
         private readonly CrystalColor? color;
         private readonly Modes mode;
 
@@ -58,7 +55,9 @@ namespace Celeste.Mod.DJMapHelper.Triggers {
 
         private static void LevelLoaderOnCtor(On.Celeste.LevelLoader.orig_ctor orig, LevelLoader self, Session session,
             Vector2? startPosition) {
-            if (session.LevelData != null) {
+            if (session?.LevelData != null && PreProcessedAreas.Contains(session.Area)) {
+                PreProcessedAreas.Add(session.Area);
+
                 // 将 trigger 提前到所有刺初始化之前，这样才能应用修改的颜色
                 var entityDataList =
                     session.LevelData.Triggers.FindAll(data => data.Name == "DJMapHelper/changeSpinnerColorTrigger");
