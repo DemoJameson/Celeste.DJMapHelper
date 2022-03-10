@@ -3,21 +3,16 @@ using Monocle;
 namespace Celeste.Mod.DJMapHelper.DebugFeatures {
     // ReSharper disable once UnusedMember.Global
     public static class Commands {
-        [Command("metadata", "check metadata values (DJ Map Helper)")]
+        [Command("metadata", "check some metadata values (DJ Map Helper)")]
         private static void CmdMetadata() {
-            Level scene = Engine.Scene as Level;
-            if (scene == null) {
+            if (Engine.Scene is not Level level) {
                 return;
             }
 
-            Engine.Commands.Log("color grade (" + scene.Session.ColorGrade + ")");
-            Engine.Commands.Log("base lighting (" + scene.BaseLightingAlpha + "), session lighting add(" +
-                                scene.Session.LightingAlphaAdd + "), current lighting (" +
-                                scene.Lighting.Alpha + ")");
-            Engine.Commands.Log("base bloom (" + (scene.Bloom.Base - scene.Session.BloomBaseAdd) +
-                                "), session bloom add(" +
-                                scene.Session.BloomBaseAdd + "), current bloom (" +
-                                scene.Bloom.Base + ")");
+            Engine.Commands.Log($"color grade ({level.Session.ColorGrade})");
+            Engine.Commands.Log($"lighting base ({level.BaseLightingAlpha}), session lighting add ({level.Session.LightingAlphaAdd}), current lighting ({level.Lighting.Alpha})");
+            Engine.Commands.Log($"bloom base ({(level.Bloom.Base - level.Session.BloomBaseAdd)}), session bloom base add ({level.Session.BloomBaseAdd}), current bloom base ({level.Bloom.Base})");
+            Engine.Commands.Log($"bloom strength ({level.Bloom.Strength})");
         }
     }
 }
