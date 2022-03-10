@@ -7,6 +7,5 @@ namespace Celeste.Mod.DJMapHelper {
         public Color? LastOverrideHairColor { get; set; } = null;
         public BadelineProtectorConfig BadelineProtectorConfig { get; set; }
         public bool DefeatedBoss { get; set; } = false;
-        public bool? SavedInvincible { get; set; } = null;
     }
 }

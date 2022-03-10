@@ -45,6 +45,3 @@ DJ_MAP_HELPER_TALK_TO_BADELINE_TRIGGER_DIALOG_ID_EMPTY=
 DJ_MAP_HELPER_PAYPHONE_NOT_FOUND=
     [MADELINE left upset]
     Current room must have a pay phone.
-
-# ================================== LookoutBuilder ==================================
-DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=Spawn Watchtower

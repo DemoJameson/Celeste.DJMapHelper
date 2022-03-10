@@ -26,6 +26,3 @@
 	COMMAS=,、，
 	PERIODS=.?!？！。
 	FONT=Noto Sans CJK SC Medium,64
-
-# ================================== LookoutBuilder ==================================
-DJ_MAP_HELPER_ENABLE_ADD_TOWER_VIEWER=一键望远镜

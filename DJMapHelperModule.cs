@@ -1,6 +1,5 @@
 ﻿using System;
 using Celeste.Mod.DJMapHelper.Cutscenes;
-using Celeste.Mod.DJMapHelper.DebugFeatures;
 using Celeste.Mod.DJMapHelper.Entities;
 using Celeste.Mod.DJMapHelper.Triggers;
 
@@ -35,7 +34,6 @@ namespace Celeste.Mod.DJMapHelper {
             FeatherBarrier.OnLoad();
             FinalBossReversed.OnLoad();
             FlingBirdReversed.OnLoad();
-            LookoutBuilder.OnLoad();
             MaxDashesTrigger.OnLoad();
             TheoCrystalBarrier.OnLoad();
             SpringGreen.OnLoad();
@@ -54,7 +52,6 @@ namespace Celeste.Mod.DJMapHelper {
             FeatherBarrier.OnUnload();
             FinalBossReversed.OnUnload();
             FlingBirdReversed.OnUnLoad();
-            LookoutBuilder.OnUnload();
             MaxDashesTrigger.OnUnload();
             TheoCrystalBarrier.OnUnload();
             SpringGreen.OnUnLoad();
