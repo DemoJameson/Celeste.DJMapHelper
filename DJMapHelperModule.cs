@@ -14,9 +14,7 @@ namespace Celeste.Mod.DJMapHelper {
             Instance = this;
         }
 
-        public override Type SettingsType => typeof(DJMapHelperSettings);
         public override Type SessionType => typeof(DJMapHelperSession);
-        public static DJMapHelperSettings Settings => (DJMapHelperSettings) Instance._Settings;
         public static DJMapHelperSession Session => (DJMapHelperSession) Instance._Session;
         public override Type SaveDataType => null;
 
