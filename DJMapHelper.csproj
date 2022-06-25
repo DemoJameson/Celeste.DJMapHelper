@@ -3,7 +3,7 @@
         <ProjectGuid>{468DD19C-41BC-4A42-91C8-01F57BB4064C}</ProjectGuid>
         <RootNamespace>Celeste.Mod.DJMapHelper</RootNamespace>
         <TargetFramework>net452</TargetFramework>
-        <LangVersion>9</LangVersion>
+        <LangVersion>10</LangVersion>
         <AssemblyTitle>DJMapHelper</AssemblyTitle>
         <Product>DJMapHelper</Product>
         <Copyright>Copyright © 2019</Copyright>
