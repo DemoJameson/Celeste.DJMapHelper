@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using Celeste.Mod.DJMapHelper.Extensions;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 
@@ -8,7 +6,6 @@ namespace Celeste.Mod.DJMapHelper.Triggers;
 
 [CustomEntity("DJMapHelper/maxDashesTrigger")]
 public class MaxDashesTrigger : Trigger {
-    private static readonly GetDelegate<Player, Color> GetStarFlyColor = FastReflection.CreateGetDelegate<Player, Color>("starFlyColor");
     private readonly DashesNum dashesNum;
 
     public MaxDashesTrigger(EntityData data, Vector2 offset) : base(data, offset) {
@@ -27,13 +24,10 @@ public class MaxDashesTrigger : Trigger {
         orig(self);
 
         if (DJMapHelperModule.Session.LastNoRefills != null) {
-            if (self.Dashes == 0) {
-                self.Hair.Color = self.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline ? Player.UsedBadelineHairColor : Player.UsedHairColor;
-                self.OverrideHairColor = self.Hair.Color;
-
-                if (self.StateMachine.State == Player.StStarFly) {
-                    self.OverrideHairColor = self.Hair.Color = GetStarFlyColor(self);
-                }
+            if (self.Dashes == 0 && self.StateMachine.State != Player.StStarFly && self.StateMachine.State <= Player.StIntroThinkForABit) {
+                self.OverrideHairColor = self.Hair.Color = self.Sprite.Mode == PlayerSpriteMode.MadelineAsBadeline
+                    ? Player.UsedBadelineHairColor
+                    : Player.UsedHairColor;
             } else {
                 self.OverrideHairColor = DJMapHelperModule.Session.LastOverrideHairColor;
             }
