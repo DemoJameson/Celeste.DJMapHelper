@@ -9,7 +9,7 @@ colorfulRefill.placements = {}
 for _, color in ipairs({ "Blue", "Red", "Black" }) do
     table.insert(colorfulRefill.placements, {
         name = string.lower(color),
-        data = { color = color }
+        data = { color = color, oneUse = false }
     })
 end
 
