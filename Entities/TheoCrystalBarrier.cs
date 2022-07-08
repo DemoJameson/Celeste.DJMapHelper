@@ -147,11 +147,6 @@ public class TheoCrystalBarrier : Solid {
     }
 
     private static void TheoCrystalOnUpdate(On.Celeste.TheoCrystal.orig_Update orig, TheoCrystal self) {
-        if (self.GetType() != typeof(TheoCrystal)) {
-            orig(self);
-            return;
-        }
-
         List<Entity> theoCrystalBarrier = self.Scene.Tracker.GetEntities<TheoCrystalBarrier>().ToList();
         theoCrystalBarrier.ForEach(entity => entity.Collidable = true);
         orig(self);
@@ -261,7 +256,7 @@ public class TheoCrystalBarrier : Solid {
         var collide = self.CollideCheck<TheoCrystalBarrier>();
         theoCrystalBarrier.ForEach(entity => entity.Collidable = false);
 
-        if (collide && pickup.Entity.GetType() == typeof(TheoCrystal)) {
+        if (collide && pickup.Entity is TheoCrystal) {
             return false;
         }
 
