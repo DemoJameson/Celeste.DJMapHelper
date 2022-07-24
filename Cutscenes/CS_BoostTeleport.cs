@@ -214,8 +214,8 @@ public class CS_BoostTeleport : CutsceneEntity {
         Camera camera = Level.Camera;
         Draw.Rect(camera.X - 1f, camera.Y - 1f, 322f, 322f, Color.White * fadeToWhite);
     }
+}
 
-    private class ShowPlayerComponent : Component {
-        public ShowPlayerComponent() : base(false, false) { }
-    }
+public class ShowPlayerComponent : Component {
+    public ShowPlayerComponent() : base(false, false) { }
 }

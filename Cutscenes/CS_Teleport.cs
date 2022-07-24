@@ -13,17 +13,19 @@ public class CS_Teleport : CutsceneEntity {
     private readonly bool sitFire;
     private readonly Vector2 spawnPoint;
     private readonly string teleportRoom;
+    private readonly Player.IntroTypes introTypes;
     private Bonfire bonfire;
     private int maxDashes;
 
     public CS_Teleport(Player player, bool sitFire, string teleportRoom, Vector2 spawnPoint,
-        TeleportTrigger.Dreams dreams, bool keepKey) {
+        TeleportTrigger.Dreams dreams, bool keepKey, Player.IntroTypes introTypes) {
         this.player = player;
         this.sitFire = sitFire;
         this.teleportRoom = teleportRoom;
         this.spawnPoint = spawnPoint;
         this.dreams = dreams;
         this.keepKey = keepKey;
+        this.introTypes = introTypes;
     }
 
     public override void OnBegin(Level level) {
@@ -95,8 +97,13 @@ public class CS_Teleport : CutsceneEntity {
             level.Session.RespawnPoint =
                 level.GetSpawnPoint(new Vector2(level.Bounds.Left, level.Bounds.Top) + spawnPoint);
             level.Session.Inventory.Dashes = maxDashes;
-            level.LoadLevel(Player.IntroTypes.WakeUp);
+            level.LoadLevel(introTypes);
             Leader.RestoreStrawberries(level.Tracker.GetEntity<Player>().Leader);
+            
+            if (introTypes == Player.IntroTypes.Jump && WasSkipped && Level.Tracker.GetEntity<Player>() is { } newPlayer) {
+                newPlayer.Visible = false;
+                newPlayer.Add(new ShowPlayerComponent());
+            }
         });
     }
 }

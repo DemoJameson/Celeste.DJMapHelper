@@ -155,6 +155,7 @@ triggers.DJMapHelper/teleportTrigger.placements.name.normal=Teleport Trigger
 triggers.DJMapHelper/teleportTrigger.attributes.description.bonfire=Whether to walk to the bonfire, if it exists.
 triggers.DJMapHelper/teleportTrigger.attributes.description.Dreaming=Set the value of dreaming after teleport.\nCan be: Awake, Dreaming, NoChange
 triggers.DJMapHelper/teleportTrigger.attributes.description.KeepKey=Whether the key is retained after teleport.
+triggers.DJMapHelper/teleportTrigger.attributes.description.introTypes=Set the value of player intro types after teleport.
 triggers.DJMapHelper/teleportTrigger.attributes.description.room=The name of the room you want to teleport to.
 triggers.DJMapHelper/teleportTrigger.attributes.description.spawnPointX=X-coordinates of the spawn point you want to teleport to.
 triggers.DJMapHelper/teleportTrigger.attributes.description.spawnPointY=Y-coordinates of the spawn point you want to teleport to.

@@ -109,6 +109,7 @@ placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.rejoin=Whether Ba
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.bonfire=Whether to walk to the bonfire, if it exists.
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.Dreaming=Set the value of dreaming after teleport.
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.KeepKey=Whether the key is retained after teleport.
+placements.triggers.DJMapHelper/teleportTrigger.tooltips.introTypes=Set the value of player intro types after teleport.
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.room=The name of the room you want to teleport to.
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.spawnPointX=X-coordinates of the spawn point you want to teleport to.
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.spawnPointY=Y-coordinates of the spawn point you want to teleport to.

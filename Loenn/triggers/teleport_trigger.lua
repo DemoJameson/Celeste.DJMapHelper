@@ -2,15 +2,16 @@ local teleportTrigger = {}
 
 teleportTrigger.name = "DJMapHelper/teleportTrigger"
 teleportTrigger.fieldOrder = {
-    "x", "y", "width", "height", "room", "Dreaming", "bonfire", "KeepKey", "spawnPointX", "spawnPointY"
+    "x", "y", "width", "height", "Dreaming", "bonfire", "KeepKey", "introTypes", "room", "spawnPointX", "spawnPointY"
 }
 teleportTrigger.placements = {
     name = "normal",
     data = {
         bonfire = true,
         KeepKey = true,
-        room = "",
         Dreaming = "NoChange",
+        introTypes = "WakeUp",
+        room = "",
         spawnPointX = 0,
         spawnPointY = 0,
     }
@@ -23,6 +24,21 @@ teleportTrigger.fieldInformation = {
         options = { "Dreaming", "Awake", "NoChange" },
         editable = false
     },
+    introTypes = {
+        fieldType = "anything",
+        options = {
+            "Respawn",
+            "WalkInRight",
+            "WalkInLeft",
+            "Jump",
+            "WakeUp",
+            "Fall",
+            "TempleMirrorVoid",
+            "None",
+            "ThinkForABit"
+        },
+        editable = false
+    }
 }
 
 return teleportTrigger

@@ -21,6 +21,7 @@ public class TeleportTrigger : Trigger {
     private readonly string room;
     private readonly int spawnPointX;
     private readonly int spawnPointY;
+    private readonly Player.IntroTypes introTypes;
     private bool triggered;
 
     public TeleportTrigger(EntityData data, Vector2 offset) : base(data, offset) {
@@ -30,6 +31,7 @@ public class TeleportTrigger : Trigger {
         spawnPointY = data.Int("spawnPointY");
         dreams = data.Enum("Dreaming", Dreams.NoChange);
         keepKey = data.Bool("KeepKey", true);
+        introTypes = data.Enum("introTypes", Player.IntroTypes.WakeUp);
     }
 
     public override void OnEnter(Player player) {
@@ -53,6 +55,6 @@ public class TeleportTrigger : Trigger {
             }
         }
 
-        Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY), dreams, keepKey));
+        Scene.Add(new CS_Teleport(player, bonfire, room, new Vector2(spawnPointX, spawnPointY), dreams, keepKey, introTypes));
     }
 }
