@@ -19,6 +19,9 @@
       <PlatformTarget>AnyCPU</PlatformTarget>
       <DebugType>portable</DebugType>
     </PropertyGroup>
+    <PropertyGroup>
+        <PathMap>$(MSBuildProjectDirectory)=DJMapHelper/</PathMap>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="KeraLua" Version="1.0.22">
             <IncludeAssets>compile</IncludeAssets>

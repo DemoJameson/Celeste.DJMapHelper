@@ -10,19 +10,24 @@ public class CS_TalkToBadeline : CutsceneEntity {
     private readonly bool endLevel;
     private readonly Player player;
     private readonly bool rejoin;
+    private readonly bool refreshDash;
     private BadelineDummy badeline;
-    private int maxDashes;
+    private int? maxDashes;
 
-    public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin) {
+    public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin, bool refreshDash) {
         this.player = player;
         this.dialogEntry = dialogEntry;
         this.endLevel = endLevel;
         this.rejoin = rejoin;
+        this.refreshDash = refreshDash;
     }
 
     public override void OnBegin(Level level) {
-        maxDashes = level.Session.Inventory.Dashes;
-        level.Session.Inventory.Dashes = 1;
+        if (refreshDash) {
+            maxDashes = level.Session.Inventory.Dashes;
+            level.Session.Inventory.Dashes = 1; 
+        }
+
         Add(new Coroutine(Cutscene(level)));
         if (endLevel) {
             level.RegisterAreaComplete();
@@ -46,9 +51,12 @@ public class CS_TalkToBadeline : CutsceneEntity {
     }
 
     public override void OnEnd(Level level) {
-        level.OnEndOfFrame += (Action) (() => {
-            level.Session.Inventory.Dashes = maxDashes;
-            player.Dashes = maxDashes;
+        level.OnEndOfFrame += () => {
+            if (maxDashes != null) {
+                level.Session.Inventory.Dashes = maxDashes.Value;
+                player.Dashes = maxDashes.Value;   
+            }
+
             player.Depth = 0;
             player.Active = true;
             player.Visible = true;
@@ -59,15 +67,18 @@ public class CS_TalkToBadeline : CutsceneEntity {
                 player.StateMachine.State = Player.StDummy;
                 SpotlightWipe.FocusPoint += new Vector2(0.0f, 0f);
             }
-        });
+        };
     }
 
     private IEnumerator BadelineAppears() {
         Audio.Play("event:/char/badeline/maddy_split", player.Position);
         Level.Add(badeline = new BadelineDummy(player.Center));
         Level.Displacement.AddBurst(badeline.Center, 0.5f, 8f, 32f, 0.5f);
-        Level.Session.Inventory.Dashes = 1;
-        player.Dashes = 1;
+        if (refreshDash) {
+            Level.Session.Inventory.Dashes = 1;
+            player.Dashes = 1;
+        }
+
         badeline.Sprite.Scale.X = -1f;
         yield return badeline.FloatTo(player.Center + new Vector2(18f, -10f), -1, false);
         yield return 0.2f;

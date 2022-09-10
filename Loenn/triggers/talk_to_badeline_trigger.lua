@@ -5,6 +5,7 @@ return {
         data = {
             endLevel = false,
             rejoin = false,
+            refreshDash = true,
             dialogId = "",
         }
     }

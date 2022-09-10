@@ -104,6 +104,7 @@ placements.triggers.DJMapHelper/payphoneCallTrigger.tooltips.endLevel=Whether fi
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.dialogId=The dialog ID to use for the dialogue.
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.endLevel=Whether finishing the dialogue should count as completing the map.
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.rejoin=Whether Badeline should rejoin or vanish.
+placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.refreshDash=Whether refreshing dash.
 
 # Teleport Trigger
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.bonfire=Whether to walk to the bonfire, if it exists.
