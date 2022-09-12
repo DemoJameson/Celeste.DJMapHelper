@@ -7,5 +7,22 @@ colorGradeTrigger.placements = {
         ColorGrade = "none",
     }
 }
-
+colorGradeTrigger.fieldInformation = {
+    ColorGrade = {
+        fieldType = "anything",
+        options = {
+            "none",
+            "cold",
+            "credits",
+            "feelingdown",
+            "golden",
+            "hot",
+            "oldsite",
+            "panicattack",
+            "reflection",
+            "templevoid"
+        },
+        editable = true
+    }
+}
 return colorGradeTrigger

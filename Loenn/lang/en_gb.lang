@@ -122,7 +122,7 @@ triggers.DJMapHelper/climbBlockerTrigger.attributes.description.wallJump=Whether
 
 # Color Grade Trigger
 triggers.DJMapHelper/colorGradeTrigger.placements.name.normal=Color Grade Trigger
-triggers.DJMapHelper/colorGradeTrigger.attributes.description.ColorGrade=Select or type in the color grade you want to apply.\nCan be: none, cold, credits, hot, oldsite, panicattack, reflection, templevoid or whatever available
+triggers.DJMapHelper/colorGradeTrigger.attributes.description.ColorGrade=Select or type in the color grade you want to apply.\nCan be: none, cold, credits, feelingdown, golden, hot, oldsite, panicattack, reflection, templevoid or whatever available
 
 # Kill Box Trigger
 triggers.DJMapHelper/killBoxTrigger.placements.name.normal=Kill Box Trigger

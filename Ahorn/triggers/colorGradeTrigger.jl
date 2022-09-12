@@ -7,11 +7,13 @@ const colorGrades = String[
     "none",
     "cold",
     "credits",
+    "feelingdown",
+    "golden",
     "hot",
     "oldsite",
     "panicattack",
     "reflection",
-    "templevoid",
+    "templevoid"
 ]
 
 const placements = Ahorn.PlacementDict(
