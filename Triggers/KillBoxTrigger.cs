@@ -12,8 +12,10 @@ public class KillBoxTrigger : Trigger {
     public override void OnEnter(Player player) {
         base.OnEnter(player);
 
-        if (!SaveData.Instance.Assists.Invincible) {
-            player.Die((player.Position - Position).SafeNormalize());
+        if (SaveData.Instance.Assists.Invincible || player.StateMachine.State == Player.StCassetteFly) {
+            return;
         }
+
+        player.Die((player.Position - Position).SafeNormalize());
     }
 }
