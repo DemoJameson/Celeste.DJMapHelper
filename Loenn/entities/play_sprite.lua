@@ -7,10 +7,16 @@ playSprite.justification = { 0.5, 1.0 }
 playSprite.placements = {
     name = "normal",
     data = {
+        depth = 0,
         flipX = false,
         flipY = false,
         SpriteName = "granny",
         SpriteId = "laugh",
+    }
+}
+playSprite.fieldInformation = {
+    depth = {
+        fieldType = "integer",
     }
 }
 

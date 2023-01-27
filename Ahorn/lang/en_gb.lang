@@ -49,6 +49,7 @@ placements.entities.DJMapHelper/flingBirdReversed.tooltips.waiting=Whether the b
 placements.entities.DJMapHelper/oshiroBossRight.tooltips.fromCutscene=Whether oshiro is spawned in the cutscene.
 
 # Play Sprite
+placements.entities.DJMapHelper/playSprite.tooltips.depth=Set sprite's depth.
 placements.entities.DJMapHelper/playSprite.tooltips.flipX=Flips the sprite horizontally.
 placements.entities.DJMapHelper/playSprite.tooltips.flipY=Flips the sprite vertically.
 placements.entities.DJMapHelper/playSprite.tooltips.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "laugh".

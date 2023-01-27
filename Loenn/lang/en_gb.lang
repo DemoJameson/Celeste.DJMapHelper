@@ -65,6 +65,7 @@ entities.DJMapHelper/oshiroBossRight.attributes.description.fromCutscene=Whether
 
 # Play Sprite
 entities.DJMapHelper/playSprite.placements.name.normal=Play Sprite
+entities.DJMapHelper/playSprite.attributes.description.depth=Set sprite's depth.
 entities.DJMapHelper/playSprite.attributes.description.flipX=Flips the sprite horizontally.
 entities.DJMapHelper/playSprite.attributes.description.flipY=Flips the sprite vertically.
 entities.DJMapHelper/playSprite.attributes.description.SpriteId=Which sprite ID to use. It should exist in the "Graphics\Sprites.xml" file, e.g. "laugh".
@@ -112,7 +113,7 @@ triggers.DJMapHelper/changeBossPatternTrigger.attributes.description.onlyOnce=Wh
 # Change Spinner Color Trigger
 triggers.DJMapHelper/changeSpinnerColorTrigger.placements.name.normal=Change Spinner Color Trigger
 triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.mode=Determining the timing of the trigger.\nCan be: OnPlayerEnter, OnLevelStart
-triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.color=Determine the color of crystal spinner.\nCan be: Default, Blue, Red, Purple, Rainbow 
+triggers.DJMapHelper/changeSpinnerColorTrigger.attributes.description.color=Determine the color of crystal spinner.\nCan be: Default, Blue, Red, Purple, Rainbow
 
 # Climb Blocker Trigger
 triggers.DJMapHelper/climbBlockerTrigger.placements.name.normal=Climb Blocker Trigger

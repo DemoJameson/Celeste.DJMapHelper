@@ -2,7 +2,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 [CustomEntity("DJMapHelper/playSprite")]
 public class PlaySprite : Entity {
@@ -11,6 +11,7 @@ public class PlaySprite : Entity {
         string spriteId = data.Attr("SpriteId");
         bool flipX = data.Bool("flipX");
         bool flipY = data.Bool("flipY");
+        int depth = data.Int("depth");
 
         Sprite sprite;
         Add(sprite = GFX.SpriteBank.Create(spriteName));
@@ -25,5 +26,7 @@ public class PlaySprite : Entity {
         if (flipY) {
             sprite.Scale.Y *= -1;
         }
+
+        Depth = depth;
     }
 }
