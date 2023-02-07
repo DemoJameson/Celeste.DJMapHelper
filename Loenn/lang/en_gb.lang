@@ -151,6 +151,7 @@ triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.dialogId=The d
 triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.endLevel=Whether finishing the dialogue should count as completing the map.
 triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.rejoin=Whether Badeline should rejoin or vanish.
 triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.refreshDash=Whether refreshing dash.
+triggers.DJMapHelper/talkToBadelineTrigger.attributes.description.faceLeft=Whether badeline should appear on the left.
 
 # Teleport Trigger
 triggers.DJMapHelper/teleportTrigger.placements.name.normal=Teleport Trigger

@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Cutscenes; 
+namespace Celeste.Mod.DJMapHelper.Cutscenes;
 
 public class CS_TalkToBadeline : CutsceneEntity {
     private readonly string dialogEntry;
@@ -11,21 +10,23 @@ public class CS_TalkToBadeline : CutsceneEntity {
     private readonly Player player;
     private readonly bool rejoin;
     private readonly bool refreshDash;
+    private readonly bool faceLeft;
     private BadelineDummy badeline;
     private int? maxDashes;
 
-    public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin, bool refreshDash) {
+    public CS_TalkToBadeline(Player player, string dialogEntry, bool endLevel, bool rejoin, bool refreshDash, bool faceLeft) {
         this.player = player;
         this.dialogEntry = dialogEntry;
         this.endLevel = endLevel;
         this.rejoin = rejoin;
         this.refreshDash = refreshDash;
+        this.faceLeft = faceLeft;
     }
 
     public override void OnBegin(Level level) {
         if (refreshDash) {
             maxDashes = level.Session.Inventory.Dashes;
-            level.Session.Inventory.Dashes = 1; 
+            level.Session.Inventory.Dashes = 1;
         }
 
         Add(new Coroutine(Cutscene(level)));
@@ -54,7 +55,7 @@ public class CS_TalkToBadeline : CutsceneEntity {
         level.OnEndOfFrame += () => {
             if (maxDashes != null) {
                 level.Session.Inventory.Dashes = maxDashes.Value;
-                player.Dashes = maxDashes.Value;   
+                player.Dashes = maxDashes.Value;
             }
 
             player.Depth = 0;
@@ -79,10 +80,10 @@ public class CS_TalkToBadeline : CutsceneEntity {
             player.Dashes = 1;
         }
 
-        badeline.Sprite.Scale.X = -1f;
-        yield return badeline.FloatTo(player.Center + new Vector2(18f, -10f), -1, false);
+        badeline.Sprite.Scale.X = faceLeft ? 1f : -1f;
+        yield return badeline.FloatTo(player.Center + new Vector2(faceLeft ? -18f : 18f, -10f), faceLeft ? 1 : -1, false);
         yield return 0.2f;
-        player.Facing = Facings.Right;
+        player.Facing = faceLeft ? Facings.Left : Facings.Right;
         yield return null;
     }
 

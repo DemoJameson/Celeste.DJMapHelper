@@ -106,6 +106,7 @@ placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.dialogId=The dial
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.endLevel=Whether finishing the dialogue should count as completing the map.
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.rejoin=Whether Badeline should rejoin or vanish.
 placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.refreshDash=Whether refreshing dash.
+placements.triggers.DJMapHelper/talkToBadelineTrigger.tooltips.faceLeft=Whether badeline should appear on the left.
 
 # Teleport Trigger
 placements.triggers.DJMapHelper/teleportTrigger.tooltips.bonfire=Whether to walk to the bonfire, if it exists.
