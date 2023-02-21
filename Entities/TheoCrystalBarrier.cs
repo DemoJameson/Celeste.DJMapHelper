@@ -7,11 +7,13 @@ using Mono.Cecil.Cil;
 using Monocle;
 using MonoMod.Cil;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 [Tracked]
 [CustomEntity("DJMapHelper/theoCrystalBarrier")]
 public class TheoCrystalBarrier : Solid {
+    private static bool disableRefill;
+
     private readonly List<TheoCrystalBarrier> adjacent = new List<TheoCrystalBarrier>();
     private readonly List<Vector2> particles = new List<Vector2>();
     private readonly float[] speeds = {12f, 20f, 40f};
@@ -117,6 +119,8 @@ public class TheoCrystalBarrier : Solid {
         // 因为 hook On.Celeste.Player.OnCollideH 在 Linux 中会导致游戏崩溃，所以换成 IL
         IL.Celeste.Player.OnCollideH += AddCollideCheck;
         IL.Celeste.Player.OnCollideV += AddCollideCheck;
+        On.Celeste.Player.RefillStamina += DisabledRefillStamina;
+        On.Celeste.Player.RefillDash += DisabledRefillDash;
     }
 
     public static void OnUnload() {
@@ -126,6 +130,8 @@ public class TheoCrystalBarrier : Solid {
         On.Celeste.Player.Pickup -= PlayerOnPickup;
         IL.Celeste.Player.OnCollideH -= AddCollideCheck;
         IL.Celeste.Player.OnCollideV -= AddCollideCheck;
+        On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
+        On.Celeste.Player.RefillDash -= DisabledRefillDash;
     }
 
     private static void AddCollideCheck(ILContext il) {
@@ -231,11 +237,9 @@ public class TheoCrystalBarrier : Solid {
         if (direction.Y > 0) {
             player.PointBounce(player.Center + direction);
         } else {
-            On.Celeste.Player.RefillStamina += DisabledRefillStamina;
-            On.Celeste.Player.RefillDash += DisabledRefillDash;
+            disableRefill = true;
             player.PointBounce(player.Center + direction);
-            On.Celeste.Player.RefillStamina -= DisabledRefillStamina;
-            On.Celeste.Player.RefillDash -= DisabledRefillDash;
+            disableRefill = false;
         }
 
         Audio.Play("event:/game/general/crystalheart_bounce", player.Center + direction);
@@ -244,10 +248,14 @@ public class TheoCrystalBarrier : Solid {
         return true;
     }
 
-    private static void DisabledRefillStamina(On.Celeste.Player.orig_RefillStamina orig, Player self) { }
+    private static void DisabledRefillStamina(On.Celeste.Player.orig_RefillStamina orig, Player self) {
+        if (!disableRefill) {
+            orig(self);
+        }
+    }
 
     private static bool DisabledRefillDash(On.Celeste.Player.orig_RefillDash orig, Player self) {
-        return false;
+        return !disableRefill && orig(self);
     }
 
     private static bool PlayerOnPickup(On.Celeste.Player.orig_Pickup orig, Player self, Holdable pickup) {
