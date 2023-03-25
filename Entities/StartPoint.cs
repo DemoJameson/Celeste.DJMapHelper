@@ -8,11 +8,11 @@ namespace Celeste.Mod.DJMapHelper.Entities;
 [CustomEntity("DJMapHelper/startPoint")]
 public class StartPoint : Entity {
     public StartPoint(EntityData data, Vector2 offset) : base(data.Position + offset) {
-        if (!(Engine.Scene is LevelLoader levelLoader) || !(levelLoader.Level.Session is Session session)) {
+        if (Engine.Scene is not LevelLoader levelLoader || levelLoader.Level.Session is not { } session) {
             return;
         }
 
-        if (session.FirstLevel && session.StartedFromBeginning && session.JustStarted) {
+        if (session.FirstLevel && session.StartedFromBeginning && session.JustStarted && !session.HitCheckpoint) {
             session.RespawnPoint = session.GetSpawnPoint(data.Position + offset);
         }
     }
