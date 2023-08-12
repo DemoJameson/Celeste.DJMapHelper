@@ -1,18 +1,47 @@
 using System;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 
-namespace Celeste.Mod.DJMapHelper.Extensions; 
+namespace Celeste.Mod.DJMapHelper.Extensions;
 
 public static class ColorExtensions {
     public static HsvInfo ToHsv(this Color color) {
         int max = Math.Max(color.R, Math.Max(color.G, color.B));
         int min = Math.Min(color.R, Math.Min(color.G, color.B));
 
-        double hue = System.Drawing.Color.FromArgb(color.R, color.G, color.B).GetHue();
+        double hue = GetHue(color);
         double saturation = max == 0 ? 0 : 1d - 1d * min / max;
         double value = max / 255d;
         return new HsvInfo(hue, saturation, value);
+    }
+
+    private static double GetHue(Color color) {
+        if (color.R == color.G && color.G == color.B)
+            return 0.0f;
+        float num1 = color.R / (float) byte.MaxValue;
+        float num2 = color.G / (float) byte.MaxValue;
+        float num3 = color.B / (float) byte.MaxValue;
+        float num4 = 0.0f;
+        float num5 = num1;
+        float num6 = num1;
+        if (num2 > (double) num5)
+            num5 = num2;
+        if (num3 > (double) num5)
+            num5 = num3;
+        if (num2 < (double) num6)
+            num6 = num2;
+        if (num3 < (double) num6)
+            num6 = num3;
+        float num7 = num5 - num6;
+        if (num1 == (double) num5)
+            num4 = (num2 - num3) / num7;
+        else if (num2 == (double) num5)
+            num4 = (float) (2.0 + (num3 - (double) num1) / num7);
+        else if (num3 == (double) num5)
+            num4 = (float) (4.0 + (num1 - (double) num2) / num7);
+        float hue = num4 * 60f;
+        if (hue < 0.0)
+            hue += 360f;
+        return hue;
     }
 
     public static Color ToColor(this HsvInfo hsvInfo) {
@@ -40,7 +69,7 @@ public static class ColorExtensions {
                 return new Color(v, p, q);
         }
     }
-        
+
     public static Color AddHsv(this Color color, int hue, double saturation = 0, double value = 0) {
         HsvInfo hsvInfo = color.ToHsv();
 
