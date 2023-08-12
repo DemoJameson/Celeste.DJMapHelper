@@ -1,10 +1,12 @@
+using System;
 using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 // Search for a spawn point near this entity when the chapter begins
+[Obsolete("Please use Player (Spawn Point) instead of this")]
 [CustomEntity("DJMapHelper/startPoint")]
 public class StartPoint : Entity {
     public StartPoint(EntityData data, Vector2 offset) : base(data.Position + offset) {
@@ -12,7 +14,7 @@ public class StartPoint : Entity {
             return;
         }
 
-        if (session.FirstLevel && session.StartedFromBeginning && session.JustStarted && !session.HitCheckpoint) {
+        if (session.FirstLevel && session.StartedFromBeginning && session.JustStarted && !session.HitCheckpoint && session.LevelData.Spawns.Count > 0) {
             session.RespawnPoint = session.GetSpawnPoint(data.Position + offset);
         }
     }

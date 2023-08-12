@@ -75,7 +75,7 @@ entities.DJMapHelper/playSprite.attributes.description.SpriteName=Which sprite n
 entities.DJMapHelper/shield.placements.name.normal=Shield
 
 # Force Start Level Spawn Point
-entities.DJMapHelper/startPoint.placements.name.normal=Force Start Level Spawn Point
+entities.DJMapHelper/startPoint.placements.name.normal=Start Level Spawn Point (Deprecated)
 
 # Momentum Spring
 entities.DJMapHelper/springGreen.placements.name.up=Momentum Spring (Up)
