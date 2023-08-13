@@ -4,7 +4,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 [CustomEntity("DJMapHelper/templeGateReversed")]
 public class TempleGateReversed : Solid {
@@ -33,7 +33,7 @@ public class TempleGateReversed : Solid {
         : base(position, 8f, height, true) {
         this.type = type;
         closedHeight = height;
-        Add(sprite = GFX.SpriteBank.Create("TempleGate_" + spriteName));
+        Add(sprite = GFX.SpriteBank.Create("templegate_" + spriteName));
         sprite.X = Collider.Width / 2f;
         sprite.Play("idle");
         Add(shaker = new Shaker(false));

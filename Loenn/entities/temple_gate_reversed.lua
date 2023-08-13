@@ -20,6 +20,8 @@ local textures = {
     theo = "objects/door/TempleDoorC00"
 }
 
+local textureOptions = {"default", "mirror", "theo"}
+
 local types = {
     "CloseBehindPlayer",
     "CloseBehindPlayerAlways",
@@ -29,8 +31,7 @@ local types = {
 
 templeGate.fieldInformation = {
     sprite = {
-        fieldType = "anything",
-        options = textures,
+        options = textureOptions,
         editable = false
     },
     ["type"] = {
