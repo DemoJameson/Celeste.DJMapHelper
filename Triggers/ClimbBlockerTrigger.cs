@@ -3,7 +3,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Triggers; 
+namespace Celeste.Mod.DJMapHelper.Triggers;
 
 [Tracked]
 [CustomEntity("DJMapHelper/climbBlockerTrigger")]
@@ -46,11 +46,10 @@ public class ClimbBlockerTrigger : Trigger {
     }
 
     private static void PlayerOnClimbJump(On.Celeste.Player.orig_ClimbJump orig, Player self) {
-        var triggers =
-            self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
+        var triggers = self.CollideAll<ClimbBlockerTrigger>();
         bool wallJump;
         if (triggers.Count > 0) {
-            wallJump = triggers.All(trigger => trigger.wallJump);
+            wallJump = triggers.All(trigger => ((ClimbBlockerTrigger)trigger).wallJump);
         } else {
             Session session = self.SceneAs<Level>().Session;
             wallJump = !session.GetFlag(BlockWallJumpKey);
@@ -62,16 +61,15 @@ public class ClimbBlockerTrigger : Trigger {
 
     private static bool PlayerOnClimbBoundsCheck(On.Celeste.Player.orig_ClimbBoundsCheck orig, Player self,
         int dir) {
-        var triggers =
-            self.CollideAll<ClimbBlockerTrigger>().Cast<ClimbBlockerTrigger>().ToList();
-            
+        var triggers = self.CollideAll<ClimbBlockerTrigger>();
+
         bool wallJump;
         bool climb;
-            
+
         Session session = self.SceneAs<Level>().Session;
         if (triggers.Count > 0) {
-            wallJump = triggers.All(trigger => trigger.wallJump);
-            climb = triggers.All(trigger => trigger.climb);
+            wallJump = triggers.All(trigger => ((ClimbBlockerTrigger)trigger).wallJump);
+            climb = triggers.All(trigger => ((ClimbBlockerTrigger)trigger).climb);
         } else {
             wallJump = !session.GetFlag(BlockWallJumpKey);
             climb = !session.GetFlag(BlockClimbKey);

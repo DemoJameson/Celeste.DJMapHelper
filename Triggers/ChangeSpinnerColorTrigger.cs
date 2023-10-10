@@ -7,7 +7,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Triggers; 
+namespace Celeste.Mod.DJMapHelper.Triggers;
 
 [CustomEntity("DJMapHelper/changeSpinnerColorTrigger")]
 public class ChangeSpinnerColorTrigger : Trigger {
@@ -120,23 +120,22 @@ public class ChangeSpinnerColorTrigger : Trigger {
         if (mode == Modes.OnPlayerEnter) {
             Level level = player.SceneAs<Level>();
             SaveColorToSession(color);
-            level.Tracker.GetEntities<CrystalStaticSpinner>().Cast<CrystalStaticSpinner>().ToList().ForEach(
-                entity => {
-                    if (color != null) {
-                        entity.Add(new ChangeColorComponent(entity, (CrystalColor) color));
-                        return;
+            foreach (CrystalStaticSpinner spinner in level.Tracker.GetEntitiesCopy<CrystalStaticSpinner>()) {
+                if (color != null) {
+                    spinner.Add(new ChangeColorComponent(spinner, (CrystalColor) color));
+                    continue;
+                }
+
+                if (DJMapHelperModule.Session.CachedSpinnerColors.TryGetValue(spinner, out CrystalColor origColor)) {
+                    if (origColor == ~CrystalColor.Blue) {
+                        origColor = level.CoreMode != Session.CoreModes.Cold
+                            ? CrystalColor.Red
+                            : CrystalColor.Blue;
                     }
 
-                    if (DJMapHelperModule.Session.CachedSpinnerColors.TryGetValue(entity, out CrystalColor origColor)) {
-                        if (origColor == ~CrystalColor.Blue) {
-                            origColor = level.CoreMode != Session.CoreModes.Cold
-                                ? CrystalColor.Red
-                                : CrystalColor.Blue;
-                        }
-
-                        entity.Add(new ChangeColorComponent(entity, origColor));
-                    }
-                });
+                    spinner.Add(new ChangeColorComponent(spinner, origColor));
+                }
+            }
         }
     }
 

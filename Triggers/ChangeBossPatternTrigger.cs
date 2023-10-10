@@ -5,7 +5,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Triggers; 
+namespace Celeste.Mod.DJMapHelper.Triggers;
 
 [Tracked]
 [CustomEntity("DJMapHelper/changeBossPatternTrigger")]
@@ -48,9 +48,7 @@ public class ChangeBossPatternTrigger : Trigger {
             return;
         }
 
-        var bosses = level.Tracker.GetEntities<FinalBoss>().Cast<FinalBoss>().ToList();
-
-        foreach (FinalBoss finalBoss in bosses) {
+        foreach (FinalBoss finalBoss in level.Tracker.GetEntitiesCopy<FinalBoss>()) {
             if (mode == Modes.All || CollideCheck(finalBoss)) {
                 if (patternIndex == (int) PatternIndexFieldInfo.GetValue(finalBoss)) continue;
                 if (((Vector2[]) NodesFieldInfo.GetValue(finalBoss)).Length == 0) continue;

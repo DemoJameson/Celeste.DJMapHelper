@@ -8,7 +8,7 @@ using Mono.Cecil.Cil;
 using Monocle;
 using MonoMod.Cil;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 [Tracked]
 [CustomEntity("DJMapHelper/featherBarrier")]
@@ -186,16 +186,14 @@ public class FeatherBarrier : Solid {
     }
 
     private static void PlayerOnWindMove(On.Celeste.Player.orig_WindMove orig, Player self, Vector2 move) {
-        var featherBarriers =
-            self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
+        var featherBarriers = self.Scene.Tracker.GetEntitiesCopy<FeatherBarrier>();
         TryMakeBarrierCollidable(self, featherBarriers);
 
         orig(self, move);
     }
 
     private static void PlayerOnUpdate(On.Celeste.Player.orig_Update orig, Player self) {
-        var featherBarriers =
-            self.Scene.Tracker.GetEntities<FeatherBarrier>().Cast<FeatherBarrier>().ToList();
+        var featherBarriers = self.Scene.Tracker.GetEntitiesCopy<FeatherBarrier>();
         if (self.SceneAs<Level>().Wind == Vector2.Zero || self.Get<WindMover>() == null) {
             TryMakeBarrierCollidable(self, featherBarriers);
         }
@@ -207,7 +205,7 @@ public class FeatherBarrier : Solid {
         }
     }
 
-    private static void TryMakeBarrierCollidable(Player player, List<FeatherBarrier> featherBarriers) {
+    private static void TryMakeBarrierCollidable(Player player, List<Entity> featherBarriers) {
         var flyColor = StarFlyColorGetter(player);
         foreach (FeatherBarrier featherBarrier in featherBarriers) {
             if (flyColor != featherBarrier.barrieColor || player.StateMachine.State != Player.StStarFly) {
