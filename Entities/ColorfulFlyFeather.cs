@@ -5,7 +5,7 @@ using Celeste.Mod.Entities;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.DJMapHelper.Entities; 
+namespace Celeste.Mod.DJMapHelper.Entities;
 
 [Tracked]
 [CustomEntity("DJMapHelper/colorfulFlyFeather")]
@@ -30,8 +30,6 @@ public class ColorfulFlyFeather : FlyFeather {
     public static readonly Color GreenStarFlyColor = Calc.HexToColor("66FF66");
     public static readonly Color RedStarFlyColor = Calc.HexToColor("F21E4F");
 
-    private static SpriteBank mySpriteBank;
-
     private readonly Color starFlyColor;
     private FeatherColor color;
 
@@ -48,19 +46,19 @@ public class ColorfulFlyFeather : FlyFeather {
 
         switch (color) {
             case FeatherColor.Blue:
-                mySpriteBank.CreateOn(sprite, "blueFlyFeather");
+                GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
                 starFlyColor = BlueStarFlyColor;
                 break;
             case FeatherColor.Green:
-                mySpriteBank.CreateOn(sprite, "greenFlyFeather");
+                GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_greenFlyFeather");
                 starFlyColor = GreenStarFlyColor;
                 break;
             case FeatherColor.Red:
-                mySpriteBank.CreateOn(sprite, "redFlyFeather");
+                GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_redFlyFeather");
                 starFlyColor = RedStarFlyColor;
                 break;
             default:
-                mySpriteBank.CreateOn(sprite, "blueFlyFeather");
+                GFX.SpriteBank.CreateOn(sprite, "DJMapHelper_blueFlyFeather");
                 starFlyColor = BlueStarFlyColor;
                 break;
         }
@@ -88,7 +86,6 @@ public class ColorfulFlyFeather : FlyFeather {
     }
 
     public static void OnLoadContent() {
-        mySpriteBank = new SpriteBank(GFX.Game, "Graphics/DJMapHelperSprites.xml");
         InitOrigColors();
     }
 
